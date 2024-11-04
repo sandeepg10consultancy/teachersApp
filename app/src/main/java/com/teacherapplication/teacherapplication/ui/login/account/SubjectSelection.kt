@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.home.login.account
+package com.teacherapplication.teacherapplication.ui.login.account
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.home.login
+package com.teacherapplication.teacherapplication.ui.login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -50,12 +50,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.teacherapplication.teacherapplication.R
 
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier){
+fun LoginScreen(modifier: Modifier = Modifier) {
 
     var phoneNumber by remember {
         mutableStateOf("")

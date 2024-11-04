@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.home.login.password
+package com.teacherapplication.teacherapplication.ui.login.password
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,7 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
-import com.teacherapplication.teacherapplication.ui.home.login.otp.OTPVerify
+import com.teacherapplication.teacherapplication.ui.login.otp.OTPVerify
 
 @Preview
 @Composable

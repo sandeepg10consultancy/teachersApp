@@ -11,13 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.teacherapplication.teacherapplication.ui.home.login.LoginAndRegister
-import com.teacherapplication.teacherapplication.ui.home.login.LoginScreen
-import com.teacherapplication.teacherapplication.ui.home.login.account.ClassSelection
-import com.teacherapplication.teacherapplication.ui.home.login.account.PersonDetails
-import com.teacherapplication.teacherapplication.ui.home.login.account.SubjectSelection
-import com.teacherapplication.teacherapplication.ui.home.login.otp.OTPScreen
-import com.teacherapplication.teacherapplication.ui.home.login.password.SetPassword
+import com.teacherapplication.teacherapplication.ui.login.LoginAndRegister
+import com.teacherapplication.teacherapplication.ui.login.LoginScreen
+import com.teacherapplication.teacherapplication.ui.login.account.ClassSelection
+import com.teacherapplication.teacherapplication.ui.login.account.PersonDetails
+import com.teacherapplication.teacherapplication.ui.login.account.SubjectSelection
+import com.teacherapplication.teacherapplication.ui.login.otp.OTPScreen
+import com.teacherapplication.teacherapplication.ui.login.password.SetPassword
 import com.teacherapplication.teacherapplication.ui.home.splash.SplashScreen
 import com.teacherapplication.teacherapplication.ui.theme.TeacherApplicationTheme
 

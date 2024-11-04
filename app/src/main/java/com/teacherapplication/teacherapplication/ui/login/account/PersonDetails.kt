@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.home.login.account
+package com.teacherapplication.teacherapplication.ui.login.account
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

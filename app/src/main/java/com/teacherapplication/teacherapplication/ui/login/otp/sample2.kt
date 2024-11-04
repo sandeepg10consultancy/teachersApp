@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.home.login.otp
+package com.teacherapplication.teacherapplication.ui.login.otp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
