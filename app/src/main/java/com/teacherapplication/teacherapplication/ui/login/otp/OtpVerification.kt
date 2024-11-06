@@ -58,14 +58,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 
 
 
-@Preview
+//@Preview
 @Composable
-fun OTPScreen( modifier: Modifier = Modifier)
+fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
 {
     var otpValues = remember { List(4) { mutableStateOf("") } }
     var gradientBrush = if (otpValues[3].value.isNotEmpty())
@@ -95,7 +96,9 @@ fun OTPScreen( modifier: Modifier = Modifier)
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
@@ -156,6 +159,9 @@ fun OTPScreen( modifier: Modifier = Modifier)
                 }
                 Spacer(modifier = Modifier.height(70.dp))
                 LoginScreenButton(text = "Verify", gradientBrush = gradientBrush)
+                {
+                    navController.navigate(route = "password")
+                }
             }
 
         }

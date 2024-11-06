@@ -43,14 +43,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun PersonDetails(modifier: Modifier = Modifier){
+fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostController){
 
     var firstName by remember {
         mutableStateOf("")
@@ -92,7 +93,9 @@ fun PersonDetails(modifier: Modifier = Modifier){
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
@@ -289,7 +292,7 @@ fun PersonDetails(modifier: Modifier = Modifier){
             contentAlignment = Alignment.BottomCenter
         ){
             LoginScreenButton(text = "Save & Select Classes", gradientBrush = gradientBrush) {
-
+                navController.navigate(route = "class")
             }
         }
 

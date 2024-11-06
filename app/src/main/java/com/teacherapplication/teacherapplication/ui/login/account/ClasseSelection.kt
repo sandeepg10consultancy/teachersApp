@@ -13,15 +13,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -42,20 +38,20 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 
 
 var sectionName = "5 Sections"
-@Preview
+//@Preview
 @Composable
-fun ClassSelection(modifier: Modifier = Modifier){
+fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostController){
 
     var classesMap = mapOf("Nursery" to R.drawable.nursery_img,
                             "Junior KG" to R.drawable.junior_kg_img,
@@ -90,7 +86,9 @@ fun ClassSelection(modifier: Modifier = Modifier){
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
@@ -141,7 +139,7 @@ fun ClassSelection(modifier: Modifier = Modifier){
             contentAlignment = Alignment.BottomCenter
         ){
             LoginScreenButton(text = "Save & Select Subjects", gradientBrush = gradientBrush) {
-
+                navController.navigate(route = "subject")
             }
         }
 

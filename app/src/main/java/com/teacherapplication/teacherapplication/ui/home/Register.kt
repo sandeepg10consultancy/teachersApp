@@ -45,14 +45,16 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun RegisterScreen(modifier: Modifier = Modifier){
+fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostController){
 
     var schoolCode by remember {
         mutableStateOf("")
@@ -88,7 +90,9 @@ fun RegisterScreen(modifier: Modifier = Modifier){
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
@@ -161,8 +165,9 @@ fun RegisterScreen(modifier: Modifier = Modifier){
 
                 Spacer(modifier = Modifier.height(70.dp))
 
-                LoginScreenButton( text = "Get OTP", gradientBrush = gradientBrush){
-
+                LoginScreenButton( text = "Get OTP", gradientBrush = gradientBrush)
+                {
+                    navController.navigate(route = "otpVerify")
                 }
                 Row(
                     modifier = Modifier

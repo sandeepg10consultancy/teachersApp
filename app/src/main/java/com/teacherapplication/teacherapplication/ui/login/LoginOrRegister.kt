@@ -24,16 +24,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.teacherapplication.teacherapplication.R
 
 
-@Preview
+//@Preview
 @Composable
-fun LoginAndRegister(modifier: Modifier = Modifier){
+fun LoginAndRegister(modifier: Modifier = Modifier,navController: NavController){
 
     Box(modifier = Modifier.fillMaxSize()
         .background(
@@ -71,7 +72,9 @@ fun LoginAndRegister(modifier: Modifier = Modifier){
         ){
 
             Box {
-                Button(onClick = { /*TODO*/ },
+                Button(
+                    onClick = {
+                        navController.navigate(route = "login") },
                     shape = RoundedCornerShape(5.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White
@@ -80,8 +83,14 @@ fun LoginAndRegister(modifier: Modifier = Modifier){
                         .fillMaxWidth()
                         .height(50.dp)) {
                     Text(text = "Log In",
-                        fontSize = 18.sp,
-                        color = Color(0xFF14868D)
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            brush = Brush.linearGradient(
+                                colors = listOf(Color(0xFF185573), Color(0xFF14868D))
+                            ),
+                            lineHeight = 36.sp,
+                            fontWeight = FontWeight(600)
+                        )
+
                     )
                 }
                 Image(painter = painterResource(id = R.drawable.elephant_lr),
@@ -91,16 +100,22 @@ fun LoginAndRegister(modifier: Modifier = Modifier){
                             .scale(1.3f)
                             .offset(x = 0.dp, y = (-15).dp))
                 }
-                OutlinedButton(onClick = {},
+                OutlinedButton(
+                    onClick = {
+                    navController.navigate(route = "register")
+                    },
                     shape = RoundedCornerShape(5.dp),
                     border = BorderStroke(width = 2.dp, color = Color.White),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)) {
                     Text(text = "New User? Let's Register",
-                        color = Color.White,
-                        style = MaterialTheme.typography.labelLarge,
-                        //fontSize = 18.sp
+                        color = Color(0xFFFFFFFF),
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            lineHeight = 36.sp,
+                            fontWeight = FontWeight(600)
+                        )
+
                     )
                 }
             }
