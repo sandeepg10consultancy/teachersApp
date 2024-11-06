@@ -211,7 +211,7 @@ fun OTPVerify(otpValues: List<MutableState<String>>): List<MutableState<String>>
                     .onFocusChanged { focusState ->
                         isFocused = focusState.isFocused
                     }
-                    .border(width = 1.dp, color = Color(0xFFE4E4E4))
+                    .border(width = 1.dp, color = if (isFocused) Color(0xFF129193) else Color(0xFFE4E4E4))
                     .background( if (otpValues[index].value.isNotEmpty() || isFocused) Color(0xFF129193) else Color(0xFFE4E4E4)),
                 textStyle = MaterialTheme.typography.titleSmall.copy(
                     fontWeight = FontWeight(800),
