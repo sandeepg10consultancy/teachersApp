@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -47,7 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
-
+import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 
 
 var sectionName = "5 Sections"
@@ -78,28 +80,37 @@ fun ClassSelection(modifier: Modifier = Modifier){
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(color = Color(0xFFFFFFFF))) {
+        .background(color = Color(0xFFFFFFFF)))
+    {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp, top = 40.dp)
+                .padding(start = 10.dp, top = 40.dp, end = 10.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        modifier = Modifier.scale(1.2f)
                     )
                 }
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = "Classes I Teach",
-                    color = Color(0xFF14868D),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight(600),
-                    modifier = Modifier.align(Alignment.CenterVertically)
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        brush = Brush.linearGradient(
+                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+                            start = Offset(0f, 0f),
+                            end = Offset(Float.POSITIVE_INFINITY, 0f)
+                        ),
+                        fontWeight = FontWeight(600),
+                        fontSize = 20.sp,
+                        lineHeight = 28.9.sp
+                    ),
+                    modifier = Modifier
+                        .padding(top = 10.dp)
                 )
                 Text(
                     text = "*",
@@ -108,71 +119,39 @@ fun ClassSelection(modifier: Modifier = Modifier){
                         .padding(bottom = 7.dp)
                         .align(Alignment.CenterVertically)
                 )
-
             }
-            Text(
-                text = "Please select the classes that you teach",
-                modifier = Modifier
-                    .padding(start = 50.dp)
-                    .fillMaxWidth(),
-                color = Color(0xFF333333),
-                style = TextStyle(
-                    fontWeight = FontWeight(400),
-                    fontSize = 16.sp
-                )
+            Text(text = "Please select the classes that you teach",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 50.dp),
+                color = Color(0xFF333333)
             )
+
             SchoolCard()
             classesMap.forEach{ (key, value) ->
                 ClassCard(name = key, image = value)
             }
 
-        }
-        Box(modifier = Modifier.align(Alignment.BottomStart))
-        {
-            Box(
-                modifier = Modifier
-                    .height(70.dp)
-                    .background(
-                        brush = gradientBrush,
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .align(Alignment.Center)
+            Spacer(modifier = Modifier.height(275.dp))
 
-            ) {
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent
-                    ),
-                    enabled = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(70.dp)
-                ) {
-                    Text(
-                        text = "Save & Select Subjects",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight(700)
-                    )
-                }
-                Image(
-                    painter = painterResource(id = R.drawable.elephant_button),
-                    contentDescription = "elephant background",
-                    modifier = Modifier
-                        .scale(1.3f)
-                        .offset(x = 25.dp, y = 7.dp)
-                )
+        }
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .padding(20.dp),
+            contentAlignment = Alignment.BottomCenter
+        ){
+            LoginScreenButton(text = "Save & Select Subjects", gradientBrush = gradientBrush) {
+
             }
-            Image(
-                painter = painterResource(id = R.drawable.elephant_light),
-                contentDescription = "coloured elephant",
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 10.dp)
-                    .scale(1.2f)
-
-            )
         }
+
+        Image(
+            painter = painterResource(id = R.drawable.elephant_light),
+            contentDescription = "coloured elephant",
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+
+        )
     }
 }
 
@@ -183,8 +162,8 @@ fun ClassCard(name: String, image:Int){
     }
     Card(
         modifier = Modifier
-            .padding(10.dp)
-            .fillMaxWidth()
+            .padding(start = 20.dp, top = 10.dp, bottom = 10.dp, end = 20.dp)
+            .width(377.dp)
             .height(70.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFF5F5F5)
@@ -198,25 +177,24 @@ fun ClassCard(name: String, image:Int){
             verticalAlignment = Alignment.CenterVertically
         ){
             Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Image(
                     painter = painterResource(image),
                     contentDescription = "nursery",
-                    modifier = Modifier.scale(1.1f)
+                    modifier = Modifier.scale(1.2f)
                 )
                 Column {
                     Text(text = name,
-                        style = TextStyle(
-                            fontWeight = FontWeight(600),
-                            fontSize = 15.sp
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            lineHeight = 23.4.sp
                         )
                     )
                     Text(text = sectionName,
-                        style = TextStyle(
-                            fontWeight = FontWeight(400),
-                            fontSize = 14.sp
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            lineHeight = 18.2.sp,
+                            color = Color(0xFF5A5A5A)
                         )
                     )
                 }
@@ -276,20 +254,23 @@ fun SectionCard(sec: String) {
         colors = CardDefaults.cardColors(
             containerColor = if (sectionClick) Color(0xFF1D1751) else Color(0xFFFFFFFF)
         ),
-        border = BorderStroke(width = 2.dp, color = Color(0xFF1D1751))
+        border = BorderStroke(width = 2.dp, color = Color(0xFF1D1751)),
     ) {
-        Text(
-            text = "Section - $sec",
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            color = if (sectionClick) Color(0xFFFFFFFF) else Color(0xFF1D1751),
-            style = TextStyle(
-                fontWeight = FontWeight(400),
-                fontSize = 14.sp
-            ),
-            textAlign = TextAlign.Center
-        )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = "Section - $sec",
+                modifier = Modifier.width(73.dp)
+                    .height(18.dp),
+                color = if (sectionClick) Color(0xFFFFFFFF) else Color(0xFF1D1751),
+                style = MaterialTheme.typography.labelMedium.copy(
+                    lineHeight = 18.2.sp,
+                    color = Color(0xFF1D1751)
+                ),
+            )
+        }
     }
 }
 
@@ -297,9 +278,9 @@ fun SectionCard(sec: String) {
 fun SchoolCard() {
     Card(
         modifier = Modifier
-            .padding(start = 12.dp, top = 40.dp, end = 20.dp, bottom = 20.dp)
-            .height(90.dp)
-            .fillMaxWidth(),
+            .padding(start = 20.dp, top = 40.dp, end = 20.dp, bottom = 20.dp)
+            .height(100.dp)
+            .width(378.dp),
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFFCC8A4).copy(alpha = 0.4f)
@@ -317,17 +298,14 @@ fun SchoolCard() {
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "school name",
-                    style = TextStyle(
-                        fontWeight = FontWeight(600),
-                        fontSize = 18.sp
-                    )
+                    text = "Exela pvt.school",
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = "School Code: 1313",
-                    style = TextStyle(
+                    style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight(300),
-                        fontSize = 14.sp
+                        color = Color(0xFF000000)
                     )
                 )
             }

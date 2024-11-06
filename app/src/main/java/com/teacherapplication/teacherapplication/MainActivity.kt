@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
 import com.teacherapplication.teacherapplication.ui.login.LoginAndRegister
 import com.teacherapplication.teacherapplication.ui.login.LoginScreen
 import com.teacherapplication.teacherapplication.ui.login.account.ClassSelection
@@ -27,11 +28,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TeacherApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginAndRegister(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                SubjectSelection()
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    LoginAndRegister(
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+//                }
             }
         }
     }

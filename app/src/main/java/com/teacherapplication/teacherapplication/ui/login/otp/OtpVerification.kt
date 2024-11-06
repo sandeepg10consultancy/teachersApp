@@ -25,10 +25,16 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -52,148 +59,131 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 
 
-var gradientBrush =
-    Brush.linearGradient(
-        colors = listOf(
-            Color(0x66129193).copy(alpha = 0.4f),
-            Color(0x66185472).copy(alpha = 0.4f)
-        ),
-        start = Offset.Infinite.copy(x = 1f),
-        end = Offset.Zero
-    )
 
 @Preview
 @Composable
 fun OTPScreen( modifier: Modifier = Modifier)
 {
-
+    var otpValues = remember { List(4) { mutableStateOf("") } }
+    var gradientBrush = if (otpValues[3].value.isNotEmpty())
+        Brush.linearGradient(
+            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+            start = Offset(0f, 0f),
+            end = Offset(Float.POSITIVE_INFINITY, 0f)
+        )
+    else {
+        Brush.linearGradient(
+            colors = listOf(
+                Color(0x66129193).copy(alpha = 0.4f),
+                Color(0x66185472).copy(alpha = 0.4f)
+            ),
+            start = Offset.Infinite.copy(x = 1f),
+            end = Offset.Zero
+        )
+    }
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = Color(0xFFFFFFFF)))
     {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 10.dp, top = 30.dp, end = 10.dp))
+                .padding(start = 10.dp, top = 40.dp, end = 10.dp))
         {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(50.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        modifier = Modifier.scale(1.2f)
                     )
                 }
+                Spacer(modifier = Modifier.width(60.dp))
                 Text(
                     text = "OTP Verification",
-                    color = Color(0xFF14868D),
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        brush = Brush.linearGradient(
+                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+                            start = Offset(0f, 0f),
+                            end = Offset(Float.POSITIVE_INFINITY, 0f)
+                        ),
+                    ),
                     fontSize = 25.sp,
-                    fontWeight = FontWeight(800),
-                    modifier = Modifier.align(Alignment.Bottom)
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
                 )
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp),
+                    .padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ){
                 Text(text = "A 4 digit code has been sent to",
-                    fontWeight = FontWeight(400),
-                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFF333333)
                 )
                 Text(text = " + 9890000012",
-                    fontWeight = FontWeight(700)
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight(700)
+                    ),
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
-                OTPVerify()
+                otpValues = OTPVerify(otpValues)
 
                 Row(
                     modifier = Modifier.padding(20.dp)
                 ){
                     Text(text = "Don’t receive the code ?",
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF333333)
+                        color = Color(0xFF333333),
+                        style = MaterialTheme.typography.bodySmall
                     )
                     Spacer(modifier = Modifier.width(2.dp))
                     Text(
                         text = "RESEND",
-                        fontWeight = FontWeight(600),
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontWeight = FontWeight(600)
+                        ),
                         textDecoration = TextDecoration.Underline,
                         color = Color(0xFF129193)
                     )
                 }
-
-                Box(
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .height(70.dp)
-                        .background(
-                            brush = gradientBrush,
-                            shape = RoundedCornerShape(10.dp)
-                        )
-                ) {
-                    Button(
-                        onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent
-                        ),
-                        enabled = true,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(70.dp)
-                    ) {
-                        Text(
-                            text = "Verify",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight(700)
-                        )
-                    }
-                    Image(
-                        painter = painterResource(id = R.drawable.elephant_button),
-                        contentDescription = "elephant background",
-                        modifier = Modifier
-                            .scale(1.3f)
-                            .offset(x = 25.dp, y = 7.dp)
-                    )
-                }
+                Spacer(modifier = Modifier.height(70.dp))
+                LoginScreenButton(text = "Verify", gradientBrush = gradientBrush)
             }
 
-
-            Image(
-                painter = painterResource(id = R.drawable.elephant_color),
-                contentDescription = "coloured elephant",
-                modifier = Modifier
-                    .scale(1.2f)
-                    .offset(x = 0.dp, y = 220.dp)
-
-            )
-
-
         }
+        Image(
+            painter = painterResource(id = R.drawable.elephant_color),
+            contentDescription = "coloured elephant",
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+
+        )
     }
 }
 
 @Composable
-fun OTPVerify(){
-    var otpValues = remember { List(4) { mutableStateOf("") } }
+fun OTPVerify(otpValues: List<MutableState<String>>): List<MutableState<String>> {
     var focusManager = LocalFocusManager.current
     var focusRequesters = List(4) { FocusRequester()}
 
-    val isOtpComplete = otpValues.all { it.value.isNotEmpty() }
+    LaunchedEffect(Unit) {
+        focusRequesters[0].requestFocus()
+    }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(25.dp)
     ) {
         otpValues.forEachIndexed { index, otpDigit ->
+            var isFocused by remember { mutableStateOf(false) }
+
             OutlinedTextField(
                 value = otpDigit.value,
                 onValueChange = { newValue ->
@@ -209,25 +199,26 @@ fun OTPVerify(){
                     }
                 },
                 modifier = Modifier
-                    .size(60.dp)
                     .clip(CircleShape)
+                    .size(60.dp)
+                    .focusRequester(focusRequesters[index])
+                    .onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused
+                    }
                     .border(width = 1.dp, color = Color(0xFFE4E4E4))
-                    .background( if (otpValues[index].value.isNotEmpty()) Color(0xFF129193) else Color(0xFFE4E4E4))
-                    .focusRequester(focusRequesters[index]),
-                textStyle = LocalTextStyle.current.copy(fontSize = 24.sp, color = Color(0xFFFFFFFF)),
+                    .background( if (otpValues[index].value.isNotEmpty() || isFocused) Color(0xFF129193) else Color(0xFFE4E4E4)),
+                textStyle = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight(800),
+                    textAlign = TextAlign.Center,
+                    color = Color(0xFFFFFFFF),
+                ),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                visualTransformation = VisualTransformation.None
+                colors = OutlinedTextFieldDefaults.colors(
+                    cursorColor = Color.White
+                )
             )
-            if (isOtpComplete) {
-                gradientBrush =
-                    Brush.linearGradient(
-                        colors = listOf(
-                            Color(0x66129193),
-                            Color(0x66185472),
-                        )
-                    )
-            }
         }
     }
+    return otpValues
 }

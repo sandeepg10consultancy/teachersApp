@@ -14,15 +14,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Switch
@@ -39,16 +37,15 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
+import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 
 
 @Preview(showBackground = true)
@@ -86,37 +83,43 @@ fun PersonDetails(modifier: Modifier = Modifier){
 
     Box(modifier = Modifier
         .fillMaxSize()
-        //.padding(top = 50.dp)
         .background(color = Color(0xFFFFFFFF))
     ){
         Column(
             modifier = Modifier
-                .padding(start = 10.dp, top = 30.dp, end = 10.dp)
+                .padding(start = 10.dp, top = 40.dp, end = 10.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(80.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        modifier = Modifier.scale(1.2f)
                     )
                 }
-
+                Spacer(modifier = Modifier.width(80.dp))
                 Text(
                     text = "Enter Details",
-                    color = Color(0xFF14868D),
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight(800),
-                    modifier = Modifier.align(Alignment.CenterVertically)
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        brush = Brush.linearGradient(
+                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+                            start = Offset(0f, 0f),
+                            end = Offset(Float.POSITIVE_INFINITY, 0f)
+                        ),
+                    ),
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
                 )
             }
             Text(text = "Create a account by filling in info below.",
+                style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center)
+                    .padding(start = 67.dp),
+                color = Color(0xFF333333)
+            )
             Column(
                 modifier = Modifier.padding(20.dp)
             ) {
@@ -125,102 +128,52 @@ fun PersonDetails(modifier: Modifier = Modifier){
                 ) {
                     Text(
                         text = "First Name",
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 15.sp,
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontWeight = FontWeight(600)
+                        ),
                     )
                     Spacer(modifier = Modifier.width(2.dp))
                     Text(
                         text = "*",
                         color = Color(0xFFEF6464),
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .scale(1.2f)
                     )
                 }
-                OutlinedTextField(
-                    value = firstName,
-                    onValueChange = { firstName = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .padding(top = 2.dp)
-                        .clickable { showLabel = false }
-                        .border(
-                            width = 2.dp,
-                            color = Color(0xFF14868D),
-                            shape = RoundedCornerShape(5.dp)
-                        ),
-                    label = {
-                        Text(
-                            text = if (firstName.isEmpty()) "Enter your first name" else "",
-                            color = Color(0xFF9D9D9D),
-                            modifier = Modifier.offset(x = 0.dp, y = (-4).dp)
-                        )
-                    },
-
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Color.Transparent,
-                        focusedBorderColor = Color.Transparent
-                    )
-                )
+                LoginScreenTextField(text = firstName, labelText = "Enter your first name") {
+                    firstName = it
+                }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier
                 ) {
                     Text(
                         text = "Last Name",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Medium
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontWeight = FontWeight(600)
+                        ),
                     )
                     Spacer(modifier = Modifier.width(2.dp))
                     Text(
                         text = "*",
                         color = Color(0xFFEF6464),
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .scale(1.2f)
                     )
                 }
-                OutlinedTextField(
-                    value = lastName,
-                    onValueChange = { lastName = it },
-                    label = {
-                        Text(
-                            text = if (lastName.isEmpty()) "Enter your last name" else "",
-                            color = Color(0xFF9D9D9D),
-                            modifier = Modifier.offset(x = 0.dp, y = (-4).dp)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .padding(top = 2.dp)
-                        .border(
-                            width = 2.dp,
-                            color = Color(0xFF14868D),
-                            shape = RoundedCornerShape(5.dp)
-                        ),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Color.Transparent,
-                        focusedBorderColor = Color.Transparent
-                    )
-                )
+                LoginScreenTextField(text = lastName, labelText = "Enter your last name") {
+                    lastName = it
+                }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier
                 ) {
                     Text(
                         text = "Gender",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Medium
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontWeight = FontWeight(600)
+                        ),
                     )
                     Spacer(modifier = Modifier.width(2.dp))
                     Text(
                         text = "*",
                         color = Color(0xFFEF6464),
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .scale(1.2f)
                     )
                 }
                 Box(
@@ -257,7 +210,9 @@ fun PersonDetails(modifier: Modifier = Modifier){
                             .offset(x = 125.dp)
 
                     ){
-                        Image(painter = painterResource(id = R.drawable.male_img),
+                        Image(painter = painterResource(
+                            id = if (gender) R.drawable.male_bw_img else R.drawable.male_color_img
+                        ),
                             contentDescription = "male",
                             modifier = Modifier
                                 .padding(end = 0.dp)
@@ -277,7 +232,9 @@ fun PersonDetails(modifier: Modifier = Modifier){
                                 .scale(0.8f)
                         )
                         Spacer(modifier = Modifier.width(7.dp))
-                        Image(painter = painterResource(id = R.drawable.female_img),
+                        Image(painter = painterResource(
+                            id = if (gender) R.drawable.female_color_img else R.drawable.female_bw_img
+                        ),
                             contentDescription = "female",
                             modifier = Modifier
                                 .padding(end = 35.dp)
@@ -289,14 +246,19 @@ fun PersonDetails(modifier: Modifier = Modifier){
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
-                Text(text = "School Name",
-                    fontWeight = FontWeight.Medium)
+                Text(
+                    text = "School Name",
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight(600)
+                    ),
+                )
                 OutlinedTextField(
-                    value = "Name of the School",
+                    value = "1313-Exela pvt.school",
                     onValueChange = {  },
                     readOnly = true,
-                    textStyle = TextStyle(
-                        fontWeight = FontWeight.Medium
+                    textStyle = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight(700),
+                        color = Color(0xFF1D1751)
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -317,23 +279,25 @@ fun PersonDetails(modifier: Modifier = Modifier){
                             color = Color(0xFF14868D),
                             shape = RoundedCornerShape(5.dp)
                         ),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Color.Transparent,
-                        focusedBorderColor = Color.Transparent
-                    )
                 )
-                Spacer(modifier = Modifier.height(270.dp))
-                BottomButton(gradientBrush = gradientBrush)
-
             }
 
         }
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .padding(20.dp),
+            contentAlignment = Alignment.BottomCenter
+        ){
+            LoginScreenButton(text = "Save & Select Classes", gradientBrush = gradientBrush) {
+
+            }
+        }
+
         Image(
             painter = painterResource(id = R.drawable.elephant_light),
             contentDescription = "coloured elephant",
             modifier = Modifier
-                .scale(1.2f)
-                .offset(x = 0.dp, y = 570.dp)
+                .align(Alignment.BottomStart)
 
         )
 
@@ -341,44 +305,6 @@ fun PersonDetails(modifier: Modifier = Modifier){
     }
 
 }
-
-@Composable
-fun BottomButton(gradientBrush: Brush){
-    Box(
-        modifier = Modifier
-            .height(70.dp)
-            .background(
-                brush = gradientBrush,
-                shape = RoundedCornerShape(10.dp)
-            )
-
-    ) {
-        Button(
-            onClick = { /*TODO*/ },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            ),
-            enabled = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-        ) {
-            Text(
-                text = "Save & Select Classes",
-                fontSize = 18.sp,
-                fontWeight = FontWeight(700)
-            )
-        }
-        Image(
-            painter = painterResource(id = R.drawable.elephant_button),
-            contentDescription = "elephant background",
-            modifier = Modifier
-                .scale(1.3f)
-                .offset(x = 20.dp, y = 7.dp)
-        )
-    }
-}
-
 
 
 

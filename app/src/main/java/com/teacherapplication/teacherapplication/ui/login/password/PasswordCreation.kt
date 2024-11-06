@@ -22,12 +22,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -42,19 +45,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
+import com.teacherapplication.teacherapplication.ui.AppComponents.PasswordField
 import com.teacherapplication.teacherapplication.ui.login.otp.OTPVerify
 
 @Preview
 @Composable
 fun SetPassword(modifier: Modifier = Modifier){
 
-    val password = remember {
+    var password by remember {
         mutableStateOf("")
     }
-    val rePassword = remember {
+    var rePassword by remember {
         mutableStateOf("")
     }
-    val gradientBrush = if ((password.value == rePassword.value) && (password.value.length >=6))
+    val gradientBrush = if ((password == rePassword) && (password.length >=6))
         Brush.linearGradient(
         colors = listOf(
             Color(0xFF129193),
@@ -81,201 +86,89 @@ fun SetPassword(modifier: Modifier = Modifier){
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 10.dp, top = 30.dp, end = 10.dp))
+                .padding(start = 10.dp, top = 40.dp, end = 10.dp))
         {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(40.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        modifier = Modifier.scale(1.2f)
                     )
                 }
+                Spacer(modifier = Modifier.width(40.dp))
                 Text(
                     text = "Set Your Password",
-                    color = Color(0xFF14868D),
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight(800),
-                    modifier = Modifier.align(Alignment.Bottom)
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        brush = Brush.linearGradient(
+                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+                            start = Offset(0f, 0f),
+                            end = Offset(Float.POSITIVE_INFINITY, 0f)
+                        ),
+                    ),
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
                 )
             }
+            Text(text = "Your password needs to be at least 6\n characters.",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 60.dp),
+                color = Color(0xFF333333)
+            )
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                    .padding(20.dp),
             ){
-                Text(text = "Your password needs to be at least 6",
-                    fontWeight = FontWeight(400),
-                    textAlign = TextAlign.Center,
-                    color = Color(0xFF333333)
-                )
-                Text(text = "characters.",
-                    fontWeight = FontWeight(400),
-                    textAlign = TextAlign.Center,
-                    color = Color(0xFF333333)
-                )
-
-                Column(
-                    modifier = Modifier.padding(10.dp)
+                Row(
+                    modifier = Modifier
                 ) {
-                    Row(
-                        modifier = Modifier
-                    ) {
-                        Text(
-                            text = "Password",
-                            fontSize = 15.sp,
-                        )
-                        Spacer(modifier = Modifier.width(2.dp))
-                        Text(
-                            text = "*",
-                            color = Color(0xFFEF6464),
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .scale(1.2f)
-                        )
-                    }
-                    Box {
-                        OutlinedTextField(
-                            value = password.value,
-                            onValueChange = { password.value = it },
-                            label = {
-                                Text(
-                                    text = if (password.value.isEmpty()) "Enter your password" else "",
-                                    color = Color(0xFF9D9D9D),
-                                    modifier = Modifier.offset(x = 0.dp, y = (-4).dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(60.dp)
-                                .padding(top = 2.dp)
-                                .border(
-                                    width = 2.dp,
-                                    color = Color(0xFF14868D),
-                                    shape = RoundedCornerShape(5.dp)
-                                ),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                unfocusedBorderColor = Color.Transparent,
-                                focusedBorderColor = Color.Transparent
-                            )
-                        )
-                        Image(painter = painterResource(id = R.drawable.eye),
-                            contentDescription = "eye",
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .padding(end = 20.dp)
-                                .scale(1.3f)
-                                .clickable {
-                                    //TODO
-                                })
-
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Row(
-                        modifier = Modifier
-                    ) {
-                        Text(
-                            text = "Re-Enter Password",
-                            fontSize = 15.sp,
-                        )
-                        Spacer(modifier = Modifier.width(2.dp))
-                        Text(
-                            text = "*",
-                            color = Color(0xFFEF6464),
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .scale(1.2f)
-                        )
-                    }
-                    Box {
-                        OutlinedTextField(
-                            value = rePassword.value,
-                            onValueChange = { rePassword.value = it },
-                            label = {
-                                Text(
-                                    text = if (rePassword.value.isEmpty()) "Re-Enter your password" else "",
-                                    color = Color(0xFF9D9D9D),
-                                    modifier = Modifier.offset(x = 0.dp, y = (-4).dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(60.dp)
-                                .padding(top = 2.dp)
-                                .border(
-                                    width = 2.dp,
-                                    color = Color(0xFF14868D),
-                                    shape = RoundedCornerShape(5.dp)
-                                ),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                unfocusedBorderColor = Color.Transparent,
-                                focusedBorderColor = Color.Transparent
-                            )
-                        )
-                        Image(painter = painterResource(id = R.drawable.eye),
-                            contentDescription = "eye",
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .padding(end = 20.dp)
-                                .scale(1.3f)
-                                .clickable {
-                                    //TODO
-                                })
-
-                    }
-                    Box(
-                        modifier = Modifier
-                            .padding(top = 60.dp)
-                            .height(70.dp)
-                            .background(
-                                brush = gradientBrush,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                    ) {
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Transparent
-                            ),
-                            enabled = true,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(70.dp)
-                        ) {
-                            Text(
-                                text = "Save & Next",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight(700)
-                            )
-                        }
-                        Image(
-                            painter = painterResource(id = R.drawable.elephant_button),
-                            contentDescription = "elephant background",
-                            modifier = Modifier
-                                .scale(1.3f)
-                                .offset(x = 25.dp, y = 7.dp)
-                        )
-                    }
+                    Text(
+                        text = "Re-Enter Password",
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Text(
+                        text = "*",
+                        color = Color(0xFFEF6464),
+                    )
                 }
+                PasswordField(password = password, labelText = "Enter your password"){
+                    password = it
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier
+                ) {
+                    Text(
+                        text = "Re-Enter Password",
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Text(
+                        text = "*",
+                        color = Color(0xFFEF6464),
+                    )
+                }
+                PasswordField(password = rePassword, labelText = "Re-Enter your password"){
+                    rePassword = it
+                }
+                Spacer(modifier = Modifier.height(50.dp))
 
+                LoginScreenButton(text = "Save & Next", gradientBrush = gradientBrush){
+
+                }
             }
-
-
-            Image(
-                painter = painterResource(id = R.drawable.elephant_color),
-                contentDescription = "coloured elephant",
-                modifier = Modifier
-                    .scale(1.2f)
-                    .offset(x = 0.dp, y = 180.dp)
-
-            )
-
-
         }
+        Image(
+            painter = painterResource(id = R.drawable.elephant_color),
+            contentDescription = "coloured elephant",
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+
+        )
     }
 }
