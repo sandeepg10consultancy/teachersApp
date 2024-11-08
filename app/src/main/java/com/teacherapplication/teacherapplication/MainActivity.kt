@@ -8,7 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ChapterList
+import com.teacherapplication.teacherapplication.ui.SubjectChapterList.TopProgressBar
 import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashBoardScreen
 import com.teacherapplication.teacherapplication.ui.login.LoginAndRegister
 import com.teacherapplication.teacherapplication.ui.login.LoginScreen
 import com.teacherapplication.teacherapplication.ui.login.account.ClassSelection
@@ -24,11 +27,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TeacherApplicationTheme {
-                MyApp()
+                ChapterList()
+                //DashBoardScreen()
+                //MyApp()
+                //SubjectSelection()
             }
         }
     }
 }
+
 
 @Composable
 fun MyApp(){
@@ -60,6 +67,9 @@ fun MyApp(){
         }
         composable(route = "subject"){
             SubjectSelection(navController = navController)
+        }
+        composable(route = "dashboard"){
+            DashBoardScreen()
         }
     }
 }

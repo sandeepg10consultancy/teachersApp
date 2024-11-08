@@ -18,12 +18,19 @@ private val fonts = FontFamily(
     Font(R.font.font_bold, FontWeight.Bold),
     Font(R.font.font_extra_bold, FontWeight.ExtraBold),
 )
-private val jostFont = FontFamily(
+val jostFont = FontFamily(
     Font(R.font.jost_regular),
     Font(R.font.jost_medium, FontWeight.W500),
     Font(R.font.jost_black),
     Font(R.font.jost_bold, FontWeight.Bold),
     Font(R.font.jost_extra_bold, FontWeight.ExtraBold),
+)
+
+private val openFont = FontFamily(
+    Font(R.font.open_sans_regular),
+    Font(R.font.open_sans_medium, FontWeight.Normal),
+    Font(R.font.open_sans_bold, FontWeight.Bold),
+    Font(R.font.open_sans_extra_bold, FontWeight.ExtraBold),
 )
 
 
@@ -73,6 +80,12 @@ val Typography = Typography(
         fontSize = 18.sp,
         lineHeight = 26.01.sp,
         color = Color(0xFF1D1751)
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = openFont,
+        fontWeight = FontWeight(700),
+        fontSize = 14.sp,
+        lineHeight = 16.8.sp,
     )
 
     /* Other default text styles to override
