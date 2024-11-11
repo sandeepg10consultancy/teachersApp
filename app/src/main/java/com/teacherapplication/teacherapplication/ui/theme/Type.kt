@@ -18,6 +18,11 @@ private val fonts = FontFamily(
     Font(R.font.font_bold, FontWeight.Bold),
     Font(R.font.font_extra_bold, FontWeight.ExtraBold),
 )
+
+val italicSansFont = FontFamily(
+    Font(R.font.font_italic, FontWeight(400))
+)
+
 val jostFont = FontFamily(
     Font(R.font.jost_regular),
     Font(R.font.jost_medium, FontWeight.W500),

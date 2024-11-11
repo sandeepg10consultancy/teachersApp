@@ -8,8 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ChapterList
-import com.teacherapplication.teacherapplication.ui.SubjectChapterList.TopProgressBar
+import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ChapterScreen
 import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashBoardScreen
 import com.teacherapplication.teacherapplication.ui.login.LoginAndRegister
@@ -27,7 +26,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TeacherApplicationTheme {
-                ChapterList()
+                ChapterScreen()
                 //DashBoardScreen()
                 //MyApp()
                 //SubjectSelection()

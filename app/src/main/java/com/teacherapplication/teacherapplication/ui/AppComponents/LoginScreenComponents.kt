@@ -1,5 +1,6 @@
 package com.teacherapplication.teacherapplication.ui.AppComponents
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,9 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -25,6 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -46,6 +54,21 @@ class StarVisualTransformation : VisualTransformation {
     }
 }
 */
+
+@Composable
+fun BackArrow(){
+    IconButton(onClick = {
+        //navController.popBackStack()
+    }) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = "back",
+            modifier = Modifier.size(24.dp)
+                .padding(end = 3.dp)
+        )
+    }
+}
+
 
 
 
@@ -188,6 +211,38 @@ fun PasswordField(
     }
 }
 
+
+@Composable
+fun TopProgressBar(progress: Float = 0.4f) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 40.dp)
+    ) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(10.dp)
+        ) {
+            // background track with rounded corners
+            drawRect(
+                color = Color( 0xFFD9D9D9),
+                size = Size(size.width, size.height),
+            )
+
+            // progress track with gradient and rounded corners
+            if (progress > 0) {
+                drawRoundRect(
+                    brush = Brush.linearGradient(
+                        colors = listOf(Color(0xFF185573), Color(0xFF14868D))
+                    ),
+                    size = Size(size.width * progress, size.height),
+                    cornerRadius = CornerRadius(10f, 10f)
+                )
+            }
+        }
+    }
+}
 
 
 

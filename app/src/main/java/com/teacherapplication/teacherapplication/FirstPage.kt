@@ -105,12 +105,22 @@ fun FirstPage( modifier: Modifier = Modifier)
 
 @Composable
 fun CoursesRow(item: String) {
-    OutlinedButton(onClick = {    },
-        modifier = Modifier,
-        border = BorderStroke(0.dp,Color.White),
-        //enabled = lessonState.value
-    ) {
-        Text(text = item)
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        OutlinedButton(
+            onClick = { },
+            modifier = Modifier,
+            border = BorderStroke(0.dp, Color.White),
+            //enabled = lessonState.value
+        ) {
+            Text(text = item)
+        }
+        HorizontalDivider(
+            modifier = Modifier.height(2.dp)
+                .width(30.dp),
+            color = Color.Black        )
     }
 }
 

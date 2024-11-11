@@ -3,6 +3,7 @@ package com.teacherapplication.teacherapplication.ui.SubjectChapterList
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,18 +16,16 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,124 +39,147 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
+import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+
 
 @Preview(showBackground = true)
 @Composable
 fun ChapterList(modifier: Modifier = Modifier){
     val verticalScroll = rememberScrollState()
-    Column(
-        modifier = Modifier.fillMaxSize()
-            .verticalScroll(verticalScroll)
-    ){
-        TopProgressBar()
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(start = 20.dp, end = 20.dp)
+            modifier = Modifier.fillMaxWidth()
+                .verticalScroll(verticalScroll)
+                .padding(bottom = 400.dp)
+        ) {
+            TopProgressBar()
+            BackArrow()
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .padding(start = 20.dp, end = 20.dp)
+            ) {
+                SubjectSurface()
+                Spacer(modifier = Modifier.height(40.dp))
+                artChapters.forEach { chapter ->
+                    ChapterCard(
+                        days = chapter.days,
+                        title = chapter.title,
+                        chapterNo = chapter.chapterNumber,
+                        onClick = {},
+                        //progress = 0.3f
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
+
+            }
+        }
+        BottomAppBar(
+            modifier = Modifier.align(Alignment.BottomCenter)
         ){
-            IconButton(onClick = {
-                //navController.popBackStack()
-            }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "back",
-                    modifier = Modifier.size(24.dp)
-                        .padding(end = 3.dp)
+            BottomNavigationBar()
+        }
+    }
+}
+
+@Composable
+fun ChapterCard(
+    days: String,
+    title: String,
+    progress: Float = 0.5f,
+    onClick: () -> Unit = {},
+    chapterNo: Int,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(99.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFFFFFFF)
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(
+                start = 20.dp,
+                top = 15.dp, end = 10.dp
+            )
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(CircleShape)
+                    .background(
+                        brush = Brush.linearGradient(
+                            colors = listOf(
+                                Color(0xFF185573),
+                                Color(0xFF14868D)
+                            )
+                        )
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "CH$chapterNo",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFFFFFFFF)
+                    )
                 )
             }
-            SubjectSurface()
-            Spacer(modifier = Modifier.height(40.dp))
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                        .height(99.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFFFFFFF)
-                    ),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 1.dp
+            Spacer(modifier = Modifier.width(10.dp))
+            Column(
+                modifier = Modifier,
+                verticalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = "$days Days",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight(500),
+                        lineHeight = 17.34.sp,
+                        color = Color(0xFF129193)
                     )
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(start = 20.dp,
-                            top = 10.dp, end = 10.dp)
-                    ) {
-
-                        Box(
-                            modifier = Modifier
-                                .size(50.dp)
-                                .clip(CircleShape)
-                                .background(
-                                    brush = Brush.linearGradient(
-                                        colors = listOf(
-                                            Color(0xFF185573),
-                                            Color(0xFF14868D)
-                                        )
-                                    )
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "CH1",
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight(600),
-                                    color = Color(0xFFFFFFFF)
-                                )
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Column(
-                            modifier = Modifier,
-                            verticalArrangement = Arrangement.SpaceBetween,
-                        ) {
-                            Text(
-                                text = "14 Days",
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight(500),
-                                    lineHeight = 17.34.sp,
-                                    color = Color(0xFF129193)
-                                )
-                            )
-                            Text(
-                                text = "Primary Colours",
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    lineHeight = 14.4.sp,
-                                    color = Color(0xFF000000)
-                                )
-                            )
-                            Text(
-                                text = "3/14 topics",
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight(500),
-                                    lineHeight = 17.34.sp,
-                                    color = Color(0xFF595959)
-                                )
-                            )
-                            LinearProgressIndicator(
-                                progress = { 0.3f },
-                                color = Color.Blue,
-                                trackColor = Color.Gray,
-                                modifier = Modifier.width(264.dp)
-                            )
-                        }
-                        Icon(
-                            painter = painterResource(R.drawable.right_arrow),
-                            contentDescription = "right",
-                            modifier = Modifier
-                                .height(14.dp)
-                                .width(16.dp),
-                            tint = Color(0xFF129193)
-                        )
-                    }
-                }
+                )
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        lineHeight = 14.4.sp,
+                        color = Color(0xFF000000)
+                    )
+                )
+                Text(
+                    text = "3/14 topics",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight(500),
+                        lineHeight = 17.34.sp,
+                        color = Color(0xFF595959)
+                    )
+                )
+                ChapterProgressBar(progress)
+            }
+            Icon(
+                painter = painterResource(R.drawable.right_arrow),
+                contentDescription = "right",
+                modifier = Modifier
+                    .height(14.dp)
+                    .width(16.dp)
+                    .clickable { onClick },
+                tint = Color(0xFF129193)
+            )
         }
     }
 }
@@ -256,33 +278,32 @@ fun SubjectSurface() {
     }
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun TopProgressBar(progress: Float = 0.5f) {
+fun ChapterProgressBar(progress: Float = 0.5f){
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 40.dp)
-    ) {
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(10.dp)
-        ) {
-            // background track with rounded corners
-            drawRect(
-                color = Color( 0xFFD9D9D9),
+            .width(264.dp)
+            .height(5.dp)
+    ){
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawRoundRect(
+                color = Color(0xFFE9E9E9),
                 size = Size(size.width, size.height),
+                cornerRadius = CornerRadius(18f, 18f)
             )
-
-            // progress track with gradient and rounded corners
-            if (progress > 0) {
+            if (progress > 0){
                 drawRoundRect(
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color(0xFF185573), Color(0xFF14868D))
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Color(0xFFDFDFDF),
+                            Color(0xFF4234B7)
+                        ),
+                        startX = 0f,
+                        endX = 300f
                     ),
                     size = Size(size.width * progress, size.height),
-                    cornerRadius = CornerRadius(10f, 10f)
+                    cornerRadius = CornerRadius(18f, 18f)
                 )
             }
         }
