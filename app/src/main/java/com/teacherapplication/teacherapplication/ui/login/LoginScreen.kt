@@ -40,14 +40,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 import com.teacherapplication.teacherapplication.ui.AppComponents.PasswordField
 
 
-//@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun LoginScreen(modifier: Modifier = Modifier, //navController: NavHostController
+) {
 
     var phoneNumber by remember {
         mutableStateOf("")
@@ -85,14 +87,7 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController)
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
-                    )
-                }
+                BackArrow()
                 Spacer(modifier = Modifier.width(110.dp))
                 Text(
                     text = "Log In",
@@ -172,7 +167,7 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController)
                         ),
                         color = Color(0xFF129193),
                         modifier = Modifier.clickable {
-                            navController.navigate(route = "register")
+                            //navController.navigate(route = "register")
                         }
                     )
                 }

@@ -23,6 +23,10 @@ val italicSansFont = FontFamily(
     Font(R.font.font_italic, FontWeight(400))
 )
 
+val italicJost = FontFamily(
+    Font(R.font.jost_italic, FontWeight(400))
+)
+
 val jostFont = FontFamily(
     Font(R.font.jost_regular),
     Font(R.font.jost_medium, FontWeight.W500),

@@ -59,12 +59,12 @@ class StarVisualTransformation : VisualTransformation {
 fun BackArrow(){
     IconButton(onClick = {
         //navController.popBackStack()
-    }) {
+    }, modifier = Modifier.size(24.dp)) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "back",
-            modifier = Modifier.size(24.dp)
-                .padding(end = 3.dp)
+//            modifier = Modifier
+//                .padding(end = 3.dp)
         )
     }
 }

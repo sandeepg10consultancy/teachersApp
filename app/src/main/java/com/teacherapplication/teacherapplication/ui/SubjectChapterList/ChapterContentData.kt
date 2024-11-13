@@ -1,13 +1,33 @@
 package com.teacherapplication.teacherapplication.ui.SubjectChapterList
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -15,59 +35,129 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+
+@Composable
+fun ScreenButton(){
+    Column(modifier = Modifier.padding(0.dp)) {
+        Box(
+            modifier = Modifier
+                .height(54.dp)
+                .width(386.dp)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xFF185573),
+                            Color(0xFF14868D)
+                        )
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                )
+        ) {
+            Button(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent
+                ),
+                enabled = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(70.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(
+                        text = "View All Topics",
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            fontWeight = FontWeight(500),
+                            fontSize = 20.sp,
+                            color = Color.White
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "arrow",
+                        tint = Color.White
+                    )
+                }
+            }
+            Image(
+                painter = painterResource(id = R.drawable.elephant_button),
+                contentDescription = "elephant background",
+                modifier = Modifier
+                    .scale(1f)
+                    .offset(x = 30.dp, y = 2.dp)
+            )
+        }
+    }
+}
+
+
+
 
 @Preview(showBackground = true)
 @Composable
 fun GetNCFContent(){
+    val contentList = listOf(
+        "Sorts objects into groups and sub-\n  groups based on more than one property",
+        "Sorts objects into groups and sub-\n  groups based on more than one property",
+    )
     Column(
         modifier = Modifier.padding(15.dp)
             .fillMaxSize()
     ){
-        Row {
-            Text(
-                text = ".",
-                fontSize = 18.sp,
-                fontWeight = FontWeight(500),
-                color = Color.Black
-            )
-
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontFamily = jostFont,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color.Black
-                        )
-                    ) {
-                        append(" C-8.1: ")
-                    }
-                    withStyle(
-                        style = SpanStyle(
-                            fontFamily = jostFont,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight(400),
-                            color = Color.Black
-                        )
-                    ) {
-                        append("Sorts objects into groups and sub-\n groups based on more than one property")
-                    }
-                }
-            )
+        contentList.forEach { content ->
+            Row {
+                Text(
+                    text = ".",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight(500),
+                    color = Color.Black,
+                )
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                fontFamily = jostFont,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight(500),
+                                color = Color.Black
+                            )
+                        ) {
+                            append("  C-8.1: ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                fontFamily = jostFont,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight(400),
+                                color = Color.Black
+                            )
+                        ) {
+                            append(content)
+                        }
+                    },
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
+    Spacer(modifier = Modifier.height(190.dp))
+    ScreenButton()
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GetObjectiveContent() {
     val contentList = listOf(
-        "To understand and identify the concepts of \n\"big\" and \"small.\"",
-        "To compare the sizes of different objects and \nliving beings.",
-        "Observe and distinguish between big and \nsmall items in their environment.",
-        "To group items based on size and arrange \nthem in order."
+        "To understand and identify the concepts of \"big\" and \"small.\"",
+        "To compare the sizes of different objects and living beings.",
+        "Observe and distinguish between big and small items in their environment.",
+        "To group items based on size and arrange them in order."
     )
 
     Column(
@@ -76,12 +166,15 @@ fun GetObjectiveContent() {
             .fillMaxSize()
     ) {
         contentList.forEach { content ->
-            Row {
+            Row(
+                modifier = Modifier.fillMaxSize()
+            ){
                 Text(
                     text = ".",
                     fontSize = 18.sp,
                     fontWeight = FontWeight(500),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier.align(Alignment.Top)
                 )
                 Text(
                     text = content,
@@ -92,8 +185,11 @@ fun GetObjectiveContent() {
                     modifier = Modifier.padding(start = 4.dp)
                 )
             }
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
+    Spacer(modifier = Modifier.height(50.dp))
+    ScreenButton()
 }
 
 @Preview(showBackground = true)
@@ -127,8 +223,11 @@ fun GetLearningOutcomeContent(){
                     modifier = Modifier.padding(start = 4.dp)
                 )
             }
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
+    Spacer(modifier = Modifier.height(25.dp))
+    ScreenButton()
 }
 
 @Preview(showBackground = true)
@@ -152,7 +251,6 @@ fun GetMaterialContent(){
     Column(
         modifier = Modifier
             .padding(15.dp)
-            .fillMaxSize()
     ) {
         contentList.forEach { content ->
             Row {
@@ -171,6 +269,9 @@ fun GetMaterialContent(){
                     modifier = Modifier.padding(start = 4.dp)
                 )
             }
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
+    Spacer(modifier = Modifier.height(20.dp))
+    ScreenButton()
 }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,11 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -39,7 +38,9 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,9 +50,7 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
-
-
-
+import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
 @Preview
@@ -59,12 +58,19 @@ import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 fun ChapterScreen(
     modifier: Modifier = Modifier
 ){
+    val courseContent = listOf(
+        "NCF",
+        "Objective",
+        "Learning Outcome",
+        "Material"
+    )
+
     val verticalScroll = rememberScrollState()
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxWidth()
                 .verticalScroll(verticalScroll)
-                .padding(bottom = 400.dp)
+                .padding(bottom = 130.dp)
         ) {
             TopProgressBar()
             Row(
@@ -83,30 +89,9 @@ fun ChapterScreen(
             Spacer(modifier = Modifier.height(20.dp))
             GradientLine()
             Spacer(modifier = Modifier.height(20.dp))
-            var showLine by remember { mutableStateOf(false) }
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                TextButton(
-                    onClick = { showLine = true},
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "Outcomes",
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                }
-                if (true){
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .width(IntrinsicSize.Min)
-                            .height(2.dp),
-                        color = Color.Black
-                    )
-                }
 
-            }
+            CourseContentRow(courseContent)
+
         }
         BottomAppBar(
             modifier = Modifier.align(Alignment.BottomCenter)
@@ -115,6 +100,71 @@ fun ChapterScreen(
         }
     }
 }
+
+@Composable
+fun CourseContentRow(courseContent: List<String>) {
+    var selectedContent by remember { mutableStateOf(courseContent[0]) }
+
+    LazyRow(
+        modifier = Modifier.padding(start = 15.dp),
+        horizontalArrangement = Arrangement.spacedBy(0.dp)
+    ){
+        items(courseContent) { content ->
+            val isSelected = content == selectedContent
+            CourseContents(
+                course = content,
+                isSelected = isSelected,
+                onCourseSelected = { selectedContent = it})
+        }
+    }
+    Column(modifier = Modifier.padding(start = 15.dp)){
+        when (selectedContent) {
+            "NCF" -> GetNCFContent()
+            "Objective" -> GetObjectiveContent()
+            "Learning Outcome" -> GetLearningOutcomeContent()
+            "Material" -> GetMaterialContent()
+        }
+    }
+}
+
+@Composable
+fun CourseContents(course: String, isSelected: Boolean, onCourseSelected: (String) -> Unit,) {
+
+    TextButton(
+        onClick = {
+            onCourseSelected(course)
+
+        },
+        modifier = Modifier,
+    ) {
+        Text(
+            text = course,
+            style = TextStyle(
+                color = if (isSelected) Color(0xFF1D1751) else Color.Gray,
+                fontFamily = jostFont,
+                fontSize = 20.sp,
+                fontWeight = if (isSelected) FontWeight(500) else FontWeight(400),
+
+                ),
+            modifier = Modifier
+                .padding(bottom = 4.dp)
+                .drawWithContent {
+                    drawContent()
+                    if (isSelected){
+                        val gap = 8.dp.toPx()
+                        drawLine(
+                            color = Color(0xFF1D1751),
+                            start = Offset(0f, size.height + gap),
+                            end = Offset(size.width, size.height + gap),
+                            strokeWidth = 2.dp.toPx(),
+                            cap = StrokeCap.Round
+                        )
+                    }
+                }
+        )
+    }
+}
+
 
 @Composable
 fun GradientLine() {
@@ -137,7 +187,7 @@ fun GradientLine() {
             ),
             start = Offset(0f, size.height / 2),
             end = Offset(size.width, size.height / 2),
-            strokeWidth = 0.5.dp.toPx() // Adjust line thickness as needed
+            strokeWidth = 0.5.dp.toPx()
         )
     }
 }
@@ -151,8 +201,7 @@ fun TopCard() {
         Surface(
             color = Color.Transparent,
             modifier = Modifier
-                .height(94.dp)
-                .width(93.dp)
+                .size(94.dp)
                 .clip(RoundedCornerShape(14.dp))
                 .background(
                     brush = Brush.linearGradient(
@@ -239,3 +288,5 @@ fun TopCard() {
 fun ChapterScreenPreview(){
     ChapterScreen()
 }
+
+
