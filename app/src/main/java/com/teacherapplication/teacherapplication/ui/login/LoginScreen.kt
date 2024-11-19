@@ -46,9 +46,9 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTex
 import com.teacherapplication.teacherapplication.ui.AppComponents.PasswordField
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, //navController: NavHostController
+fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
 ) {
 
     var phoneNumber by remember {
@@ -87,7 +87,7 @@ fun LoginScreen(modifier: Modifier = Modifier, //navController: NavHostControlle
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                BackArrow()
+                BackArrow(onClick = {navController.popBackStack()})
                 Spacer(modifier = Modifier.width(110.dp))
                 Text(
                     text = "Log In",
@@ -150,7 +150,9 @@ fun LoginScreen(modifier: Modifier = Modifier, //navController: NavHostControlle
                         .align(Alignment.End)
                         .clickable { }
                 )
-                LoginScreenButton(text = "Login", gradientBrush = gradientBrush) { }
+                LoginScreenButton(text = "Login", gradientBrush = gradientBrush) {
+                    navController.navigate(route = "dashboard")
+                }
                 Row(
                     modifier = Modifier
                         .padding(20.dp)
@@ -167,7 +169,7 @@ fun LoginScreen(modifier: Modifier = Modifier, //navController: NavHostControlle
                         ),
                         color = Color(0xFF129193),
                         modifier = Modifier.clickable {
-                            //navController.navigate(route = "register")
+                            navController.navigate(route = "register")
                         }
                     )
                 }

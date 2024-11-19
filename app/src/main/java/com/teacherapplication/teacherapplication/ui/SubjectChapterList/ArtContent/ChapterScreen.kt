@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.SubjectChapterList
+package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
@@ -53,10 +54,11 @@ import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
-@Preview
+//@Preview
 @Composable
 fun ChapterScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController
 ){
     val courseContent = listOf(
         "NCF",
@@ -79,7 +81,7 @@ fun ChapterScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
-                BackArrow()
+                BackArrow({navController.popBackStack()})
                 Image(painter = painterResource(R.drawable.book_mark),
                     contentDescription = "bookMark",
                     modifier = Modifier.size(24.dp)
@@ -90,7 +92,7 @@ fun ChapterScreen(
             GradientLine()
             Spacer(modifier = Modifier.height(20.dp))
 
-            CourseContentRow(courseContent)
+            CourseContentRow(courseContent,navController)
 
         }
         BottomAppBar(
@@ -102,7 +104,7 @@ fun ChapterScreen(
 }
 
 @Composable
-fun CourseContentRow(courseContent: List<String>) {
+fun CourseContentRow(courseContent: List<String>, navController: NavHostController) {
     var selectedContent by remember { mutableStateOf(courseContent[0]) }
 
     LazyRow(
@@ -124,6 +126,7 @@ fun CourseContentRow(courseContent: List<String>) {
             "Learning Outcome" -> GetLearningOutcomeContent()
             "Material" -> GetMaterialContent()
         }
+        ChapterScreenButton { navController.navigate("chapterOneTopics")}
     }
 }
 
@@ -133,7 +136,6 @@ fun CourseContents(course: String, isSelected: Boolean, onCourseSelected: (Strin
     TextButton(
         onClick = {
             onCourseSelected(course)
-
         },
         modifier = Modifier,
     ) {
@@ -286,7 +288,7 @@ fun TopCard() {
 @Preview(showBackground = true)
 @Composable
 fun ChapterScreenPreview(){
-    ChapterScreen()
+    //ChapterScreen(navController = navController)
 }
 
 

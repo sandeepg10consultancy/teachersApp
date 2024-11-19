@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication
+package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent
 
 data class LessonsData(
     val title: String,

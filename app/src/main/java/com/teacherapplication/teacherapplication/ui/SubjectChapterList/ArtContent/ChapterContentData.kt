@@ -1,8 +1,7 @@
-package com.teacherapplication.teacherapplication.ui.SubjectChapterList
+package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,11 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
-import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 @Composable
-fun ScreenButton(){
+fun ChapterScreenButton(onClick:() -> Unit = {}){
     Column(modifier = Modifier.padding(0.dp)) {
         Box(
             modifier = Modifier
@@ -57,7 +55,7 @@ fun ScreenButton(){
                 )
         ) {
             Button(
-                onClick = { },
+                onClick = onClick,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent
                 ),
@@ -99,9 +97,10 @@ fun ScreenButton(){
 
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun GetNCFContent(){
+fun GetNCFContent(//navController: NavHostController
+) {
     val contentList = listOf(
         "Sorts objects into groups and sub-\n  groups based on more than one property",
         "Sorts objects into groups and sub-\n  groups based on more than one property",
@@ -147,12 +146,12 @@ fun GetNCFContent(){
         }
     }
     Spacer(modifier = Modifier.height(190.dp))
-    ScreenButton()
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun GetObjectiveContent() {
+fun GetObjectiveContent(//navController: NavHostController
+) {
     val contentList = listOf(
         "To understand and identify the concepts of \"big\" and \"small.\"",
         "To compare the sizes of different objects and living beings.",
@@ -189,12 +188,12 @@ fun GetObjectiveContent() {
         }
     }
     Spacer(modifier = Modifier.height(50.dp))
-    ScreenButton()
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun GetLearningOutcomeContent(){
+fun GetLearningOutcomeContent(//navController: NavHostController
+) {
     val contentList = listOf(
         "Students can identify and compare objects and living beings based on their size.",
         "Students will effectively categorise items into \"big\" and \"small\" groups and arrange them in order.",
@@ -227,7 +226,6 @@ fun GetLearningOutcomeContent(){
         }
     }
     Spacer(modifier = Modifier.height(25.dp))
-    ScreenButton()
 }
 
 @Preview(showBackground = true)
@@ -273,5 +271,4 @@ fun GetMaterialContent(){
         }
     }
     Spacer(modifier = Modifier.height(20.dp))
-    ScreenButton()
 }

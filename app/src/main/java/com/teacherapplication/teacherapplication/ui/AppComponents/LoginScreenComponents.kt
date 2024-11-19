@@ -56,10 +56,11 @@ class StarVisualTransformation : VisualTransformation {
 */
 
 @Composable
-fun BackArrow(){
-    IconButton(onClick = {
-        //navController.popBackStack()
-    }, modifier = Modifier.size(24.dp)) {
+fun BackArrow(onClick: () -> Unit = {}){
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier.size(24.dp))
+    {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "back",

@@ -104,7 +104,7 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = {
-
+                    navController.popBackStack()
                 }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,

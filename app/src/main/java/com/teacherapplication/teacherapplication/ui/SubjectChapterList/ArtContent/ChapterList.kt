@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.SubjectChapterList
+package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,15 +40,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun ChapterList(modifier: Modifier = Modifier){
+fun ChapterList(modifier: Modifier = Modifier, navController: NavHostController){
     val verticalScroll = rememberScrollState()
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -71,7 +70,15 @@ fun ChapterList(modifier: Modifier = Modifier){
                         days = chapter.days,
                         title = chapter.title,
                         chapterNo = chapter.chapterNumber,
-                        onClick = {},
+                        onClick = {
+                            when(chapter.chapterNumber){
+                                1 -> navController.navigate(route = "chapterOne")
+                                2 -> navController.navigate(route = "chapterOne")
+                                3 -> navController.navigate(route = "chapterOne")
+                                4 -> navController.navigate(route = "chapterOne")
+                                5 -> navController.navigate(route = "chapterOne")
+                            }
+                        },
                         //progress = 0.3f
                     )
                     Spacer(modifier = Modifier.height(20.dp))
@@ -105,7 +112,8 @@ fun ChapterCard(
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
-        )
+        ),
+        onClick = onClick
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
@@ -176,8 +184,7 @@ fun ChapterCard(
                 contentDescription = "right",
                 modifier = Modifier
                     .height(14.dp)
-                    .width(16.dp)
-                    .clickable { onClick },
+                    .width(16.dp),
                 tint = Color(0xFF129193)
             )
         }

@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -54,19 +54,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun DashBoardScreen(modifier: Modifier = Modifier){
+fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostController){
 
     val verticalScroll = rememberScrollState()
 
@@ -77,7 +77,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier){
                 .size(320.dp)
                 .align(Alignment.TopEnd))
         Scaffold(
-            modifier = Modifier.padding(top = 30.dp, start = 10.dp, end = 10.dp),
+            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
             topBar = {
                 TopAppBar(
                     navigationIcon = {
@@ -114,7 +114,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier){
                                 modifier = Modifier.size(33.dp)
                             )
                         }
-                        DropdownMenu()
+                        DropdownFilter()
                     }
                 )
             },
@@ -124,7 +124,8 @@ fun DashBoardScreen(modifier: Modifier = Modifier){
                     .verticalScroll(verticalScroll)
                 ){
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(8.dp),
                         horizontalArrangement = Arrangement.spacedBy(20.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -142,7 +143,8 @@ fun DashBoardScreen(modifier: Modifier = Modifier){
                             ),
                             yOffset = (-13).dp,
                             image = R.drawable.art_img,
-                            color = Color(0xFFFDC194)
+                            color = Color(0xFFFDC194),
+                            onClick = {navController.navigate(route = "artChapter")}
                         )
                         SubjectCard(
                             text = "Junior KG - A",
@@ -184,7 +186,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier){
                                     Color(0xFFFF992E),
                                     Color(0xFFFED276),
                                 )),
-                            yOffset = (-10).dp,
+                            yOffset = (0).dp,
                             image = R.drawable.literacy_img,
                             color = Color(0xFFFED276)
                         )
@@ -204,7 +206,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier){
                                     Color(0xFFDA5151),
                                     Color(0xFFF2C0C0),
                                 )),
-                            yOffset = (-4).dp,
+                            yOffset = (-1).dp,
                             image = R.drawable.gk_img,
                             color = Color(0xFFF2C0C0)
                         )
@@ -214,30 +216,38 @@ fun DashBoardScreen(modifier: Modifier = Modifier){
                     StudentAssessment()
 
                     Spacer(modifier = Modifier.height(20.dp))
-
-                    Text(
-                        text = buildAnnotatedString {
-                            withStyle(
-                                style = SpanStyle(
-                                    textDecoration = TextDecoration.Underline,
+                    Column(
+                        modifier = Modifier.padding(start = 10.dp)
+                    ){
+                        Text(
+                            text = "Recently Viewed",
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontSize = 16.sp,
+                                lineHeight = 23.12.sp,
+                                brush = Brush.linearGradient(
+                                    colors = listOf(
+                                        Color(0xFF185573),
+                                        Color(0xFF14868D)
+                                    )
                                 )
-                            ) {
-                                append("Rec")
-                            }
-                            append("ently Views")
-                        },
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontSize = 16.sp,
-                            lineHeight = 23.12.sp,
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFF185573),
-                                    Color(0xFF14868D)
+                            ),
+                        )
+                        Box(
+                            modifier = modifier
+                                .width(27.dp)
+                                .height(1.5.dp)
+                                .clip(RoundedCornerShape(1.5.dp))
+                                .border(0.1.dp, Color(0xFF1D1751), RoundedCornerShape(1.5.dp))
+                                .background(
+                                    brush = Brush.linearGradient(
+                                        colors = listOf(
+                                            Color(0xFF185573),
+                                            Color(0xFF14868D)
+                                        )
+                                    ),
                                 )
-                            )
-                        ),
-                        modifier = Modifier.padding(10.dp),
-                    )
+                        )
+                    }
 
                 }
             },
@@ -261,7 +271,7 @@ fun BottomNavigationBar() {
     )
 
     NavigationBar(
-        containerColor = Color(0xFFFFFFFF)
+        containerColor = Color(0xFFFFFFFF),
     ) {
         navItems.forEach { (label, iconRes) ->
             val isSelected = selectedItem == label
@@ -491,9 +501,10 @@ fun SubjectCard(
     text: String,
     subject: String,
     brush: Brush,
-    yOffset: Dp,
+    yOffset: Dp = 0.dp,
     image: Int,
-    color: Color
+    color: Color,
+    onClick: () -> Unit = { }
 ) {
     Box(
         modifier = Modifier
@@ -511,7 +522,8 @@ fun SubjectCard(
                 ),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent
-            )
+            ),
+            onClick = onClick
         ) {
             Column(
                 modifier = Modifier
@@ -677,7 +689,7 @@ fun NumeracyCard(){
 
 
 @Composable
-fun DropdownMenu(
+private fun DropdownFilter(
 ){
     Box(
         modifier = Modifier

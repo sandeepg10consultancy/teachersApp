@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
 
-private val fonts = FontFamily(
+val fonts = FontFamily(
     Font(R.font.font_regular),
     Font(R.font.font_medium, FontWeight.W500),
     Font(R.font.font_semi_bold, FontWeight.SemiBold),
@@ -35,7 +35,7 @@ val jostFont = FontFamily(
     Font(R.font.jost_extra_bold, FontWeight.ExtraBold),
 )
 
-private val openFont = FontFamily(
+val openFont = FontFamily(
     Font(R.font.open_sans_regular),
     Font(R.font.open_sans_medium, FontWeight.Normal),
     Font(R.font.open_sans_bold, FontWeight.Bold),

@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.SubjectChapterList
+package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -47,9 +47,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
@@ -59,9 +59,9 @@ import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun TopicListingScreen(){
+fun TopicListingScreen(navController: NavHostController) {
     val verticalScroll = rememberScrollState()
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -69,7 +69,7 @@ fun TopicListingScreen(){
                 .verticalScroll(verticalScroll)
         ) {
             TopProgressBar()
-            BackArrow()
+            BackArrow(onClick = {navController.popBackStack()})
             Column(modifier = Modifier.padding(15.dp)){
                 TopSurface()
                 Spacer(modifier = Modifier.height(20.dp))
@@ -79,14 +79,14 @@ fun TopicListingScreen(){
                     color = Color(0xFF000000).copy(alpha = 0.3f)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                ChapterObjectives()
+                ChapterObjective()
                 Spacer(modifier = Modifier.height(30.dp))
                 TopicCard(
                     days = "3",
                     date = "1st Jul 2024",
                     title = "Flower",
                     progress = 1f,
-                    onClick = { },
+                    onClick = { navController.navigate(route = "chapterOneContent") },
                     chapterNo = 1
 
                 )
@@ -127,14 +127,14 @@ fun TopicCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(112.dp)
-            .clickable { onClick },
+            .height(112.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFFFFFFF)
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 5.dp
-        )
+        ),
+        onClick = onClick
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
@@ -278,7 +278,7 @@ fun TopicCardBar(progress: Float = 0.5f){
 
 
 @Composable
-private fun ChapterObjectives() {
+private fun ChapterObjective() {
     Box(
         modifier = Modifier
             .padding(4.dp)
@@ -327,7 +327,6 @@ private fun ChapterObjectives() {
         }
     }
 }
-//border: 0.5px solid #00000066
 
 @Composable
 fun TopSurface() {
