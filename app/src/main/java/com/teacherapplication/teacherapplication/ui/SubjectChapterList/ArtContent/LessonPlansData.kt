@@ -21,8 +21,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,7 +38,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -86,7 +83,7 @@ import com.teacherapplication.teacherapplication.ui.theme.openFont
 @Composable
 fun LessonPlansCard(title: String, time: String){
     var expanded by rememberSaveable {  mutableStateOf(false)  }
-    val isSheetOpen = remember { mutableStateOf(false) }
+    val isContentSheetOpen = remember { mutableStateOf(false) }
     val extraPadding by animateDpAsState(
         targetValue = if (expanded) Dp.Unspecified else 72.dp,
         animationSpec = spring(
@@ -234,10 +231,10 @@ fun LessonPlansCard(title: String, time: String){
             }
         }
         Spacer(modifier = Modifier.height(15.dp))
-        AddContentButton(modifier = Modifier.padding(25.dp), onClick = { isSheetOpen.value = it } )
+        AddContentButton(modifier = Modifier.padding(25.dp), onClick = { isContentSheetOpen.value = it } )
     }
-    if(isSheetOpen.value){
-        BottomSheetExample(isSheetOpen)
+    if(isContentSheetOpen.value){
+        ContentBottomSheet(isContentSheetOpen)
     }
 }
 
@@ -436,7 +433,7 @@ fun CardDashedLine() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BottomSheetExample(isSheetOpen: MutableState<Boolean>) {
+private fun ContentBottomSheet(isSheetOpen: MutableState<Boolean>) {
         val sheetState = rememberModalBottomSheetState()
         var buttonSelection by rememberSaveable { mutableStateOf("Text") }
         val textFieldData = rememberSaveable { mutableStateOf("let the student say the poem to gather students and create a friendly environment") }
@@ -482,9 +479,7 @@ private fun BottomSheetExample(isSheetOpen: MutableState<Boolean>) {
                                     .fillMaxWidth(0.5f),
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (buttonSelection == "Text") Color.White else Color(
-                                        0xFFE2F2F5
-                                    )
+                                    containerColor = if (buttonSelection == "Text") Color.White else Color.Transparent
                                 )
                             ) {
                                 Text(
@@ -508,9 +503,7 @@ private fun BottomSheetExample(isSheetOpen: MutableState<Boolean>) {
                                     .fillMaxWidth(),
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (buttonSelection == "Files") Color.White else Color(
-                                        0xFFE2F2F5
-                                    )
+                                    containerColor = if (buttonSelection == "Files") Color.White else Color.Transparent
                                 )
                             ) {
                                 Text(
@@ -699,7 +692,7 @@ private fun DashedBorderBox(
             .fillMaxWidth()
             .background(
                 color = Color(0xFFB6DFE6).copy(alpha = 0.15f),
-                shape = RoundedCornerShape(18.9.dp) // Adjust shape as needed
+                shape = RoundedCornerShape(18.9.dp)
             )
             .border(width = 4.dp, color = Color.Transparent, RoundedCornerShape(8.dp))
             .drawBehind {
@@ -707,8 +700,6 @@ private fun DashedBorderBox(
                 val dashWidth = 5.dp.toPx()
                 val dashGap = 5.dp.toPx()
                 val paint = Paint().apply {
-                    //color = Color.Black // Adjust the border color as needed
-                    //style = PaintingStyle.Stroke
                     strokeWidth = borderWidth
                     pathEffect = PathEffect.dashPathEffect(floatArrayOf(dashWidth, dashGap), 0f)
                 }

@@ -48,9 +48,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
@@ -59,9 +59,8 @@ import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 val contentList = listOf("Lesson Plans", "Assessments", "Videos", "Ebooks")
 
-@Preview(showBackground = true)
 @Composable
-fun ContentViewScreen(){
+fun ContentViewScreen(navController: NavHostController) {
     val verticalScroll = rememberScrollState()
     var dropDownStatus by remember { mutableStateOf(false) }
     var isCardClicked by remember { mutableStateOf(true) }
@@ -111,7 +110,7 @@ fun ContentViewScreen(){
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
-                TopicContentRow(contentList)
+                TopicContentRow(contentList, navController = navController)
             }
         }
         if (dropDownStatus){
@@ -134,7 +133,7 @@ fun ContentViewScreen(){
 }
 
 @Composable
-fun TopicContentRow(courseContent: List<String>) {
+fun TopicContentRow(courseContent: List<String>, navController: NavHostController) {
     var selectedContent by remember { mutableStateOf(courseContent[0]) }
 
     LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)){
@@ -154,7 +153,7 @@ fun TopicContentRow(courseContent: List<String>) {
                 }
             }
             "Assessments" -> AssessmentsCards()
-            "Videos" -> VideosCards()
+            "Videos" -> VideosCards(navController = navController)
             "Ebooks" -> EbooksCards()
         }
     }
