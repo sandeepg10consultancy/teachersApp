@@ -4,7 +4,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,7 +78,7 @@ fun TopicListingScreen(navController: NavHostController) {
                     color = Color(0xFF000000).copy(alpha = 0.3f)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                ChapterObjective()
+                ChapterObjective(navController)
                 Spacer(modifier = Modifier.height(30.dp))
                 TopicCard(
                     days = "3",
@@ -278,7 +277,7 @@ fun TopicCardBar(progress: Float = 0.5f){
 
 
 @Composable
-private fun ChapterObjective() {
+private fun ChapterObjective(navController: NavHostController) {
     Box(
         modifier = Modifier
             .padding(4.dp)
@@ -294,7 +293,7 @@ private fun ChapterObjective() {
             )
     ) {
         OutlinedButton(
-            onClick = { },
+            onClick = { navController.popBackStack()},
             modifier = Modifier
                 .height(38.dp)
                 .fillMaxWidth(),

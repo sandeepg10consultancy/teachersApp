@@ -154,7 +154,7 @@ fun TopicContentRow(courseContent: List<String>, navController: NavHostControlle
             }
             "Assessments" -> AssessmentsCards()
             "Videos" -> VideosCards(navController = navController)
-            "Ebooks" -> EbooksCards()
+            "Ebooks" -> EbooksCards(navController = navController)
         }
     }
 }

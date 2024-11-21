@@ -1,5 +1,6 @@
 package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +28,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -39,6 +42,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.focusModifier
@@ -50,15 +54,20 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.theme.fonts
+import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
 
@@ -75,13 +84,76 @@ val videosList = listOf(
 
 @Composable
 fun VideosCards(navController: NavHostController) {
-    Column(modifier = Modifier.fillMaxSize()){
-        videosList.forEach { item ->
-            VideoCard(title = item.first, image = item.second)
+    if (videosList.isNotEmpty()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            videosList.forEach { item ->
+                VideoCard(title = item.first, image = item.second)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            VideosButton(
+                onClick = { navController.navigate(route = "videoUpload") },
+                text = "Add Video"
+            )
+            Spacer(modifier = Modifier.height(100.dp))
         }
+    }else{
+        EmptyVideosScreen(navController)
+    }
+}
+
+@Composable
+private fun EmptyVideosScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Spacer(modifier = Modifier.height(50.dp))
+        Image(
+            painter = painterResource(R.drawable.empty_video),
+            contentDescription = "empty Video",
+            modifier = Modifier.size(150.dp)
+        )
+        Spacer(modifier = Modifier.height(50.dp))
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        fontFamily = jostFont,
+                        fontWeight = FontWeight(600),
+                    )
+                ) {
+                    append("\"Oops")
+                }
+                withStyle(
+                    style = SpanStyle(
+                        fontFamily = fonts,
+                        fontWeight = FontWeight(400),
+                    )
+                ) {
+                    append("!")
+                }
+            },
+            fontSize = 20.sp
+        )
         Spacer(modifier = Modifier.height(10.dp))
-        VideosButton(onClick = { navController.navigate(route = "videoUpload") }, text = "Add Video")
-        Spacer(modifier = Modifier.height(100.dp))
+        Text(
+            text = "No videos have been added for this \n" +
+                    "topic yet.",
+            style = TextStyle(
+                fontFamily = fonts,
+                fontWeight = FontWeight(300),
+                fontSize = 18.sp,
+                lineHeight = 22.68.sp,
+                color = Color.Black
+            ),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(50.dp))
+        VideosButton(
+            onClick = { navController.navigate(route = "videoUpload") },
+            text = "Add Video"
+        )
     }
 }
 
@@ -250,11 +322,23 @@ fun UploadVideoScreen() {
             Spacer(modifier = Modifier.height(30.dp))
             if (buttonSelection == "URL") {
                 DashedURLBox()
+                Spacer(modifier = Modifier.height(30.dp))
+                AddedFilesCard(
+                    title = "Added Files",
+                    text = "NEW! The colours of the rain..",
+                    subText = "youtube.com",
+                    image = R.drawable.add_url_sample
+                )
             } else {
-                DashedVideoBox()
+                DashedVideoBox(text = "Video")
+                Spacer(modifier = Modifier.height(30.dp))
+                UploadedFilesCard(
+                    title = "Uploaded Files",
+                    text = "Sample.mp4",
+                    subText = "2:30",
+                    image = R.drawable.sample_video
+                )
             }
-            Spacer(modifier = Modifier.height(30.dp))
-            UploadedFilesCard()
             Spacer(modifier = Modifier.height(30.dp))
             VideoTitleField(
                 text = videoTitle.value,
@@ -265,6 +349,10 @@ fun UploadVideoScreen() {
                 text = videoDescription.value,
                 labelText = "Add your video description"
             ) { videoDescription.value = it }
+            Spacer(modifier = Modifier.height(30.dp))
+            VideosButton(text = "Add Video", onClick = {})
+            Spacer(modifier = Modifier.height(120.dp))
+
         }
         BottomAppBar(
             modifier = Modifier.align(Alignment.BottomCenter)
@@ -389,7 +477,10 @@ private fun TextFieldOne(
     ) {
         TextField(
             value = text,
-            textStyle = MaterialTheme.typography.bodySmall,
+            textStyle = MaterialTheme.typography.bodySmall.copy(
+                fontSize = 18.sp,
+                lineHeight = 14.4.sp
+            ),
             onValueChange = onValueChange,
             label = {
                 if (!label.value && text.isEmpty()) {
@@ -420,8 +511,9 @@ private fun TextFieldOne(
 
 
 @Composable
-private fun DashedVideoBox(
+fun DashedVideoBox(
     modifier: Modifier = Modifier,
+    text: String
 ) {
     Box(
         modifier = modifier
@@ -466,7 +558,7 @@ private fun DashedVideoBox(
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = "Upload Video",
+                    text = "Upload $text",
                     style = MaterialTheme.typography.labelLarge.copy(
                         brush = Brush.linearGradient(
                             colors = listOf(Color(0xFF185573), Color(0xFF14868D))
@@ -684,70 +776,184 @@ private fun VideoCard(title: String, image: Int) {
 }
 
 @Composable
-private fun UploadedFilesCard(){
-    Text(
-        text = "Uploaded Files",
-        style = MaterialTheme.typography.bodySmall,
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Start
-    )
-    Box(
-        modifier = Modifier
-            .height(80.dp)
-            .fillMaxWidth()
-            .border(
-                width = 0.61.dp,
-                brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFF185573), Color(0xFF14868D))
-                ),
-                shape = RoundedCornerShape(8.dp)
-            )
-            .background(
-                color = Color(0xFF75B6E4).copy(alpha = 0.1f),
-            )
-            .padding(5.dp)
+fun UploadedFilesCard(
+    title: String,
+    text: String,
+    subText: String,
+    image: Int,
+    progress: Float = 0.5f
+){
+    Column(
+        modifier = Modifier.padding(start = 5.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ){
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(end = 10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(15.dp)
-            ){
-                Image(
-                    painter = painterResource(R.drawable.sample_video),
-                    contentDescription = "video",
-                    modifier = Modifier
-                        .width(95.dp)
-                        .height(70.dp)
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start
+        )
+        Box(
+            modifier = Modifier
+                .height(80.dp)
+                .fillMaxWidth()
+                .border(
+                    width = 0.61.dp,
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(Color(0xFF185573), Color(0xFF14868D))
+                    ),
+                    shape = RoundedCornerShape(8.dp)
                 )
-                Column(
-                    modifier = Modifier.fillMaxHeight(),
-                    verticalArrangement = Arrangement.SpaceAround
-                ){
-                    Text(
-                        text = "Sample.mp4",
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight(600),
-                            lineHeight = 24.31.sp,
-                            color = Color(0xFF1D1751)
+                .background(
+                    color = Color(0xFF75B6E4).copy(alpha = 0.1f),
+                )
+                .padding(5.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(end = 5.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Image(
+                        painter = painterResource(image),
+                        contentDescription = "video",
+                        modifier = Modifier
+                            .width(95.dp)
+                            .height(70.dp)
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontWeight = FontWeight(600),
+                                lineHeight = 24.31.sp,
+                                color = Color(0xFF1D1751)
+                            ),
+                            modifier = Modifier.wrapContentWidth()
                         )
-                    )
-
-                    Text(
-                        text = "2:30",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFFA3A3A3)
-                    )
+                        LinearProgressIndicator(
+                            progress = { progress },
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.16.dp))
+                                .width(193.dp)
+                                .height(7.dp),
+                            color = Color(0xFF2D9549)
+                        )
+                        Text(
+                            text = subText,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color(0xFFA3A3A3)
+                        )
+                    }
                 }
+                Image(
+                    painter = painterResource(R.drawable.delete),
+                    contentDescription = "delete",
+                    modifier = Modifier.size(20.dp)
+                )
             }
-            Image(
-                painter = painterResource(R.drawable.delete),
-                contentDescription = "delete",
-                modifier = Modifier.size(20.dp)
-            )
+        }
+    }
+}
+
+@Composable
+private fun AddedFilesCard(
+    title: String,
+    text: String,
+    subText: String,
+    image: Int,
+    progress: Float = 1f
+){
+    Column(
+        modifier = Modifier.padding(start = 5.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .height(80.dp)
+                .fillMaxWidth()
+                .border(
+                    width = 0.61.dp,
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(Color(0xFF185573), Color(0xFF14868D))
+                    ),
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .background(
+                    color = Color(0xFF75B6E4).copy(alpha = 0.1f),
+                )
+                .padding(5.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(end = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Image(
+                        painter = painterResource(image),
+                        contentDescription = "video",
+                        modifier = Modifier
+                            .width(95.dp)
+                            .height(70.dp)
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(end = 20.dp),
+                        verticalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontSize = 16.sp,
+                                lineHeight = 24.31.sp,
+                            ),
+                            modifier = Modifier.wrapContentWidth()
+                        )
+                        LinearProgressIndicator(
+                            progress = { progress },
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.16.dp))
+                                .width(193.dp)
+                                .height(7.dp),
+                            color = Color(0xFF2D9549)
+                        )
+                        Text(
+                            text = subText,
+                            style = TextStyle(
+                                fontFamily = italicSansFont,
+                                fontSize = 12.sp,
+                                lineHeight = 24.31.sp,
+                                color = Color(0xFF1D1751)
+                            )
+                        )
+                    }
+                }
+                Image(
+                    painter = painterResource(R.drawable.delete),
+                    contentDescription = "delete",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
         }
     }
 }

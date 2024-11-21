@@ -8,10 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.AssignmentDetails
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterList
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ContentViewScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.TopicListingScreen
+import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadEbookScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadVideoScreen
 import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashBoardScreen
@@ -30,7 +32,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TeacherApplicationTheme {
-                UploadVideoScreen()
+                AssignmentDetails()
+                //UploadVideoScreen()
                 //ContentViewScreen()
                 //TopicListingScreen()
                 //DashBoardScreen(navController = navController)
@@ -91,6 +94,9 @@ fun MyApp(){
         }
         composable(route = "videoUpload"){
             UploadVideoScreen()
+        }
+        composable(route = "ebookUpload"){
+            UploadEbookScreen()
         }
     }
 }
