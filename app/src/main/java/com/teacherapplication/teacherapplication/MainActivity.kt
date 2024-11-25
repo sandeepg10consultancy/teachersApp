@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TeacherApplicationTheme {
+
                 AssignmentDetails()
                 //UploadVideoScreen()
                 //ContentViewScreen()

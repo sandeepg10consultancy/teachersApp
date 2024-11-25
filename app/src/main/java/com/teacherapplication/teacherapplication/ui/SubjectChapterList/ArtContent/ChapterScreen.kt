@@ -161,6 +161,7 @@ fun CourseContents(course: String, isSelected: Boolean, onCourseSelected: (Strin
                             strokeWidth = 2.dp.toPx(),
                             cap = StrokeCap.Round
                         )
+
                     }
                 }
         )
