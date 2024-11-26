@@ -318,7 +318,7 @@ private fun ChapterObjective(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Image(
-                    painter = painterResource(R.drawable.arrow_left),
+                    painter = painterResource(R.drawable.arrow_right),
                     contentDescription = "arrow",
                     modifier = Modifier.scale(1.5f)
                 )

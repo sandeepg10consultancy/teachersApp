@@ -120,10 +120,11 @@ fun LoginScreenTextField(
 fun LoginScreenButton(
     text: String,
     gradientBrush: Brush,
-    onClick: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ){
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(70.dp)
             .background(
                 brush = gradientBrush,

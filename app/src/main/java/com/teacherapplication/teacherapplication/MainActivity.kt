@@ -12,6 +12,8 @@ import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtConten
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterList
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ContentViewScreen
+import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.StudentMarking
+import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.StudentSubmissions
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.TopicListingScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadEbookScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadVideoScreen
@@ -33,7 +35,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             TeacherApplicationTheme {
 
-                AssignmentDetails()
+                StudentMarking()
+                //AssignmentDetails()
                 //UploadVideoScreen()
                 //ContentViewScreen()
                 //TopicListingScreen()
