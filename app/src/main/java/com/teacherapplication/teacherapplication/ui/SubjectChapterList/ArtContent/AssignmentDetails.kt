@@ -47,9 +47,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
@@ -57,9 +57,8 @@ import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
-@Preview(showBackground = true)
 @Composable
-fun AssignmentDetails(modifier: Modifier = Modifier){
+fun AssignmentDetails(modifier: Modifier = Modifier, navController: NavHostController){
     val scrollState = rememberScrollState()
     val isExpanded = remember { mutableStateOf(false) }
     val searchTextField = remember { mutableStateOf("") }
@@ -78,7 +77,7 @@ fun AssignmentDetails(modifier: Modifier = Modifier){
                 Spacer(modifier = Modifier.height(20.dp))
                 SearchBox(searchTextField)
                 Spacer(modifier = Modifier.height(20.dp))
-                TaskStatus()
+                TaskStatus(navController)
             }
         }
         BottomAppBar(
@@ -91,7 +90,7 @@ fun AssignmentDetails(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun SubmittedCandidates(index: Int, name: String, image: Int){
+fun SubmittedCandidates(index: Int, name: String, image: Int, navController: NavHostController){
     Card(
         modifier = Modifier
             .height(87.dp)
@@ -102,7 +101,8 @@ fun SubmittedCandidates(index: Int, name: String, image: Int){
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+        onClick = { navController.navigate(route = "studentSubmissions")}
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -176,7 +176,7 @@ fun SubmittedCandidates(index: Int, name: String, image: Int){
 }
 
 @Composable
-fun NotSubmittedCandidates(index: Int, name: String, image: Int){
+fun NotSubmittedCandidates(index: Int, name: String, image: Int, navController: NavHostController){
     Card(
         modifier = Modifier
             .height(87.dp)
@@ -187,7 +187,8 @@ fun NotSubmittedCandidates(index: Int, name: String, image: Int){
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+        onClick = { navController.navigate(route = "studentSubmissions")}
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -243,7 +244,12 @@ fun NotSubmittedCandidates(index: Int, name: String, image: Int){
 }
 
 @Composable
-private fun PendingCandidates(index: Int, name: String, image: Int) {
+private fun PendingCandidates(
+    index: Int,
+    name: String,
+    image: Int,
+    navController: NavHostController
+) {
     Card(
         modifier = Modifier
             .height(87.dp)
@@ -254,7 +260,8 @@ private fun PendingCandidates(index: Int, name: String, image: Int) {
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+        onClick = { navController.navigate(route = "studentSubmissions/false")}
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -328,7 +335,7 @@ private fun PendingCandidates(index: Int, name: String, image: Int) {
 }
 
 @Composable
-private fun TaskStatus() {
+private fun TaskStatus(navController: NavHostController) {
     val tasksList = listOf("All", "Submitted", "Not Submitted")
     var selectedItem  by remember { mutableStateOf(tasksList[0]) }
     val pendingCandidates = listOf("Chandini" to R.drawable.profile_img_1,"Shyam" to R.drawable.profile_img_2)
@@ -395,23 +402,23 @@ private fun TaskStatus() {
         tasksList[0] -> {
             allCandidates.forEachIndexed { index, (name, image) ->
                 if (index < pendingCandidates.size) {
-                    PendingCandidates(index + 1, name, image)
+                    PendingCandidates(index + 1, name, image, navController)
                     Spacer(modifier = Modifier.height(10.dp))
                 }else{
-                    SubmittedCandidates(index+1, name, image)
+                    SubmittedCandidates(index+1, name, image, navController)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }
         tasksList[1] -> {
             submittedCandidates.forEachIndexed { index, (name,image) ->
-                SubmittedCandidates(index + 1, name, image)
+                SubmittedCandidates(index + 1, name, image, navController)
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }
         tasksList[2] -> {
             notSubmittedCandidates.forEachIndexed { index, (name, image) ->
-                NotSubmittedCandidates(index + 1, name, image)
+                NotSubmittedCandidates(index + 1, name, image, navController)
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }

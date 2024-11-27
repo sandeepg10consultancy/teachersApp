@@ -33,15 +33,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             TeacherApplicationTheme {
-
-                StudentMarking()
+                //StudentSubmissions(navController,isDone = false)
+                //StudentMarking()
                 //AssignmentDetails()
                 //UploadVideoScreen()
                 //ContentViewScreen()
                 //TopicListingScreen()
                 //DashBoardScreen(navController = navController)
-                //MyApp()
+                MyApp()
                 //SubjectSelection()
                 //BottomSheetExample()
             }
@@ -101,6 +102,16 @@ fun MyApp(){
         }
         composable(route = "ebookUpload"){
             UploadEbookScreen()
+        }
+        composable(route = "assignmentDetails"){
+            AssignmentDetails(navController = navController)
+        }
+        composable( route = "studentSubmissions/{isDone}"){ backStackEntry ->
+            val isDone = backStackEntry.arguments?.getString("isDone")?.toBoolean() ?: false
+            StudentSubmissions(navController = navController, isDone = isDone)
+        }
+        composable( route = "studentMarking"){
+            StudentMarking(navController = navController)
         }
     }
 }

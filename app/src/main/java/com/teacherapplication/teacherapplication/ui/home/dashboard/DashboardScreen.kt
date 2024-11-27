@@ -20,16 +20,22 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
@@ -38,7 +44,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,10 +60,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,6 +78,13 @@ import com.teacherapplication.teacherapplication.ui.theme.jostFont
 fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostController){
 
     val verticalScroll = rememberScrollState()
+    val isFilterClicked = remember { mutableStateOf(false) }
+    val classesList = listOf(
+        "Nursery - A", "Nursery - B", "Nursery - C",
+        "Junior KG - A", "Junior KG - B", "Junior KG - C",
+        "Senior KG - A", "Senior KG - B", "Senior KG - C"
+    )
+    val selectedSection = remember { mutableStateOf(classesList[0]) }
 
     Box(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.elephant_slide),
@@ -114,7 +130,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                                 modifier = Modifier.size(33.dp)
                             )
                         }
-                        DropdownFilter()
+                        DropdownFilter(isFilterClicked,selectedSection)
                     }
                 )
             },
@@ -154,7 +170,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                                     Color(0xFF2C84DA),
                                     Color(0xFF99D6FC),
                                 )),
-                            yOffset = (-6).dp,
+                            yOffset = (-9).dp,
                             image = R.drawable.numeracy_img,
                             color = Color(0xFF99D6FC)
                         )
@@ -186,7 +202,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                                     Color(0xFFFF992E),
                                     Color(0xFFFED276),
                                 )),
-                            yOffset = (0).dp,
+                            yOffset = (-15).dp,
                             image = R.drawable.literacy_img,
                             color = Color(0xFFFED276)
                         )
@@ -206,7 +222,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                                     Color(0xFFDA5151),
                                     Color(0xFFF2C0C0),
                                 )),
-                            yOffset = (-1).dp,
+                            yOffset = (-5).dp,
                             image = R.drawable.gk_img,
                             color = Color(0xFFF2C0C0)
                         )
@@ -248,13 +264,97 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                                 )
                         )
                     }
-
+                    if (isFilterClicked.value){
+                        SectionBottomSheet(isFilterClicked, classesList,selectedSection)
+                    }
                 }
             },
             bottomBar = {
                 BottomNavigationBar()
             }
         )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun SectionBottomSheet(
+    isFilterClicked: MutableState<Boolean>,
+    classesList: List<String>,
+    selectedSection: MutableState<String>
+) {
+    val sheetState = rememberModalBottomSheetState()
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = { isFilterClicked.value = false },
+        dragHandle = { BottomSheetDefaults.ExpandedShape },
+        containerColor = Color.White
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(30.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Select Class",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Black
+                )
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = "close",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable { isFilterClicked.value = false }
+                )
+            }
+
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color(0xFFDEDEDE)
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(30.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                items(classesList) { name ->
+                    Box(
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(366.dp)
+                            .border(
+                                width = 2.dp,
+                                color = Color(0xFF1D1751),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .clickable {
+                                selectedSection.value = name
+                                isFilterClicked.value = false
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = name,
+                            style = TextStyle(
+                                fontFamily = jostFont,
+                                fontWeight = FontWeight(500),
+                                fontSize = 18.sp,
+                                lineHeight = 23.4.sp,
+                                color = Color(0xFF1D1751),
+                            ),
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -580,7 +680,7 @@ fun SubjectCard(
             contentDescription = "art",
             modifier = Modifier
                 .size(82.dp)
-                .scale(1.1f)
+                .scale(1f)
                 .align(Alignment.TopEnd)
                 .offset(x = 0.dp, y = yOffset)
         )
@@ -690,34 +790,45 @@ fun NumeracyCard(){
 
 @Composable
 private fun DropdownFilter(
-){
+    isFilterClicked: MutableState<Boolean>,
+    selectedSection: MutableState<String>
+) {
     Box(
         modifier = Modifier
             .height(35.dp)
             .width(112.dp)
-            .clip(RoundedCornerShape(10.dp))
             .background(
-                Brush.linearGradient(
+                brush = Brush.linearGradient(
                     colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
                     start = Offset(0f, 0f),
                     end = Offset(Float.POSITIVE_INFINITY, 0f)
-                )
-            ),
+                ),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable {
+                isFilterClicked.value = true
+            },
     ){
         Row(
             modifier = Modifier.fillMaxSize()
-                .padding(start = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ){
             Text(
-                text = "Junior KG.",
+                text = selectedSection.value,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = Color(0xFFFFFFFF)
-                )
-                )
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
             Icon(painter = painterResource(R.drawable.expand) ,
                 contentDescription = "filter",
                 tint = Color(0xFFFFFFFF),
+                modifier = Modifier
+                    .size(24.dp)
             )
         }
     }

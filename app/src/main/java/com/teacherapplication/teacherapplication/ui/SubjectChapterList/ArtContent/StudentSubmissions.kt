@@ -20,13 +20,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -37,14 +37,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
-import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
+
 @Composable
-fun StudentSubmissions(){
+fun StudentSubmissions(navController: NavHostController, isDone: Boolean?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -122,13 +123,55 @@ fun StudentSubmissions(){
                 }
             }
         }
-        Spacer(modifier = Modifier.height(150.dp))
-        StartMarkingBox()
+        if (isDone == true){
+            Spacer(modifier = Modifier.height(20.dp))
+            MarkedCheckedBox()
+            Spacer(modifier = Modifier.height(70.dp))
+            StartMarkingBox(text = "Back to Assessment"){ navController.navigate(route = "assignmentDetails") }
+        } else {
+            Spacer(modifier = Modifier.height(150.dp))
+            StartMarkingBox( onClick =  { navController.navigate(route = "studentMarking") })
+        }
     }
 }
 
 @Composable
+fun MarkedCheckedBox(){
+    Box(
+        modifier = Modifier
+            .height(57.dp)
+            .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp)
+            .background(
+                color = Color(0xFF2D9549),
+                shape = RoundedCornerShape(10.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ){
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Icon(
+                painter = painterResource(R.drawable.completed),
+                contentDescription = "checked",
+                modifier = Modifier.size(28.dp),
+                tint = Color.White
+            )
+            Text(
+                text = "Checked",
+                style = MaterialTheme.typography.labelSmall.copy(
+                    color = Color.White,
+                    fontWeight = FontWeight(600)
+                )
+            )
+        }
+    }
+}
+
+
+@Composable
 fun StartMarkingBox(
+    text: String = "Start Marking",
     onClick: () -> Unit = { }
 ){
     Box(
@@ -152,7 +195,7 @@ fun StartMarkingBox(
                 .fillMaxSize()
         ) {
             Text(
-                text = "Start Marking",
+                text = text,
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontWeight = FontWeight(500),
                     color = Color.White

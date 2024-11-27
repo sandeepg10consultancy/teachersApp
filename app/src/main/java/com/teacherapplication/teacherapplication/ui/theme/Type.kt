@@ -46,11 +46,11 @@ val openFont = FontFamily(
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        fontFamily = fonts,
+        fontWeight = FontWeight(600),
+        fontSize = 18.sp,
+        lineHeight = 22.68.sp,
+        letterSpacing = 0.3.sp
     ),
     bodySmall = TextStyle(
         fontFamily = fonts,

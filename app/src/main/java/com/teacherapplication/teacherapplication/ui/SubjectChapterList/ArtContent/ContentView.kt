@@ -78,7 +78,7 @@ fun ContentViewScreen(navController: NavHostController) {
                 modifier = Modifier
                     .padding(15.dp)
             ){
-                BackArrow()
+                BackArrow {navController.popBackStack()}
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -152,7 +152,7 @@ fun TopicContentRow(courseContent: List<String>, navController: NavHostControlle
                     LessonPlansCard(lesson.title,lesson.time)
                 }
             }
-            "Assessments" -> AssessmentsCards()
+            "Assessments" -> AssessmentsCards(navController = navController)
             "Videos" -> VideosCards(navController = navController)
             "Ebooks" -> EbooksCards(navController = navController)
         }

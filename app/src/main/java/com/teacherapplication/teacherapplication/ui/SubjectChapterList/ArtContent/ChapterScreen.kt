@@ -54,7 +54,7 @@ import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
-//@Preview
+
 @Composable
 fun ChapterScreen(
     modifier: Modifier = Modifier,
@@ -68,16 +68,17 @@ fun ChapterScreen(
     )
 
     val verticalScroll = rememberScrollState()
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxWidth()
                 .verticalScroll(verticalScroll)
                 .padding(bottom = 130.dp)
         ) {
             TopProgressBar()
+            Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(end = 15.dp),
+                    .padding(start = 15.dp, end = 15.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){

@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
@@ -53,7 +54,10 @@ import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
 @Composable
-fun StudentMarking(modifier: Modifier = Modifier){
+fun StudentMarking(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+){
     val topicsList = listOf("Physical Development","Socio-Emotional and Social","Cognitive Development","Language and Literacy","Aesthetic and Cultural")
     val topicSelected = remember { mutableStateOf(topicsList[0]) }
     val CGList = listOf("CG -1","CG - 2", "CG - 3", "CG - 4")
@@ -155,7 +159,17 @@ fun StudentMarking(modifier: Modifier = Modifier){
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            CGStatusCard()
+            if (CGSelected.value == CGList[0]) {
+                CGStatusCard(icon = R.drawable.tick_mark,
+                    text = "completed",
+                    color = Color(0xFF25A455)
+                )
+            }else{
+                CGStatusCard(icon = R.drawable.progress_clock,
+                    text = "In Progress",
+                    color = Color(0xFFFFA043)
+                )
+            }
             Spacer(modifier = Modifier.height(20.dp))
             for (i in 1..2) {
                 ContentRepresentation(contentList, i)
@@ -179,7 +193,10 @@ fun StudentMarking(modifier: Modifier = Modifier){
                                 colors = listOf(Color(0xFF185573), Color(0xFF14868D))
                             ),
                             shape = RoundedCornerShape(5.dp),
-                        ),
+                        )
+                            .clickable {
+                                navController.navigate(route = "studentSubmissions/true")
+                                       },
                         contentAlignment = Alignment.Center){
                         Text(
                             text = "Done",
@@ -205,7 +222,12 @@ fun StudentMarking(modifier: Modifier = Modifier){
                                 colors = listOf(Color(0xFF185573), Color(0xFF14868D))
                             ),
                             shape = RoundedCornerShape(5.dp)
-                        ),
+                        )
+                        .clickable {
+                            if (CGList.indexOf(CGSelected.value) < (CGList.lastIndex)) {
+                                CGSelected.value = CGList[CGList.indexOf(CGSelected.value) + 1]
+                            }
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -237,7 +259,6 @@ fun StudentMarking(modifier: Modifier = Modifier){
 private fun ContentRepresentation(contentList: List<Pair<String, Int>>, i: Int) {
     Column(
         modifier = Modifier
-            //.height(386.dp)
             .padding(end = 20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
@@ -322,7 +343,7 @@ private fun CGDivider(i: Int) {
 }
 
 @Composable
-private fun CGStatusCard() {
+private fun CGStatusCard(icon: Int, text: String, color: Color) {
     Card(
         modifier = Modifier
             .height(126.dp)
@@ -355,7 +376,7 @@ private fun CGStatusCard() {
                 .width(120.dp)
                 .align(Alignment.CenterHorizontally)
                 .background(
-                    color = Color(0xFF25A455),
+                    color = color,
                     shape = RoundedCornerShape(13.dp)
                 ),
             contentAlignment = Alignment.Center
@@ -364,13 +385,13 @@ private fun CGStatusCard() {
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.tick_mark),
+                    painter = painterResource(icon),
                     contentDescription = "tick",
                     modifier = Modifier.size(18.dp),
                     tint = Color.White
                 )
                 Text(
-                    text = "Completed",
+                    text = text,
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight(500),
                         color = Color.White

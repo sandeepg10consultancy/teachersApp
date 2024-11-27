@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,8 +71,9 @@ fun TopicListingScreen(navController: NavHostController) {
                 .verticalScroll(verticalScroll)
         ) {
             TopProgressBar()
-            BackArrow(onClick = {navController.popBackStack()})
             Column(modifier = Modifier.padding(15.dp)){
+                BackArrow(onClick = {navController.popBackStack()})
+                Spacer(modifier = Modifier.height(10.dp))
                 TopSurface()
                 Spacer(modifier = Modifier.height(20.dp))
                 HorizontalDivider(
@@ -123,8 +127,9 @@ fun TopicCard(
     chapterNo: Int,
     modifier: Modifier = Modifier
 ) {
+    val bookMarkClicked = remember { mutableStateOf(false) }
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(112.dp),
         colors = CardDefaults.cardColors(
@@ -185,9 +190,13 @@ fun TopicCard(
                             color = Color(0xFF129193)
                         )
                     )
-                    Image(painter = painterResource(R.drawable.book_mark),
+                    Image(painter = painterResource(if (bookMarkClicked.value) R.drawable.filled_book_mark else R.drawable.book_mark),
                         contentDescription = "bookMark",
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable {
+                                bookMarkClicked.value = !bookMarkClicked.value
+                            }
                     )
                 }
                 Text(

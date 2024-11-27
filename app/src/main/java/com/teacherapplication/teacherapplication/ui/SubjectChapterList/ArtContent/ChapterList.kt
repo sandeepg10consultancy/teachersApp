@@ -58,11 +58,11 @@ fun ChapterList(modifier: Modifier = Modifier, navController: NavHostController)
                 .padding(bottom = 400.dp)
         ) {
             TopProgressBar()
-            BackArrow()
             Column(
                 modifier = Modifier.fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp)
+                    .padding(start = 20.dp, top = 10.dp, end = 20.dp)
             ) {
+                BackArrow {navController.popBackStack()}
                 SubjectSurface()
                 Spacer(modifier = Modifier.height(40.dp))
                 artChapters.forEach { chapter ->

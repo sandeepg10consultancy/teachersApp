@@ -31,20 +31,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 val assignmentTitle = listOf("Assignment Name 1","Assignment Name 2","Assignment Name 3","Assignment Name 4")
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun AssessmentsCards(modifier: Modifier = Modifier){
-    Column(modifier = Modifier.fillMaxSize()){
+fun AssessmentsCards(modifier: Modifier = Modifier, navController: NavHostController){
+    Column(modifier = modifier.fillMaxSize()){
         assignmentTitle.forEach { title ->
-            AssignmentCard(title)
+            AssignmentCard(title, navController)
             Spacer(modifier = Modifier.height(25.dp))
         }
         CreateAssessmentButton(onClick = {})
@@ -96,19 +96,19 @@ fun CreateAssessmentButton(onClick: () -> Unit = {},modifier: Modifier = Modifie
 
 
 @Composable
-private fun AssignmentCard(title: String) {
+private fun AssignmentCard(title: String, navController: NavHostController) {
     Card(
         modifier = Modifier
             .height(128.dp)
             .fillMaxWidth(),
-        onClick = { },
+        onClick = { navController.navigate(route = "assignmentDetails") },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
-        )
+        ),
     ) {
         Column(
             modifier = Modifier
