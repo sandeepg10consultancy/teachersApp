@@ -5,9 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.AssignmentDetails
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterList
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterScreen
@@ -85,8 +87,18 @@ fun MyApp(){
         composable(route = "dashboard"){
             DashBoardScreen(navController = navController)
         }
-        composable( route = "artChapter"){
-            ChapterList(navController = navController)
+        composable(
+            route = "artChapter/{image}/{title}/{section}",
+            arguments = listOf(
+                navArgument("image") { type = NavType.IntType },
+                navArgument("title") { type = NavType.StringType },
+                navArgument("section") { type = NavType.StringType }
+            )
+        ){ backStackEntry ->
+            val image = backStackEntry.arguments?.getInt("image") ?: R.drawable.art_img
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val section = backStackEntry.arguments?.getString("section") ?: ""
+            ChapterList(navController = navController, image = image, title = title, section = section)
         }
         composable( route = "chapterOne"){
             ChapterScreen(navController = navController)

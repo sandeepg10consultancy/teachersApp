@@ -3,7 +3,6 @@ package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtConte
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,21 +37,29 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 
 
 //@Preview(showBackground = true)
 @Composable
-fun ChapterList(modifier: Modifier = Modifier, navController: NavHostController){
+fun ChapterList(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    image: Int,
+    title: String,
+    section: String
+){
+    val viewModel: DashboardViewModel = viewModel()
     val verticalScroll = rememberScrollState()
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxWidth()
                 .verticalScroll(verticalScroll)
@@ -63,25 +71,45 @@ fun ChapterList(modifier: Modifier = Modifier, navController: NavHostController)
                     .padding(start = 20.dp, top = 10.dp, end = 20.dp)
             ) {
                 BackArrow {navController.popBackStack()}
-                SubjectSurface()
+                SubjectSurface(image,title,section, viewModel)
                 Spacer(modifier = Modifier.height(40.dp))
-                artChapters.forEach { chapter ->
-                    ChapterCard(
-                        days = chapter.days,
-                        title = chapter.title,
-                        chapterNo = chapter.chapterNumber,
-                        onClick = {
-                            when(chapter.chapterNumber){
-                                1 -> navController.navigate(route = "chapterOne")
-                                2 -> navController.navigate(route = "chapterOne")
-                                3 -> navController.navigate(route = "chapterOne")
-                                4 -> navController.navigate(route = "chapterOne")
-                                5 -> navController.navigate(route = "chapterOne")
-                            }
-                        },
-                        //progress = 0.3f
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
+                when(title){
+                    "Art" -> artChapters.forEach { chapter ->
+                        ChapterCard(
+                            days = chapter.days,
+                            title = chapter.title,
+                            chapterNo = chapter.chapterNumber,
+                            onClick = {
+                                when(chapter.chapterNumber){
+                                    1 -> navController.navigate(route = "chapterOne")
+                                    2 -> navController.navigate(route = "chapterOne")
+                                    3 -> navController.navigate(route = "chapterOne")
+                                    4 -> navController.navigate(route = "chapterOne")
+                                    5 -> navController.navigate(route = "chapterOne")
+                                }
+                            },
+                            //progress = 0.3f
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                    "General A." -> generalAwarenessChapters.forEach { chapter ->
+                        ChapterCard(
+                            days = chapter.days,
+                            title = chapter.title,
+                            chapterNo = chapter.chapterNumber,
+                            onClick = {
+                                when (chapter.chapterNumber) {
+                                    1 -> navController.navigate(route = "chapterOne")
+                                    2 -> navController.navigate(route = "chapterOne")
+                                    3 -> navController.navigate(route = "chapterOne")
+                                    4 -> navController.navigate(route = "chapterOne")
+                                    5 -> navController.navigate(route = "chapterOne")
+                                }
+                            },
+                            //progress = 0.3f
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
                 }
 
             }
@@ -104,7 +132,7 @@ fun ChapterCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(99.dp),
         colors = CardDefaults.cardColors(
@@ -192,7 +220,15 @@ fun ChapterCard(
 }
 
 @Composable
-fun SubjectSurface() {
+fun SubjectSurface(image: Int, title: String, section: String, viewModel: DashboardViewModel) {
+    val brush = when(title) {
+        "Art" -> viewModel.subjectColors[0]
+        "Numeracy" -> viewModel.subjectColors[1]
+        "General A." -> viewModel.subjectColors[2]
+        "Literacy" -> viewModel.subjectColors[3]
+        "GK" -> viewModel.subjectColors[4]
+        else -> viewModel.subjectColors[0]
+    }
     Box(
         modifier = Modifier
             .height(162.dp)
@@ -205,12 +241,7 @@ fun SubjectSurface() {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(14.dp))
                 .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            Color(0xFFFF6020),
-                            Color(0xFFFDC194),
-                        )
-                    )
+                    brush = brush
                 )
                 .align(Alignment.BottomCenter)
         ) {
@@ -220,14 +251,14 @@ fun SubjectSurface() {
             ) {
                 Column {
                     Text(
-                        text = "Nursery - A",
+                        text = section,
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight(600),
                             color = Color(0xFFFFFFFF)
                         )
                     )
                     Text(
-                        text = "Art",
+                        text = title,
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontSize = 22.sp,
                             color = Color(0xFFFFFFFF),
@@ -267,17 +298,12 @@ fun SubjectSurface() {
                     .width(94.dp)
                     .clip(RoundedCornerShape(14.dp))
                     .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color(0xFFFF6020),
-                                Color(0xFFFDC194),
-                            )
-                        )
+                        brush = brush
                     )
                     .align(Alignment.TopStart)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.art_img),
+                    painter = painterResource(image),
                     contentDescription = "art"
                 )
             }

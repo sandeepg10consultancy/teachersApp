@@ -46,10 +46,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,23 +70,26 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview(showBackground = true)
 @Composable
 fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostController){
-
+    val viewModel: DashboardViewModel = viewModel()
     val verticalScroll = rememberScrollState()
-    val isFilterClicked = remember { mutableStateOf(false) }
+    val isFilterClicked = rememberSaveable{ mutableStateOf(false) }
     val classesList = listOf(
         "Nursery - A", "Nursery - B", "Nursery - C",
         "Junior KG - A", "Junior KG - B", "Junior KG - C",
         "Senior KG - A", "Senior KG - B", "Senior KG - C"
     )
     val selectedSection = remember { mutableStateOf(classesList[0]) }
+
 
     Box(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.elephant_slide),
@@ -147,32 +152,26 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                         verticalAlignment = Alignment.CenterVertically
                     ){
                         SubjectCard(
-                            text = "Junior KG - A",
+                            text = selectedSection.value,
                             subject = "Art",
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFFFF6020).copy(alpha = 0.8f),
-                                    Color(0xFFFDC194).copy(alpha = 0.9f)
-                                ),
-                                start = Offset(0f, 1f),
-                                end = Offset(0f,0f)
-                            ),
-                            yOffset = (-13).dp,
+                            brush = viewModel.subjectColors[0],
+                            yOffset = (-10).dp,
                             image = R.drawable.art_img,
                             color = Color(0xFFFDC194),
-                            onClick = {navController.navigate(route = "artChapter")}
+                            onClick = {
+                                navController.navigate("artChapter/${R.drawable.art_img}/Art/${selectedSection.value}")
+                            }
                         )
                         SubjectCard(
-                            text = "Junior KG - A",
+                            text = selectedSection.value,
                             subject = "Numeracy",
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFF2C84DA),
-                                    Color(0xFF99D6FC),
-                                )),
-                            yOffset = (-9).dp,
+                            brush = viewModel.subjectColors[1],
+                            yOffset = (-2).dp,
                             image = R.drawable.numeracy_img,
-                            color = Color(0xFF99D6FC)
+                            color = Color(0xFF99D6FC),
+                            onClick = {
+                                navController.navigate("artChapter/${R.drawable.numeracy_img}/Numeracy/${selectedSection.value}")
+                            }
                         )
 
                     }
@@ -183,28 +182,22 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                         verticalAlignment = Alignment.CenterVertically
                     ){
                         SubjectCard(
-                            text = "Junior KG - A",
+                            text = selectedSection.value,
                             subject = "General A.",
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFF2093C3),
-                                    Color(0xFF93ECFF),
-                                )),
-                            yOffset = (-10).dp,
+                            brush = viewModel.subjectColors[2],
+                            yOffset = (-4).dp,
                             image = R.drawable.general_img,
-                            color = Color(0xFF93ECFF)
+                            color = Color(0xFF93ECFF),
+                            onClick = {navController.navigate("artChapter/${R.drawable.general_img}/General A./${selectedSection.value}")}
                         )
                         SubjectCard(
-                            text = "Junior KG - A",
+                            text = selectedSection.value,
                             subject = "Literacy",
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFFFF992E),
-                                    Color(0xFFFED276),
-                                )),
-                            yOffset = (-15).dp,
+                            brush = viewModel.subjectColors[3],
+                            yOffset = (-8).dp,
                             image = R.drawable.literacy_img,
-                            color = Color(0xFFFED276)
+                            color = Color(0xFFFED276),
+                            onClick = {navController.navigate("artChapter/${R.drawable.literacy_img}/Literacy/${selectedSection.value}")}
                         )
 
                     }
@@ -215,16 +208,13 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                         verticalAlignment = Alignment.CenterVertically
                     ){
                         SubjectCard(
-                            text = "Class - 1",
+                            text = selectedSection.value,
                             subject = "GK",
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFFDA5151),
-                                    Color(0xFFF2C0C0),
-                                )),
-                            yOffset = (-5).dp,
+                            brush = viewModel.subjectColors[4],
+                            yOffset = (-0).dp,
                             image = R.drawable.gk_img,
-                            color = Color(0xFFF2C0C0)
+                            color = Color(0xFFF2C0C0),
+                            onClick = {navController.navigate("artChapter/${R.drawable.gk_img}/GK/${selectedSection.value}")}
                         )
                         MoreCard()
                     }
@@ -643,14 +633,14 @@ fun SubjectCard(
                             color = Color(0xFFFFFFFF)
                         )
                     )
-                    Text(
-                        text = subject,
-                        style = MaterialTheme.typography.titleSmall.copy(
-                            fontSize = 22.sp,
-                            lineHeight = 24.2.sp,
-                            color = Color(0xFFFFFFFF)
-                        )
-                    )
+//                    Text(
+//                        text = subject,
+//                        style = MaterialTheme.typography.titleSmall.copy(
+//                            fontSize = 22.sp,
+//                            lineHeight = 24.2.sp,
+//                            color = Color(0xFFFFFFFF)
+//                        )
+//                    )
                 }
                 Column {
                     Text(
@@ -679,113 +669,27 @@ fun SubjectCard(
             painter = painterResource(image),
             contentDescription = "art",
             modifier = Modifier
-                .size(82.dp)
-                .scale(1f)
+                .size(80.dp)
+                .scale(1.2f)
                 .align(Alignment.TopEnd)
                 .offset(x = 0.dp, y = yOffset)
         )
-
-    }
-}
-
-
-@Composable
-fun NumeracyCard(){
-    Box(
-        modifier = Modifier
-            .height(128.dp)
-            .width(181.dp)
-
-    ) {
-        Card(
+        Text(
+            text = subject,
+            style = MaterialTheme.typography.titleSmall.copy(
+                fontSize = 22.sp,
+                lineHeight = 24.2.sp,
+                color = Color(0xFFFFFFFF)
+            ),
             modifier = Modifier
-                .height(117.dp)
-                .width(181.dp)
-                .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(13.dp))
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            Color(0xFF2C84DA),
-                            Color(0xFF99D6FC),
-                        ),
-                    ),
-                ),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.Transparent
-            )
-        ) {
-            Box() {
-//                Image(
-//                    painter = painterResource(R.drawable.numeracy_img),
-//                    contentDescription = "art",
-//                    modifier = Modifier
-//                        .size(80.45.dp)
-//                        .scale(1.2f)
-//                        .align(Alignment.TopEnd)
-//                        .offset(x = 0.dp, y = -10.dp)
-//                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(19.dp),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Column {
-                        Text(
-                            text = "Junior KG - A",
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight(600),
-                                lineHeight = 11.sp,
-                                color = Color(0xFFFFFFFF)
-                            )
-                        )
-                        Text(
-                            text = "Numeracy",
-                            style = MaterialTheme.typography.titleSmall.copy(
-                                fontSize = 22.sp,
-                                lineHeight = 24.2.sp,
-                                color = Color(0xFFFFFFFF)
-                            )
-                        )
-                    }
-                    Column {
-                        Text(
-                            text = "20 Chapters",
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight(600),
-                                lineHeight = 11.sp,
-                                color = Color(0xFFFFFFFF)
-                            )
-                        )
-                        Spacer(modifier = Modifier.height(5.dp))
-                        LinearProgressIndicator(
-                            progress = { 0.5f },
-                            color = Color(0xFFFFFFFF),
-                            trackColor = Color(0xFF99D6FC),
-                            modifier = Modifier
-                                .height(5.dp)
-                                .width(135.dp)
-                                .clip(RoundedCornerShape(40.dp))
-                        )
-                    }
-                }
-            }
-        }
-        Image(
-            painter = painterResource(R.drawable.numeracy_img),
-            contentDescription = "art",
-            modifier = Modifier
-                .size(80.45.dp)
-                .scale(1.1f)
-                .align(Alignment.TopEnd)
-                .offset(x = 0.dp, y = (-3).dp)
+                .fillMaxWidth()
+                .padding(19.dp)
+                .offset(x = 0.dp, y = 20.dp)
         )
 
     }
 }
+
 
 
 @Composable
