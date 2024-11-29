@@ -54,5 +54,12 @@ class DashboardViewModel : ViewModel() {
         ),
     )
 
+    private val _selectedSection = MutableStateFlow<String>("Nursery - A")
+    val selectedSection: StateFlow<String> = _selectedSection
+
+    fun setSelectedSection(text: String){
+        _selectedSection.value = text
+    }
+
 
 }

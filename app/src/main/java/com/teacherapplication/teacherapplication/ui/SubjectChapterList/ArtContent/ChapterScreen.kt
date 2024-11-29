@@ -97,7 +97,8 @@ fun ChapterScreen(
 
         }
         BottomAppBar(
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter),
+            containerColor = Color.White
         ){
             BottomNavigationBar()
         }

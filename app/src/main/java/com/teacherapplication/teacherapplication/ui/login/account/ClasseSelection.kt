@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -33,19 +36,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
+import com.teacherapplication.teacherapplication.ui.AppComponents.brush
+import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
 var sectionName = "5 Sections"
@@ -81,53 +92,50 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 10.dp, top = 40.dp, end = 10.dp)
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
-                    )
-                }
-                Spacer(modifier = Modifier.width(4.dp))
+                BackArrow( onClick = {navController.popBackStack()} )
                 Text(
-                    text = "Classes I Teach",
-                    style = MaterialTheme.typography.titleSmall.copy(
-                        brush = Brush.linearGradient(
-                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-                            start = Offset(0f, 0f),
-                            end = Offset(Float.POSITIVE_INFINITY, 0f)
-                        ),
-                        fontWeight = FontWeight(600),
-                        fontSize = 20.sp,
-                        lineHeight = 28.9.sp
-                    ),
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-                )
-                Text(
-                    text = "*",
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(bottom = 7.dp)
-                        .align(Alignment.CenterVertically)
+                    text = buildAnnotatedString {
+                        withStyle(style = SpanStyle(
+                            fontFamily = jostFont,
+                            fontWeight = FontWeight(600),
+                            fontSize = 20.sp,
+                            brush = brush,
+                        )){
+                            append("Classes I Teach")
+                        }
+                        withStyle(style = SpanStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            baselineShift = BaselineShift.Superscript
+                        )
+                        ){
+                        append("*")
+                        }
+                    },
+                    lineHeight = 28.9.sp,
+                    modifier = Modifier.paddingFromBaseline(20.dp)
                 )
             }
-            Text(text = "Please select the classes that you teach",
+            Text(
+                text = "Please select the classes that you teach",
+                modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 50.dp),
                 color = Color(0xFF333333)
             )
-
+            Spacer(modifier = Modifier.height(40.dp))
             SchoolCard()
+            Spacer(modifier = Modifier.height(40.dp))
             classesMap.forEach{ (key, value) ->
                 ClassCard(name = key, image = value)
+                Spacer(modifier = Modifier.height(20.dp))
             }
 
             Spacer(modifier = Modifier.height(275.dp))
@@ -160,8 +168,7 @@ fun ClassCard(name: String, image:Int){
     }
     Card(
         modifier = Modifier
-            .padding(start = 20.dp, top = 10.dp, bottom = 10.dp, end = 20.dp)
-            .width(377.dp)
+            .fillMaxWidth()
             .height(70.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFF5F5F5)
@@ -169,8 +176,8 @@ fun ClassCard(name: String, image:Int){
     ){
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 15.dp, top = 10.dp, end = 15.dp),
+                .fillMaxSize()
+                .padding(start = 15.dp, end = 15.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
@@ -181,7 +188,9 @@ fun ClassCard(name: String, image:Int){
                 Image(
                     painter = painterResource(image),
                     contentDescription = "nursery",
-                    modifier = Modifier.scale(1.2f)
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
+                        .size(54.dp)
                 )
                 Column {
                     Text(text = name,
@@ -200,21 +209,24 @@ fun ClassCard(name: String, image:Int){
             Switch(
                 checked = sectionSwitch,
                 onCheckedChange = { sectionSwitch = !sectionSwitch},
-                modifier = Modifier.scale(0.8f),
+                modifier = Modifier
+                    .height(26.dp)
+                    .width(43.dp),
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.White,
                     uncheckedThumbColor = Color.White,
                     checkedTrackColor = Color(0xFF129193),
-                    uncheckedTrackColor = Color(0xFFC4C4C4)
+                    uncheckedTrackColor = Color(0xFFC4C4C4),
+                    uncheckedBorderColor = Color.Transparent,
                 )
             )
         }
     }
     if (sectionSwitch) {
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Row(
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
         ){
             for (i in 'A'..'C'){
                 SectionCard(sec = i.toString())
@@ -222,8 +234,8 @@ fun ClassCard(name: String, image:Int){
         }
         Spacer(modifier = Modifier.height(15.dp))
         Row(
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(25.dp)
         ){
             for (i in 'D'..'E'){
                 SectionCard(sec = i.toString())
@@ -244,31 +256,32 @@ fun SectionCard(sec: String) {
     Card(
         modifier = Modifier
             .height(60.dp)
-            .width(110.dp)
-            .clickable {
-                sectionClick = !sectionClick
-                sectionName = "Section - $sec"
-            },
+            .width(110.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (sectionClick) Color(0xFF1D1751) else Color(0xFFFFFFFF)
         ),
-        border = BorderStroke(width = 2.dp, color = Color(0xFF1D1751)),
+        border = BorderStroke(
+            width = 2.dp,
+            color = Color(0xFF1D1751),
+            ),
+        shape = RoundedCornerShape(8.dp),
+        onClick = {
+            sectionClick = !sectionClick
+            sectionName = "Section - $sec"
+        },
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = "Section - $sec",
-                modifier = Modifier.width(73.dp)
-                    .height(18.dp),
-                color = if (sectionClick) Color(0xFFFFFFFF) else Color(0xFF1D1751),
-                style = MaterialTheme.typography.labelMedium.copy(
-                    lineHeight = 18.2.sp,
-                    color = Color(0xFF1D1751)
-                ),
-            )
-        }
+        Text(
+            text = "Section - $sec",
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 20.dp),
+            color = if (sectionClick) Color(0xFFFFFFFF) else Color(0xFF1D1751),
+            style = MaterialTheme.typography.labelMedium.copy(
+                lineHeight = 18.2.sp,
+                color = Color(0xFF1D1751)
+            ),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -276,9 +289,8 @@ fun SectionCard(sec: String) {
 fun SchoolCard() {
     Card(
         modifier = Modifier
-            .padding(start = 20.dp, top = 40.dp, end = 20.dp, bottom = 20.dp)
             .height(100.dp)
-            .width(378.dp),
+            .fillMaxWidth(),
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFFCC8A4).copy(alpha = 0.4f)
@@ -311,7 +323,10 @@ fun SchoolCard() {
             Image(
                 painter = painterResource(id = R.drawable.school_img),
                 contentDescription = "school image",
-                modifier = Modifier.scale(1.3f)
+                modifier = Modifier
+                    .size(75.dp)
+                    .clip(CircleShape)
+                    .scale(1.1f)
             )
         }
     }

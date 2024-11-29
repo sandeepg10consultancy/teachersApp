@@ -55,6 +55,10 @@ class StarVisualTransformation : VisualTransformation {
 }
 */
 
+val brush = Brush.linearGradient(
+    colors = listOf(Color(0xFF185573), Color(0xFF14868D))
+)
+
 @Composable
 fun BackArrow(onClick: () -> Unit = {}){
     IconButton(

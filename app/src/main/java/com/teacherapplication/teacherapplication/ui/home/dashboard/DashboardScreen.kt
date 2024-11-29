@@ -1,5 +1,6 @@
 package com.teacherapplication.teacherapplication.ui.home.dashboard
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,8 +47,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,13 +75,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview(showBackground = true)
 @Composable
-fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostController){
-    val viewModel: DashboardViewModel = viewModel()
+fun DashBoardScreen(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    viewModel: DashboardViewModel
+){
     val verticalScroll = rememberScrollState()
     val isFilterClicked = rememberSaveable{ mutableStateOf(false) }
     val classesList = listOf(
@@ -135,7 +138,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                                 modifier = Modifier.size(33.dp)
                             )
                         }
-                        DropdownFilter(isFilterClicked,selectedSection)
+                        DropdownFilter(isFilterClicked,viewModel)
                     }
                 )
             },
@@ -152,25 +155,25 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                         verticalAlignment = Alignment.CenterVertically
                     ){
                         SubjectCard(
-                            text = selectedSection.value,
+                            text = viewModel.selectedSection.collectAsState().value,
                             subject = "Art",
                             brush = viewModel.subjectColors[0],
                             yOffset = (-10).dp,
                             image = R.drawable.art_img,
                             color = Color(0xFFFDC194),
                             onClick = {
-                                navController.navigate("artChapter/${R.drawable.art_img}/Art/${selectedSection.value}")
+                                navController.navigate("artChapter/${R.drawable.art_img}/Art")
                             }
                         )
                         SubjectCard(
-                            text = selectedSection.value,
+                            text = viewModel.selectedSection.collectAsState().value,
                             subject = "Numeracy",
                             brush = viewModel.subjectColors[1],
                             yOffset = (-2).dp,
                             image = R.drawable.numeracy_img,
                             color = Color(0xFF99D6FC),
                             onClick = {
-                                navController.navigate("artChapter/${R.drawable.numeracy_img}/Numeracy/${selectedSection.value}")
+                                navController.navigate("artChapter/${R.drawable.numeracy_img}/Numeracy")
                             }
                         )
 
@@ -182,22 +185,22 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                         verticalAlignment = Alignment.CenterVertically
                     ){
                         SubjectCard(
-                            text = selectedSection.value,
-                            subject = "General A.",
+                            text = viewModel.selectedSection.collectAsState().value,
+                            subject = "General Awareness",
                             brush = viewModel.subjectColors[2],
                             yOffset = (-4).dp,
                             image = R.drawable.general_img,
                             color = Color(0xFF93ECFF),
-                            onClick = {navController.navigate("artChapter/${R.drawable.general_img}/General A./${selectedSection.value}")}
+                            onClick = {navController.navigate("artChapter/${R.drawable.general_img}/General Awareness")}
                         )
                         SubjectCard(
-                            text = selectedSection.value,
+                            text = viewModel.selectedSection.collectAsState().value,
                             subject = "Literacy",
                             brush = viewModel.subjectColors[3],
                             yOffset = (-8).dp,
                             image = R.drawable.literacy_img,
                             color = Color(0xFFFED276),
-                            onClick = {navController.navigate("artChapter/${R.drawable.literacy_img}/Literacy/${selectedSection.value}")}
+                            onClick = {navController.navigate("artChapter/${R.drawable.literacy_img}/Literacy")}
                         )
 
                     }
@@ -208,13 +211,13 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                         verticalAlignment = Alignment.CenterVertically
                     ){
                         SubjectCard(
-                            text = selectedSection.value,
+                            text = viewModel.selectedSection.collectAsState().value,
                             subject = "GK",
                             brush = viewModel.subjectColors[4],
                             yOffset = (-0).dp,
                             image = R.drawable.gk_img,
                             color = Color(0xFFF2C0C0),
-                            onClick = {navController.navigate("artChapter/${R.drawable.gk_img}/GK/${selectedSection.value}")}
+                            onClick = {navController.navigate("artChapter/${R.drawable.gk_img}/GK")}
                         )
                         MoreCard()
                     }
@@ -255,7 +258,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
                         )
                     }
                     if (isFilterClicked.value){
-                        SectionBottomSheet(isFilterClicked, classesList,selectedSection)
+                        SectionBottomSheet(isFilterClicked, classesList, viewModel)
                     }
                 }
             },
@@ -271,7 +274,7 @@ fun DashBoardScreen(modifier: Modifier = Modifier, navController: NavHostControl
 private fun SectionBottomSheet(
     isFilterClicked: MutableState<Boolean>,
     classesList: List<String>,
-    selectedSection: MutableState<String>
+    viewModel: DashboardViewModel
 ) {
     val sheetState = rememberModalBottomSheetState()
     ModalBottomSheet(
@@ -326,7 +329,8 @@ private fun SectionBottomSheet(
                                 shape = RoundedCornerShape(8.dp)
                             )
                             .clickable {
-                                selectedSection.value = name
+//                                selectedSection.value = name
+                                viewModel.setSelectedSection(name)
                                 isFilterClicked.value = false
                             },
                         contentAlignment = Alignment.Center
@@ -621,27 +625,15 @@ fun SubjectCard(
                     .padding(19.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column(
-
-                ) {
-                    Text(
-                        text = text,
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight(600),
-                            lineHeight = 11.sp,
-                            color = Color(0xFFFFFFFF)
-                        )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight(600),
+                        lineHeight = 11.sp,
+                        color = Color(0xFFFFFFFF)
                     )
-//                    Text(
-//                        text = subject,
-//                        style = MaterialTheme.typography.titleSmall.copy(
-//                            fontSize = 22.sp,
-//                            lineHeight = 24.2.sp,
-//                            color = Color(0xFFFFFFFF)
-//                        )
-//                    )
-                }
+                )
                 Column {
                     Text(
                         text = "20 Chapters",
@@ -684,7 +676,9 @@ fun SubjectCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(19.dp)
-                .offset(x = 0.dp, y = 20.dp)
+                .offset(x = 0.dp, y = 20.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
 
     }
@@ -695,7 +689,7 @@ fun SubjectCard(
 @Composable
 private fun DropdownFilter(
     isFilterClicked: MutableState<Boolean>,
-    selectedSection: MutableState<String>
+    viewModel: DashboardViewModel
 ) {
     Box(
         modifier = Modifier
@@ -720,7 +714,7 @@ private fun DropdownFilter(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Text(
-                text = selectedSection.value,
+                text = viewModel.selectedSection.collectAsState().value,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = Color(0xFFFFFFFF)
                 ),

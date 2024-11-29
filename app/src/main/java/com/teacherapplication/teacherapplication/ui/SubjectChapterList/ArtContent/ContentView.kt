@@ -123,8 +123,8 @@ fun ContentViewScreen(navController: NavHostController) {
         }
         if (isCardClicked) {
             BottomAppBar(
-                modifier = Modifier.align(Alignment.BottomCenter)
-                    .background(color = Color.White)
+                modifier = Modifier.align(Alignment.BottomCenter),
+                containerColor = Color.White
             ) {
                 BottomNavigationBar()
             }

@@ -51,13 +51,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
+import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import kotlinx.coroutines.delay
 
 
@@ -98,28 +101,18 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 10.dp, top = 40.dp, end = 10.dp)
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
-                    )
-                }
-                Spacer(modifier = Modifier.width(4.dp))
+                BackArrow( onClick = {navController.popBackStack()} )
                 Text(
                     text = "Subjects I Teach",
                     style = MaterialTheme.typography.titleSmall.copy(
-                        brush = Brush.linearGradient(
-                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-                            start = Offset(0f, 0f),
-                            end = Offset(Float.POSITIVE_INFINITY, 0f)
-                        ),
+                        brush = brush,
                         fontWeight = FontWeight(600),
                         fontSize = 20.sp,
                         lineHeight = 28.9.sp
@@ -129,24 +122,26 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
                 )
             }
             Text(text = "Please select the subjects that you teach",
+                modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .padding(start = 50.dp),
+                textAlign = TextAlign.Center,
                 color = Color(0xFF333333)
             )
+            Spacer(modifier = Modifier.height(40.dp))
             SchoolCard()
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp)
             ) {
                 items(subjectsList){ item ->
                     SubjectCard(item,allSubject)
 
                 }
-                
+
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -175,7 +170,7 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
         if (showDialog){
             DialogBox{showDialog = false}
             LaunchedEffect(Unit) {
-                delay(3000)
+                delay(2000)
                 navController.navigate(route = "dashboard")
             }
         }
@@ -243,26 +238,25 @@ private fun SubjectCard(name: String,allSubject: Boolean) {
     Card(
         modifier = Modifier
             .height(60.dp)
-            .width(180.dp)
-            .clickable { cardClick = !cardClick },
+            .width(180.dp),
         border = BorderStroke(width = 2.dp, color = Color(0xFFF18A90)),
         colors = CardDefaults.cardColors(
             containerColor = if (cardClick || allSubject) Color(0xFFF18A90) else Color(0xFFFFFFFF)
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        onClick = { cardClick = !cardClick }
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ){
-            Text(
-                text = name,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    fontWeight = FontWeight(500),
-                    lineHeight = 20.8.sp
-                ),
-                color = if (cardClick || allSubject) Color(0xFFFFFFFF) else Color(0xFFF18A90),
-            )
-        }
+        Text(
+            text = name,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 20.dp),
+            style = MaterialTheme.typography.bodySmall.copy(
+                fontWeight = FontWeight(500),
+                lineHeight = 20.8.sp
+            ),
+            textAlign = TextAlign.Center,
+            color = if (cardClick || allSubject) Color(0xFFFFFFFF) else Color(0xFFF18A90),
+        )
     }
 }

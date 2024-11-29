@@ -5,11 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
+import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.AssignmentDetails
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterList
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterScreen
@@ -21,6 +24,7 @@ import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtConten
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadVideoScreen
 import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashBoardScreen
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.login.LoginAndRegister
 import com.teacherapplication.teacherapplication.ui.login.LoginScreen
 import com.teacherapplication.teacherapplication.ui.login.account.ClassSelection
@@ -37,16 +41,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             TeacherApplicationTheme {
-                //StudentSubmissions(navController,isDone = false)
-                //StudentMarking()
-                //AssignmentDetails()
-                //UploadVideoScreen()
-                //ContentViewScreen()
-                //TopicListingScreen()
-                //DashBoardScreen(navController = navController)
+
                 MyApp()
-                //SubjectSelection()
-                //BottomSheetExample()
+                //DailyDiaryScreen()
+                //NewGroupScreen()
+
             }
         }
     }
@@ -56,6 +55,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyApp(){
     val navController = rememberNavController()
+    val viewModel: DashboardViewModel = viewModel()
     NavHost(
         navController = navController,
         startDestination = "home"
@@ -85,20 +85,18 @@ fun MyApp(){
             SubjectSelection(navController = navController)
         }
         composable(route = "dashboard"){
-            DashBoardScreen(navController = navController)
+            DashBoardScreen(navController = navController, viewModel = viewModel)
         }
         composable(
-            route = "artChapter/{image}/{title}/{section}",
+            route = "artChapter/{image}/{title}",
             arguments = listOf(
                 navArgument("image") { type = NavType.IntType },
                 navArgument("title") { type = NavType.StringType },
-                navArgument("section") { type = NavType.StringType }
             )
         ){ backStackEntry ->
             val image = backStackEntry.arguments?.getInt("image") ?: R.drawable.art_img
             val title = backStackEntry.arguments?.getString("title") ?: ""
-            val section = backStackEntry.arguments?.getString("section") ?: ""
-            ChapterList(navController = navController, image = image, title = title, section = section)
+            ChapterList(navController = navController, viewModel = viewModel, image = image, title = title)
         }
         composable( route = "chapterOne"){
             ChapterScreen(navController = navController)

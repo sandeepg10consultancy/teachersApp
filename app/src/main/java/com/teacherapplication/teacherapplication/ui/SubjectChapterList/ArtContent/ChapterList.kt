@@ -55,9 +55,8 @@ fun ChapterList(
     navController: NavHostController,
     image: Int,
     title: String,
-    section: String
+    viewModel: DashboardViewModel,
 ){
-    val viewModel: DashboardViewModel = viewModel()
     val verticalScroll = rememberScrollState()
     Box(modifier = modifier.fillMaxSize()) {
         Column(
@@ -71,7 +70,7 @@ fun ChapterList(
                     .padding(start = 20.dp, top = 10.dp, end = 20.dp)
             ) {
                 BackArrow {navController.popBackStack()}
-                SubjectSurface(image,title,section, viewModel)
+                SubjectSurface(image,title, viewModel)
                 Spacer(modifier = Modifier.height(40.dp))
                 when(title){
                     "Art" -> artChapters.forEach { chapter ->
@@ -92,7 +91,43 @@ fun ChapterList(
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                     }
-                    "General A." -> generalAwarenessChapters.forEach { chapter ->
+                    "General Awareness" -> generalAwarenessChapters.forEach { chapter ->
+                        ChapterCard(
+                            days = chapter.days,
+                            title = chapter.title,
+                            chapterNo = chapter.chapterNumber,
+                            onClick = {
+                                when (chapter.chapterNumber) {
+                                    1 -> navController.navigate(route = "chapterOne")
+                                    2 -> navController.navigate(route = "chapterOne")
+                                    3 -> navController.navigate(route = "chapterOne")
+                                    4 -> navController.navigate(route = "chapterOne")
+                                    5 -> navController.navigate(route = "chapterOne")
+                                }
+                            },
+                            //progress = 0.3f
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                    "Literacy" -> literacyChapters.forEach { chapter ->
+                        ChapterCard(
+                            days = chapter.days,
+                            title = chapter.title,
+                            chapterNo = chapter.chapterNumber,
+                            onClick = {
+                                when (chapter.chapterNumber) {
+                                    1 -> navController.navigate(route = "chapterOne")
+                                    2 -> navController.navigate(route = "chapterOne")
+                                    3 -> navController.navigate(route = "chapterOne")
+                                    4 -> navController.navigate(route = "chapterOne")
+                                    5 -> navController.navigate(route = "chapterOne")
+                                }
+                            },
+                            //progress = 0.3f
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                    "Numeracy" -> numeracyChapters.forEach { chapter ->
                         ChapterCard(
                             days = chapter.days,
                             title = chapter.title,
@@ -115,7 +150,8 @@ fun ChapterList(
             }
         }
         BottomAppBar(
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter),
+            containerColor = Color.White
         ){
             BottomNavigationBar()
         }
@@ -144,12 +180,13 @@ fun ChapterCard(
         onClick = onClick
     ) {
         Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
                 start = 20.dp,
                 top = 15.dp, end = 10.dp
-            )
+            ),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
 
             Box(
@@ -220,11 +257,11 @@ fun ChapterCard(
 }
 
 @Composable
-fun SubjectSurface(image: Int, title: String, section: String, viewModel: DashboardViewModel) {
+fun SubjectSurface(image: Int, title: String, viewModel: DashboardViewModel) {
     val brush = when(title) {
         "Art" -> viewModel.subjectColors[0]
         "Numeracy" -> viewModel.subjectColors[1]
-        "General A." -> viewModel.subjectColors[2]
+        "General Awareness" -> viewModel.subjectColors[2]
         "Literacy" -> viewModel.subjectColors[3]
         "GK" -> viewModel.subjectColors[4]
         else -> viewModel.subjectColors[0]
@@ -251,7 +288,7 @@ fun SubjectSurface(image: Int, title: String, section: String, viewModel: Dashbo
             ) {
                 Column {
                     Text(
-                        text = section,
+                        text = viewModel.selectedSection.collectAsState().value,
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight(600),
                             color = Color(0xFFFFFFFF)
