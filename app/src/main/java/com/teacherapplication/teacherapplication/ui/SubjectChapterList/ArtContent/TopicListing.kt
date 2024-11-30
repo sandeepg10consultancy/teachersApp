@@ -56,6 +56,7 @@ import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.italicJost
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
@@ -63,7 +64,7 @@ import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 //@Preview(showBackground = true)
 @Composable
-fun TopicListingScreen(navController: NavHostController) {
+fun TopicListingScreen(navController: NavHostController, viewModel: DashboardViewModel) {
     val verticalScroll = rememberScrollState()
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -112,7 +113,7 @@ fun TopicListingScreen(navController: NavHostController) {
         BottomAppBar(
             modifier = Modifier.align(Alignment.BottomCenter)
         ){
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }

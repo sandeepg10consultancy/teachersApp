@@ -1,6 +1,5 @@
 package com.teacherapplication.teacherapplication.ui.home.dashboard
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,13 +46,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -71,10 +69,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+import kotlinx.coroutines.time.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview(showBackground = true)
@@ -261,9 +260,10 @@ fun DashBoardScreen(
                         SectionBottomSheet(isFilterClicked, classesList, viewModel)
                     }
                 }
+
             },
             bottomBar = {
-                BottomNavigationBar()
+                BottomNavigationBar(navController,viewModel)
             }
         )
     }
@@ -353,9 +353,10 @@ private fun SectionBottomSheet(
 }
 
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardViewModel) {
 
-    var selectedItem by remember { mutableStateOf("Home") }
+    val selectedItem = viewModel.selectedIcon.collectAsState().value
+
 
     // List of navigation items with their labels and icons
     val navItems = listOf(
@@ -365,10 +366,10 @@ fun BottomNavigationBar() {
     )
 
     NavigationBar(
-        containerColor = Color(0xFFFFFFFF),
+        containerColor = Color.White,
     ) {
         navItems.forEach { (label, iconRes) ->
-            val isSelected = selectedItem == label
+            val isSelected = (selectedItem == label)
             NavigationBarItem(
                 selected = isSelected,
                 icon = {
@@ -407,18 +408,26 @@ fun BottomNavigationBar() {
                                     .height(6.dp)
                                     .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                                     .background(
-                                        brush = Brush.linearGradient(
-                                            colors = listOf(
-                                                Color(0xFF185573),
-                                                Color(0xFF14868D)
-                                            )
-                                        )
+                                        brush = brush
                                     )
                             )
                         }
                     }
                 },
-                onClick = { selectedItem = label },
+                onClick = {
+                        viewModel.setSelectedIcon(label)
+                    val destination = when (label) {
+                        "Home" -> "dashboard"
+                        "Calender" -> "newGroupScreen"
+                        "Diary" -> "dairyScreen"
+                        else -> "dashboard"
+                    }
+                    navController.navigate(destination) {
+                        // Avoid multiple copies of the same destination in the back stack
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                          },
                 colors = NavigationBarItemColors(
                     selectedIconColor = Color.Transparent,
                     selectedTextColor = Color.Transparent,
@@ -430,7 +439,15 @@ fun BottomNavigationBar() {
                 )
             )
         }
+//        if(selectedItem == "Home"){
+//            navController.navigate(route = "dashboard")
+//        }else if (selectedItem == "Calender"){
+//            navController.navigate(route = "dashboard")
+//        }else{
+//            navController.navigate(route = "dairyScreen")
+//        }
     }
+
 }
 
 

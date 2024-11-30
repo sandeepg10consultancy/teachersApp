@@ -42,6 +42,7 @@ import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.fonts
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
@@ -185,7 +186,7 @@ private fun EbookCard(title: String, image: Int) {
 }
 
 @Composable
-fun UploadEbookScreen(){
+fun UploadEbookScreen(viewModel: DashboardViewModel, navController: NavHostController) {
     var buttonSelection by rememberSaveable { mutableStateOf(false) }
     val ebookTitle = rememberSaveable { mutableStateOf("") }
     val ebookDescription = rememberSaveable { mutableStateOf("") }
@@ -239,7 +240,7 @@ fun UploadEbookScreen(){
             modifier = Modifier.align(Alignment.BottomCenter)
                 .background(color = Color.White)
         ) {
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }

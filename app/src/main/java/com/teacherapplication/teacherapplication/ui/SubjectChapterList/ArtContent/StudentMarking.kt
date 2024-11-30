@@ -49,6 +49,7 @@ import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
@@ -57,6 +58,7 @@ import com.teacherapplication.teacherapplication.ui.theme.jostFont
 fun StudentMarking(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    viewModel: DashboardViewModel,
 ){
     val topicsList = listOf("Physical Development","Socio-Emotional and Social","Cognitive Development","Language and Literacy","Aesthetic and Cultural")
     val topicSelected = remember { mutableStateOf(topicsList[0]) }
@@ -250,7 +252,7 @@ fun StudentMarking(
             modifier = Modifier.align(Alignment.BottomCenter)
                 .background(color = Color.White)
         ) {
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }

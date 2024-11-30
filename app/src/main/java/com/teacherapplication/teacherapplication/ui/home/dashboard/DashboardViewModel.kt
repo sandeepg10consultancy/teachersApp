@@ -19,6 +19,9 @@ class DashboardViewModel : ViewModel() {
 //        _brushColors.value = brush
 //    }
 
+    private val _selectedIcon = MutableStateFlow<String>("Home")
+    val selectedIcon: StateFlow<String> = _selectedIcon
+
     val subjectColors = listOf(
         Brush.linearGradient(
             colors = listOf(
@@ -56,6 +59,12 @@ class DashboardViewModel : ViewModel() {
 
     private val _selectedSection = MutableStateFlow<String>("Nursery - A")
     val selectedSection: StateFlow<String> = _selectedSection
+
+    fun setSelectedIcon(newIcon: String){
+        if (_selectedIcon.value != newIcon) {
+            _selectedIcon.value = newIcon
+        }
+    }
 
     fun setSelectedSection(text: String){
         _selectedSection.value = text

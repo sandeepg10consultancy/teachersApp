@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
+import com.teacherapplication.teacherapplication.ui.Diary.GroupDiscussionScreen
 import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.AssignmentDetails
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterList
@@ -42,9 +43,10 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             TeacherApplicationTheme {
 
-                MyApp()
+                //MyApp()
                 //DailyDiaryScreen()
                 //NewGroupScreen()
+                GroupDiscussionScreen()
 
             }
         }
@@ -87,6 +89,12 @@ fun MyApp(){
         composable(route = "dashboard"){
             DashBoardScreen(navController = navController, viewModel = viewModel)
         }
+        composable(route = "dairyScreen"){
+            DailyDiaryScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(route = "newGroupScreen"){
+            NewGroupScreen(navController = navController, viewModel = viewModel)
+        }
         composable(
             route = "artChapter/{image}/{title}",
             arguments = listOf(
@@ -99,29 +107,29 @@ fun MyApp(){
             ChapterList(navController = navController, viewModel = viewModel, image = image, title = title)
         }
         composable( route = "chapterOne"){
-            ChapterScreen(navController = navController)
+            ChapterScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = "chapterOneTopics"){
-            TopicListingScreen(navController = navController)
+            TopicListingScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = "chapterOneContent") {
-            ContentViewScreen(navController = navController)
+            ContentViewScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = "videoUpload"){
-            UploadVideoScreen()
+            UploadVideoScreen(navController = navController,viewModel = viewModel)
         }
         composable(route = "ebookUpload"){
-            UploadEbookScreen()
+            UploadEbookScreen(navController = navController,viewModel = viewModel)
         }
         composable(route = "assignmentDetails"){
-            AssignmentDetails(navController = navController)
+            AssignmentDetails(navController = navController, viewModel = viewModel)
         }
         composable( route = "studentSubmissions/{isDone}"){ backStackEntry ->
             val isDone = backStackEntry.arguments?.getString("isDone")?.toBoolean() ?: false
-            StudentSubmissions(navController = navController, isDone = isDone)
+            StudentSubmissions(navController = navController, viewModel = viewModel, isDone = isDone)
         }
         composable( route = "studentMarking"){
-            StudentMarking(navController = navController)
+            StudentMarking(navController = navController, viewModel = viewModel)
         }
     }
 }

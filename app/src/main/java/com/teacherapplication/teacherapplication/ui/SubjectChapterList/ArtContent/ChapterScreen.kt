@@ -50,6 +50,7 @@ import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
@@ -58,7 +59,8 @@ import com.teacherapplication.teacherapplication.ui.theme.jostFont
 @Composable
 fun ChapterScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: DashboardViewModel
 ){
     val courseContent = listOf(
         "NCF",
@@ -100,7 +102,7 @@ fun ChapterScreen(
             modifier = Modifier.align(Alignment.BottomCenter),
             containerColor = Color.White
         ){
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }

@@ -53,12 +53,17 @@ import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
 @Composable
-fun AssignmentDetails(modifier: Modifier = Modifier, navController: NavHostController){
+fun AssignmentDetails(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    viewModel: DashboardViewModel
+){
     val scrollState = rememberScrollState()
     val isExpanded = remember { mutableStateOf(false) }
     val searchTextField = remember { mutableStateOf("") }
@@ -84,7 +89,7 @@ fun AssignmentDetails(modifier: Modifier = Modifier, navController: NavHostContr
             modifier = Modifier.align(Alignment.BottomCenter)
                 .background(color = Color.White)
         ) {
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }

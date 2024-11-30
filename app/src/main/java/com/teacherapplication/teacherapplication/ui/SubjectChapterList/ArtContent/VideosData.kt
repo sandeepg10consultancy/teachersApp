@@ -1,6 +1,5 @@
 package com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,7 +25,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -45,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
@@ -66,6 +63,7 @@ import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.fonts
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
@@ -203,7 +201,7 @@ fun VideosButton(onClick: () -> Unit = {},
 
 
 @Composable
-fun UploadVideoScreen() {
+fun UploadVideoScreen(viewModel: DashboardViewModel, navController: NavHostController) {
     var buttonSelection by rememberSaveable { mutableStateOf("Files") }
     val videoTitle = rememberSaveable { mutableStateOf("") }
     val videoDescription = rememberSaveable { mutableStateOf("") }
@@ -358,7 +356,7 @@ fun UploadVideoScreen() {
             modifier = Modifier.align(Alignment.BottomCenter)
                 .background(color = Color.White)
         ) {
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }

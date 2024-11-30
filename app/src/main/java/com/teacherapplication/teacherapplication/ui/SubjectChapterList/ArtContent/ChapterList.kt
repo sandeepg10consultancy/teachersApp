@@ -39,7 +39,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
@@ -153,7 +152,7 @@ fun ChapterList(
             modifier = Modifier.align(Alignment.BottomCenter),
             containerColor = Color.White
         ){
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }

@@ -55,12 +55,13 @@ import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 val contentList = listOf("Lesson Plans", "Assessments", "Videos", "Ebooks")
 
 @Composable
-fun ContentViewScreen(navController: NavHostController) {
+fun ContentViewScreen(navController: NavHostController, viewModel: DashboardViewModel) {
     val verticalScroll = rememberScrollState()
     var dropDownStatus by remember { mutableStateOf(false) }
     var isCardClicked by remember { mutableStateOf(true) }
@@ -126,7 +127,7 @@ fun ContentViewScreen(navController: NavHostController) {
                 modifier = Modifier.align(Alignment.BottomCenter),
                 containerColor = Color.White
             ) {
-                BottomNavigationBar()
+                BottomNavigationBar(navController, viewModel)
             }
         }
     }

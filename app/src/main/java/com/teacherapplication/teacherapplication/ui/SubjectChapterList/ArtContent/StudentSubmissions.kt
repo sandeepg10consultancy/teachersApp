@@ -40,12 +40,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
 @Composable
-fun StudentSubmissions(navController: NavHostController, isDone: Boolean?) {
+fun StudentSubmissions(
+    navController: NavHostController,
+    isDone: Boolean?,
+    viewModel: DashboardViewModel
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()

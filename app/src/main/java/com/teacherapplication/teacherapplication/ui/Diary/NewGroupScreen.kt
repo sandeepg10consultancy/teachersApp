@@ -23,23 +23,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.login.account.ClassCard
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 @Composable
 fun NewGroupScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    viewModel: DashboardViewModel
 ){
     val groupDescriptionField = remember { mutableStateOf("Welcome to Nursery A!") }
     val classesMap = mapOf("Nursery" to R.drawable.nursery_img,
@@ -101,7 +104,7 @@ fun NewGroupScreen(
                 .align(Alignment.BottomCenter),
             containerColor = Color.White
         ){
-            BottomNavigationBar()
+            BottomNavigationBar(navController, viewModel)
         }
     }
 }
