@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.teacherapplication.teacherapplication.ui.Diary.AnnouncementModelSheet
 import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.Diary.GroupDiscussionScreen
 import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
@@ -46,7 +47,8 @@ class MainActivity : ComponentActivity() {
                 //MyApp()
                 //DailyDiaryScreen()
                 //NewGroupScreen()
-                GroupDiscussionScreen()
+                //GroupDiscussionScreen()
+                AnnouncementModelSheet()
 
             }
         }
@@ -91,6 +93,9 @@ fun MyApp(){
         }
         composable(route = "dairyScreen"){
             DailyDiaryScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(route = "groupDiscussion"){
+            GroupDiscussionScreen(navController = navController)
         }
         composable(route = "newGroupScreen"){
             NewGroupScreen(navController = navController, viewModel = viewModel)

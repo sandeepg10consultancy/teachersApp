@@ -60,7 +60,7 @@ fun NewGroupScreen(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                BackArrow(onClick = { })
+                BackArrow(onClick = { navController.popBackStack() })
                 Text(
                     text = "New Group",
                     style = MaterialTheme.typography.titleMedium.copy(

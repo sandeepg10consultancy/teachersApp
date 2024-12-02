@@ -61,7 +61,10 @@ fun DailyDiaryScreen(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
-                BackArrow(onClick = { })
+                BackArrow(onClick = {
+                    viewModel.setSelectedIcon("Home")
+                    navController.popBackStack()
+                })
                 Text(
                     text = "Daily Diary",
                     style = MaterialTheme.typography.titleMedium.copy(
@@ -77,12 +80,12 @@ fun DailyDiaryScreen(
                         brush = brush
                     ),
                     modifier = Modifier.clickable {
-
+                        navController.navigate(route = "newGroupScreen")
                     }
                 )
             }
             SearchGroupBox(searchedGroup)
-            EachGroupCard()
+            EachGroupCard(navController)
         }
         BottomAppBar(
             modifier = Modifier
@@ -95,7 +98,7 @@ fun DailyDiaryScreen(
 }
 
 @Composable
-private fun EachGroupCard() {
+private fun EachGroupCard(navController: NavHostController) {
     Card(
         modifier = Modifier
             .height(93.dp)
@@ -106,7 +109,8 @@ private fun EachGroupCard() {
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
         ),
-        shape = RoundedCornerShape(15.dp)
+        shape = RoundedCornerShape(15.dp),
+        onClick = { navController.navigate(route = "groupDiscussion") }
     ) {
         Row(
             modifier = Modifier
