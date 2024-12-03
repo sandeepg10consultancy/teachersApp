@@ -108,7 +108,7 @@ fun GroupDiscussionScreen(modifier: Modifier = Modifier, navController: NavHostC
                 containerColor = Color.White,
                 modifier = Modifier.fillMaxSize()
             ) {
-                AnnouncementModelSheet()
+                AnnouncementModelSheet(isModelSheet)
             }
         }
     }

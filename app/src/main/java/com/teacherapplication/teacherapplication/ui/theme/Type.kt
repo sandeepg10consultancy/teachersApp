@@ -95,7 +95,8 @@ val Typography = Typography(
         fontWeight = FontWeight(700),
         fontSize = 14.sp,
         lineHeight = 16.8.sp,
-    )
+    ),
+
 
     /* Other default text styles to override
     titleLarge = TextStyle(

@@ -11,7 +11,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.teacherapplication.teacherapplication.ui.Diary.AnnouncementModelSheet
 import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.Diary.GroupDiscussionScreen
 import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
@@ -34,6 +33,7 @@ import com.teacherapplication.teacherapplication.ui.login.account.PersonDetails
 import com.teacherapplication.teacherapplication.ui.login.account.SubjectSelection
 import com.teacherapplication.teacherapplication.ui.login.otp.OTPScreen
 import com.teacherapplication.teacherapplication.ui.login.password.SetPassword
+import com.teacherapplication.teacherapplication.ui.profile.ProfileScreen
 import com.teacherapplication.teacherapplication.ui.theme.TeacherApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -42,13 +42,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
-
-                //MyApp()
+                //DashBoardScreen(navController = navController,viewModel = viewModel)
+                MyApp()
                 //DailyDiaryScreen()
                 //NewGroupScreen()
                 //GroupDiscussionScreen()
-                AnnouncementModelSheet()
+                //AnnouncementModelSheet()
+                //ProfileScreen(navController = navController, viewModel = viewModel)
 
             }
         }
@@ -90,6 +92,9 @@ fun MyApp(){
         }
         composable(route = "dashboard"){
             DashBoardScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(route = "profileScreen"){
+            ProfileScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = "dairyScreen"){
             DailyDiaryScreen(navController = navController, viewModel = viewModel)

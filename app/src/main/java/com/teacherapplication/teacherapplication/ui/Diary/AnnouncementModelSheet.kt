@@ -62,7 +62,7 @@ import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
 
 @Composable
-fun AnnouncementModelSheet(modifier: Modifier = Modifier){
+fun AnnouncementModelSheet(isModelSheet: MutableState<Boolean>,modifier: Modifier = Modifier){
     val announcementType = remember { mutableStateOf("") }
     val subjectType = remember { mutableStateOf("") }
     val priorityType = remember { mutableStateOf("") }
@@ -151,7 +151,7 @@ fun AnnouncementModelSheet(modifier: Modifier = Modifier){
                         shape = RoundedCornerShape(5.dp)
                     )
                     .clickable {
-
+                        isModelSheet.value = false
                     },
                 contentAlignment = Alignment.Center
             ){

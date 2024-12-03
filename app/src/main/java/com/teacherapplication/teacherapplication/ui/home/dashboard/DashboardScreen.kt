@@ -1,5 +1,6 @@
 package com.teacherapplication.teacherapplication.ui.home.dashboard
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
@@ -30,30 +32,38 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
@@ -73,7 +83,8 @@ import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
-import kotlinx.coroutines.time.delay
+import com.teacherapplication.teacherapplication.ui.theme.openFont
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview(showBackground = true)
@@ -91,181 +102,202 @@ fun DashBoardScreen(
         "Senior KG - A", "Senior KG - B", "Senior KG - C"
     )
     val selectedSection = remember { mutableStateOf(classesList[0]) }
-
-
-    Box(modifier = Modifier.fillMaxSize()){
-        Image(painter = painterResource(id = R.drawable.elephant_slide),
-            contentDescription = "elephant",
-            modifier = Modifier
-                .size(320.dp)
-                .align(Alignment.TopEnd))
-        Scaffold(
-            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-            topBar = {
-                TopAppBar(
-                    navigationIcon = {
-                        ProfileWithMenuIcon()
-                    },
-                    title = {
-                    Column(
-                        modifier = Modifier
-                            .padding(start = 8.dp, top = 2.dp)
-                            //.align(Alignment.Center)
-                    ){
-                        Text(text = "Good Morning,",
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                color = Color(0xFF129193),
-                                lineHeight = 13.2.sp
-                            ),
-                        )
-                        Text(text = "Chandini",
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                color = Color(0xFF1D1751),
-                                fontSize = 24.sp
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ProfileDrawerContent( navController = navController )
+        }
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.elephant_slide),
+                contentDescription = "elephant",
+                modifier = Modifier
+                    .size(320.dp)
+                    .align(Alignment.TopEnd)
+            )
+            Scaffold(
+                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                topBar = {
+                    TopAppBar(
+                        navigationIcon = {
+                            ProfileWithMenuIcon(
+                                onOpenDrawer = {
+                                    scope.launch {
+                                        drawerState.apply {
+                                            if (isClosed) open() else close()
+                                        }
+                                    }
+                                }
                             )
-                        )
-                    }
-                },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent,
-                        titleContentColor = Color.Gray
-                    ),
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Image(painter = painterResource(id = R.drawable.notification),
-                                contentDescription = "notification",
-                                modifier = Modifier.size(33.dp)
-                            )
-                        }
-                        DropdownFilter(isFilterClicked,viewModel)
-                    }
-                )
-            },
-            containerColor = Color.Transparent,
-            content = {
-                Column(modifier = Modifier.padding(it)
-                    .verticalScroll(verticalScroll)
-                ){
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ){
-                        SubjectCard(
-                            text = viewModel.selectedSection.collectAsState().value,
-                            subject = "Art",
-                            brush = viewModel.subjectColors[0],
-                            yOffset = (-10).dp,
-                            image = R.drawable.art_img,
-                            color = Color(0xFFFDC194),
-                            onClick = {
-                                navController.navigate("artChapter/${R.drawable.art_img}/Art")
-                            }
-                        )
-                        SubjectCard(
-                            text = viewModel.selectedSection.collectAsState().value,
-                            subject = "Numeracy",
-                            brush = viewModel.subjectColors[1],
-                            yOffset = (-2).dp,
-                            image = R.drawable.numeracy_img,
-                            color = Color(0xFF99D6FC),
-                            onClick = {
-                                navController.navigate("artChapter/${R.drawable.numeracy_img}/Numeracy")
-                            }
-                        )
-
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ){
-                        SubjectCard(
-                            text = viewModel.selectedSection.collectAsState().value,
-                            subject = "General Awareness",
-                            brush = viewModel.subjectColors[2],
-                            yOffset = (-4).dp,
-                            image = R.drawable.general_img,
-                            color = Color(0xFF93ECFF),
-                            onClick = {navController.navigate("artChapter/${R.drawable.general_img}/General Awareness")}
-                        )
-                        SubjectCard(
-                            text = viewModel.selectedSection.collectAsState().value,
-                            subject = "Literacy",
-                            brush = viewModel.subjectColors[3],
-                            yOffset = (-8).dp,
-                            image = R.drawable.literacy_img,
-                            color = Color(0xFFFED276),
-                            onClick = {navController.navigate("artChapter/${R.drawable.literacy_img}/Literacy")}
-                        )
-
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ){
-                        SubjectCard(
-                            text = viewModel.selectedSection.collectAsState().value,
-                            subject = "GK",
-                            brush = viewModel.subjectColors[4],
-                            yOffset = (-0).dp,
-                            image = R.drawable.gk_img,
-                            color = Color(0xFFF2C0C0),
-                            onClick = {navController.navigate("artChapter/${R.drawable.gk_img}/GK")}
-                        )
-                        MoreCard()
-                    }
-
-                    StudentAssessment()
-
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Column(
-                        modifier = Modifier.padding(start = 10.dp)
-                    ){
-                        Text(
-                            text = "Recently Viewed",
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontSize = 16.sp,
-                                lineHeight = 23.12.sp,
-                                brush = Brush.linearGradient(
-                                    colors = listOf(
-                                        Color(0xFF185573),
-                                        Color(0xFF14868D)
+                        },
+                        title = {
+                            Column(
+                                modifier = Modifier
+                                    .padding(start = 8.dp, top = 2.dp)
+                                //.align(Alignment.Center)
+                            ) {
+                                Text(
+                                    text = "Good Morning,",
+                                    style = MaterialTheme.typography.labelSmall.copy(
+                                        color = Color(0xFF129193),
+                                        lineHeight = 13.2.sp
+                                    ),
+                                )
+                                Text(
+                                    text = "Chandini",
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        color = Color(0xFF1D1751),
+                                        fontSize = 24.sp
                                     )
                                 )
-                            ),
-                        )
-                        Box(
-                            modifier = modifier
-                                .width(27.dp)
-                                .height(1.5.dp)
-                                .clip(RoundedCornerShape(1.5.dp))
-                                .border(0.1.dp, Color(0xFF1D1751), RoundedCornerShape(1.5.dp))
-                                .background(
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent,
+                            titleContentColor = Color.Gray
+                        ),
+                        actions = {
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.notification),
+                                    contentDescription = "notification",
+                                    modifier = Modifier.size(33.dp)
+                                )
+                            }
+                            DropdownFilter(isFilterClicked, viewModel)
+                        }
+                    )
+                },
+                containerColor = Color.Transparent,
+                content = {
+                    Column(
+                        modifier = Modifier.padding(it)
+                            .verticalScroll(verticalScroll)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            SubjectCard(
+                                text = viewModel.selectedSection.collectAsState().value,
+                                subject = "Art",
+                                brush = viewModel.subjectColors[0],
+                                yOffset = (-10).dp,
+                                image = R.drawable.art_img,
+                                color = Color(0xFFFDC194),
+                                onClick = {
+                                    navController.navigate("artChapter/${R.drawable.art_img}/Art")
+                                }
+                            )
+                            SubjectCard(
+                                text = viewModel.selectedSection.collectAsState().value,
+                                subject = "Numeracy",
+                                brush = viewModel.subjectColors[1],
+                                yOffset = (-2).dp,
+                                image = R.drawable.numeracy_img,
+                                color = Color(0xFF99D6FC),
+                                onClick = {
+                                    navController.navigate("artChapter/${R.drawable.numeracy_img}/Numeracy")
+                                }
+                            )
+
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            SubjectCard(
+                                text = viewModel.selectedSection.collectAsState().value,
+                                subject = "General Awareness",
+                                brush = viewModel.subjectColors[2],
+                                yOffset = (-4).dp,
+                                image = R.drawable.general_img,
+                                color = Color(0xFF93ECFF),
+                                onClick = { navController.navigate("artChapter/${R.drawable.general_img}/General Awareness") }
+                            )
+                            SubjectCard(
+                                text = viewModel.selectedSection.collectAsState().value,
+                                subject = "Literacy",
+                                brush = viewModel.subjectColors[3],
+                                yOffset = (-8).dp,
+                                image = R.drawable.literacy_img,
+                                color = Color(0xFFFED276),
+                                onClick = { navController.navigate("artChapter/${R.drawable.literacy_img}/Literacy") }
+                            )
+
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            SubjectCard(
+                                text = viewModel.selectedSection.collectAsState().value,
+                                subject = "GK",
+                                brush = viewModel.subjectColors[4],
+                                yOffset = (-0).dp,
+                                image = R.drawable.gk_img,
+                                color = Color(0xFFF2C0C0),
+                                onClick = { navController.navigate("artChapter/${R.drawable.gk_img}/GK") }
+                            )
+                            MoreCard()
+                        }
+
+                        StudentAssessment()
+
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Column(
+                            modifier = Modifier.padding(start = 10.dp)
+                        ) {
+                            Text(
+                                text = "Recently Viewed",
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontSize = 16.sp,
+                                    lineHeight = 23.12.sp,
                                     brush = Brush.linearGradient(
                                         colors = listOf(
                                             Color(0xFF185573),
                                             Color(0xFF14868D)
                                         )
-                                    ),
-                                )
-                        )
+                                    )
+                                ),
+                            )
+                            Box(
+                                modifier = modifier
+                                    .width(27.dp)
+                                    .height(1.5.dp)
+                                    .clip(RoundedCornerShape(1.5.dp))
+                                    .border(0.1.dp, Color(0xFF1D1751), RoundedCornerShape(1.5.dp))
+                                    .background(
+                                        brush = Brush.linearGradient(
+                                            colors = listOf(
+                                                Color(0xFF185573),
+                                                Color(0xFF14868D)
+                                            )
+                                        ),
+                                    )
+                            )
+                        }
+                        if (isFilterClicked.value) {
+                            SectionBottomSheet(isFilterClicked, classesList, viewModel)
+                        }
                     }
-                    if (isFilterClicked.value){
-                        SectionBottomSheet(isFilterClicked, classesList, viewModel)
-                    }
-                }
 
-            },
-            bottomBar = {
-                BottomNavigationBar(navController,viewModel)
-            }
-        )
+                },
+                bottomBar = {
+                    BottomNavigationBar(navController, viewModel)
+                }
+            )
+        }
     }
 }
 
@@ -752,11 +784,16 @@ private fun DropdownFilter(
 
 
 @Composable
-fun ProfileWithMenuIcon() {
+fun ProfileWithMenuIcon(
+    onOpenDrawer: () -> Unit
+) {
     Box(
         modifier = Modifier
             .height(50.dp)
-            .width(51.dp),
+            .width(51.dp)
+            .clickable {
+                onOpenDrawer()
+            },
         contentAlignment = Alignment.BottomEnd
     ) {
         // Profile Image
@@ -765,6 +802,7 @@ fun ProfileWithMenuIcon() {
             contentDescription = "Profile Image",
             modifier = Modifier
                 .size(50.dp)
+                .clip(CircleShape)
         )
         // Menu Icon
         Surface(
@@ -792,4 +830,225 @@ fun ProfileWithMenuIcon() {
         }
     }
 }
+
+
+@Composable
+fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostController){
+    val iconsList = listOf(
+        "Profile" to R.drawable.profile_icon,
+        "Student Performance" to R.drawable.performance_graph,
+        "Bookmarks" to R.drawable.bookmarks,
+        "FAQ'S" to R.drawable.faqs,
+        "Privacy Policy" to R.drawable.policy,
+        "Logout" to R.drawable.log_out
+    )
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .width(301.dp)
+            .background(
+                brush = brush
+            ),
+        contentAlignment = Alignment.Center
+    ){
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(start = 20.dp, top = 10.dp)
+        ){
+            Icon(
+                painter = painterResource(R.drawable.close),
+                contentDescription = "close",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(20.dp)
+                    .clickable {
+
+                    }
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            ProfileCard()
+            Spacer(modifier = Modifier.height(10.dp))
+            iconsList.forEach { item ->
+                NavigationDrawerItem(
+                    icon = {
+                        Icon(
+                            painter = painterResource(item.second),
+                            contentDescription = item.first,
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = item.first,
+                            style = TextStyle(
+                                fontFamily = openFont,
+                                fontWeight = FontWeight(600),
+                                fontSize = 18.sp,
+                                lineHeight = 18.sp,
+                                color = Color.White
+                            )
+                        )
+                    },
+                    selected = false,
+                    onClick = {
+                        when(item.first){
+                            "Profile" -> { navController.navigate(route = "profileScreen")}
+                        }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = Color.Transparent,
+                        unselectedContainerColor = Color.Transparent,
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(310.dp))
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .height(47.dp)
+                    .width(258.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ){
+                    Icon(
+                        painter = painterResource(R.drawable.help_icon),
+                        contentDescription = "help",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .width(23.91.dp)
+                            .height(28.dp)
+                    )
+                    Text(
+                        text = "Help",
+                        style = TextStyle(
+                            fontFamily = openFont,
+                            fontWeight = FontWeight(600),
+                            fontSize = 16.sp,
+                            lineHeight = 16.sp,
+                            letterSpacing = (-0.02).sp,
+                            color = Color.Black
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "V 0.1.0",
+                style = TextStyle(
+                    fontFamily = openFont,
+                    fontWeight = FontWeight(600),
+                    fontSize = 16.sp,
+                    lineHeight = 16.sp,
+                    letterSpacing = (-0.02).sp,
+                    color = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, top = 5.dp)
+            )
+        }
+        Image(
+            painter = painterResource(R.drawable.elephant_color),
+            contentDescription = "elephant",
+            modifier = Modifier
+                .offset(x = (-25).dp,y = 150.dp)
+                .height(327.02.dp)
+                .width(350.dp)
+                .scale(1.1f)
+                .alpha(0.6f)
+        )
+    }
+}
+
+@Composable
+private fun ProfileCard() {
+    Card(
+        modifier = Modifier
+            .height(81.dp)
+            .width(259.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Canvas(
+                modifier = Modifier
+                    .size(243.dp)
+                    .offset(250.dp, 0.dp)
+            ) {
+                drawCircle(
+                    color = Color(0xFFD9F9FF),
+                    radius = size.width / 2f,
+                    center = Offset(0f, 0f)
+                )
+            }
+            Canvas(
+                modifier = Modifier
+                    .size(186.dp)
+                    .offset(165.dp, 0.dp)
+            ) {
+                drawCircle(
+                    color = Color(0xFFD9F9FF).copy(alpha = 0.6f),
+                    radius = size.width / 2f,
+                    center = Offset(0f, 0f)
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 22.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.profile_img),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .size(45.dp)
+                        .clip(CircleShape)
+                )
+                Column {
+                    Text(
+                        text = "Chandani Poosarla",
+                        style = TextStyle(
+                            fontFamily = openFont,
+                            fontWeight = FontWeight(600),
+                            fontSize = 16.sp,
+                            lineHeight = 21.78.sp,
+                            letterSpacing = (-0.02).sp,
+                            color = Color(0xFF1D1751)
+                        )
+                    )
+                    Text(
+                        text = "abc@gmail.com",
+                        style = TextStyle(
+                            fontFamily = openFont,
+                            fontWeight = FontWeight(400),
+                            fontSize = 14.sp,
+                            lineHeight = 19.07.sp,
+                            letterSpacing = (-0.02).sp,
+                            color = Color(0xFF5A5A5A)
+                        )
+                    )
+                }
+            }
+        }
+    }
+}
+
 

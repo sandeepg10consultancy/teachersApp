@@ -85,7 +85,8 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
                 .padding(start = 10.dp, top = 40.dp, end = 10.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 BackArrow(onClick = {navController.popBackStack()})
                 Spacer(modifier = Modifier.width(110.dp))
