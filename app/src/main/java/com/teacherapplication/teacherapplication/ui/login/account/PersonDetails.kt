@@ -59,6 +59,9 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
     var lastName by remember {
         mutableStateOf("")
     }
+    var genderValue by remember {
+        mutableStateOf("Male")
+    }
 
     val gradientBrush = if (firstName.isNotEmpty() && lastName.isNotEmpty()){
         Brush.linearGradient(
@@ -183,8 +186,8 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                     modifier = Modifier.fillMaxWidth()
                 ){
                     OutlinedTextField(
-                        value = if (gender) "Female" else "Male",
-                        onValueChange = {  },
+                        value = if (gender) "Female" else genderValue,
+                        onValueChange = { genderValue = it },
                         readOnly = true,
                         textStyle = TextStyle(
                             fontWeight = FontWeight.Medium,
@@ -218,7 +221,6 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                         ),
                             contentDescription = "male",
                             modifier = Modifier
-                                .padding(end = 0.dp)
                                 .scale(1.2f)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -242,9 +244,6 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                             modifier = Modifier
                                 .padding(end = 35.dp)
                                 .scale(1.2f)
-                                .clickable {
-                                    gender = !gender
-                                }
                         )
                     }
                 }

@@ -231,7 +231,7 @@ private fun DialogBox(onClick:() -> Unit = {}) {
 }
 
 @Composable
-private fun SubjectCard(name: String,allSubject: Boolean) {
+fun SubjectCard(name: String,allSubject: Boolean) {
     var cardClick by remember {
         mutableStateOf(false)
     }

@@ -14,6 +14,7 @@ import androidx.navigation.navArgument
 import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.Diary.GroupDiscussionScreen
 import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
+import com.teacherapplication.teacherapplication.ui.ModalDrawer.FAQScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.AssignmentDetails
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterList
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterScreen
@@ -33,7 +34,8 @@ import com.teacherapplication.teacherapplication.ui.login.account.PersonDetails
 import com.teacherapplication.teacherapplication.ui.login.account.SubjectSelection
 import com.teacherapplication.teacherapplication.ui.login.otp.OTPScreen
 import com.teacherapplication.teacherapplication.ui.login.password.SetPassword
-import com.teacherapplication.teacherapplication.ui.profile.ProfileScreen
+import com.teacherapplication.teacherapplication.ui.ModalDrawer.profile.EditProfileScreen
+import com.teacherapplication.teacherapplication.ui.ModalDrawer.profile.ProfileScreen
 import com.teacherapplication.teacherapplication.ui.theme.TeacherApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -51,7 +53,8 @@ class MainActivity : ComponentActivity() {
                 //GroupDiscussionScreen()
                 //AnnouncementModelSheet()
                 //ProfileScreen(navController = navController, viewModel = viewModel)
-
+                //EditProfileScreen()
+                //FAQScreen()
             }
         }
     }
@@ -95,6 +98,12 @@ fun MyApp(){
         }
         composable(route = "profileScreen"){
             ProfileScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(route = "editProfileScreen"){
+            EditProfileScreen(navController = navController)
+        }
+        composable(route = "faqScreen"){
+            FAQScreen(navController = navController)
         }
         composable(route = "dairyScreen"){
             DailyDiaryScreen(navController = navController, viewModel = viewModel)

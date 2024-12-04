@@ -184,7 +184,7 @@ fun DashBoardScreen(
                             horizontalArrangement = Arrangement.spacedBy(20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            SubjectCard(
+                            EachSubjectCard(
                                 text = viewModel.selectedSection.collectAsState().value,
                                 subject = "Art",
                                 brush = viewModel.subjectColors[0],
@@ -195,7 +195,7 @@ fun DashBoardScreen(
                                     navController.navigate("artChapter/${R.drawable.art_img}/Art")
                                 }
                             )
-                            SubjectCard(
+                            EachSubjectCard(
                                 text = viewModel.selectedSection.collectAsState().value,
                                 subject = "Numeracy",
                                 brush = viewModel.subjectColors[1],
@@ -214,7 +214,7 @@ fun DashBoardScreen(
                             horizontalArrangement = Arrangement.spacedBy(20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            SubjectCard(
+                            EachSubjectCard(
                                 text = viewModel.selectedSection.collectAsState().value,
                                 subject = "General Awareness",
                                 brush = viewModel.subjectColors[2],
@@ -223,7 +223,7 @@ fun DashBoardScreen(
                                 color = Color(0xFF93ECFF),
                                 onClick = { navController.navigate("artChapter/${R.drawable.general_img}/General Awareness") }
                             )
-                            SubjectCard(
+                            EachSubjectCard(
                                 text = viewModel.selectedSection.collectAsState().value,
                                 subject = "Literacy",
                                 brush = viewModel.subjectColors[3],
@@ -240,7 +240,7 @@ fun DashBoardScreen(
                             horizontalArrangement = Arrangement.spacedBy(20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            SubjectCard(
+                            EachSubjectCard(
                                 text = viewModel.selectedSection.collectAsState().value,
                                 subject = "GK",
                                 brush = viewModel.subjectColors[4],
@@ -640,7 +640,7 @@ private fun MoreCard() {
 }
 
 @Composable
-fun SubjectCard(
+private fun EachSubjectCard(
     text: String,
     subject: String,
     brush: Brush,
@@ -798,7 +798,7 @@ fun ProfileWithMenuIcon(
     ) {
         // Profile Image
         Image(
-            painter = painterResource(id = R.drawable.profile_img), // Replace with your drawable resource
+            painter = painterResource(id = R.drawable.profile_img),
             contentDescription = "Profile Image",
             modifier = Modifier
                 .size(50.dp)
@@ -896,6 +896,11 @@ fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostCo
                     onClick = {
                         when(item.first){
                             "Profile" -> { navController.navigate(route = "profileScreen")}
+                            "Student Performance" -> { }
+                            "Bookmarks" -> { }
+                            "FAQ'S" -> { navController.navigate(route = "faqScreen")}
+                            "Privacy Policy" -> { }
+                            "Logout" -> { }
                         }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
