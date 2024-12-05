@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.ModalDrawer
+package com.teacherapplication.teacherapplication.ui.home.ModalDrawer
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +44,7 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 @Composable
 fun FAQScreen(navController: NavHostController) {
     val searchValue = remember { mutableStateOf("") }
+    val scrollState = rememberScrollState()
     val questionsList = listOf(
         "How do I create an account?",
         "How do I update my profile information?",
@@ -61,6 +64,7 @@ fun FAQScreen(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 15.dp, top = 40.dp, end = 15.dp)
+            .verticalScroll(scrollState)
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -79,17 +83,17 @@ fun FAQScreen(navController: NavHostController) {
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        SearchFieldFunction(searchValue)
+        SearchFieldFunction(labelText = "Search your FAQ",searchValue = searchValue)
         Spacer(modifier = Modifier.height(30.dp))
         questionsList.forEachIndexed { index,question ->
             QuestionsArrangement(question, answer = answersList[index])
             Spacer(modifier = Modifier.height(20.dp))
             if (index < questionsList.lastIndex){
                 HorizontalDivider(
-                    thickness = 0.5.dp,
+                    thickness = 1.dp,
                     color = Color.Black.copy(alpha = 0.3f)
                 )
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(modifier = Modifier.height(10.dp))
             }
         }
 
@@ -146,11 +150,11 @@ private fun QuestionsArrangement(question: String, answer: String = "") {
 }
 
 @Composable
-private fun SearchFieldFunction(searchValue: MutableState<String>) {
+fun SearchFieldFunction(labelText: String = "",searchValue: MutableState<String>, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(48.dp)
-            .width(386.dp)
+            .fillMaxWidth()
             .background(
                 color = Color(0xFFF3F9FA),
                 shape = RoundedCornerShape(8.dp)
@@ -180,7 +184,7 @@ private fun SearchFieldFunction(searchValue: MutableState<String>) {
                 ),
                 placeholder = {
                     Text(
-                        text = "Search your FAQ",
+                        text = labelText,
                         style = MaterialTheme.typography.labelMedium.copy(
                             brush = brush,
                             lineHeight = 11.2.sp

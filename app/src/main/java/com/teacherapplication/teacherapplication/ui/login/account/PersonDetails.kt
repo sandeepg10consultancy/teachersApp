@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -47,6 +49,7 @@ import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
+import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 
 
 //@Preview(showBackground = true)
@@ -183,68 +186,76 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                     )
                 }
                 Box(
-                    modifier = Modifier.fillMaxWidth()
-                ){
-                    OutlinedTextField(
-                        value = if (gender) "Female" else genderValue,
-                        onValueChange = { genderValue = it },
-                        readOnly = true,
-                        textStyle = TextStyle(
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 15.sp
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(58.dp)
-                            .padding(top = 2.dp)
-                            .border(
-                                width = 2.dp,
-                                color = Color(0xFF14868D),
-                                shape = RoundedCornerShape(5.dp)
-                            ),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = Color.Transparent,
-                            focusedBorderColor = Color.Transparent
+                    modifier = Modifier
+                        .height(52.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 2.dp,
+                            brush = brush,
+                            shape = RoundedCornerShape(6.dp)
                         )
-                    )
+                ) {
                     Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.CenterEnd)
-                            .offset(x = 125.dp)
-
+                            .fillMaxSize()
+                            .padding(end = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ){
-                        Image(painter = painterResource(
-                            id = if (gender) R.drawable.male_bw_img else R.drawable.male_color_img
-                        ),
-                            contentDescription = "male",
-                            modifier = Modifier
-                                .scale(1.2f)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Switch(
-                            checked = gender,
-                            onCheckedChange = { gender = it },
-                            colors = SwitchDefaults.colors(
-                                checkedThumbColor = Color.White,
-                                uncheckedThumbColor = Color.White,
-                                checkedTrackColor = Color(0xFFFF499C),
-                                uncheckedTrackColor = Color(0xFF4DB4F8)
+                        OutlinedTextField(
+                            value = if (gender) genderValue else "Male",
+                            onValueChange = { genderValue = it },
+                            textStyle = MaterialTheme.typography.bodySmall.copy(
+                                color = Color.Black,
                             ),
                             modifier = Modifier
-                                .scale(0.8f)
+                                .fillMaxWidth(0.65f)
+                                .fillMaxHeight(),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                unfocusedBorderColor = Color.Transparent,
+                                focusedBorderColor = Color.Transparent,
+                            ),
+                            readOnly = true
                         )
-                        Spacer(modifier = Modifier.width(7.dp))
-                        Image(painter = painterResource(
-                            id = if (gender) R.drawable.female_color_img else R.drawable.female_bw_img
-                        ),
-                            contentDescription = "female",
+                        Row(
                             modifier = Modifier
-                                .padding(end = 35.dp)
-                                .scale(1.2f)
-                        )
+                                .fillMaxSize(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ){
+                            Icon(
+                                painter = painterResource(R.drawable.male_color_img),
+                                contentDescription = "Male",
+                                tint = if (gender) Color.Black.copy(alpha = 0.3f) else Color(0xFF4DB4F8),
+                                modifier = Modifier
+                                    .size(18.86.dp)
+                            )
+                            Switch(
+                                checked = gender,
+                                onCheckedChange = { gender = it },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = Color.White,
+                                    uncheckedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xFFFF499C),
+                                    uncheckedTrackColor = Color(0xFF4DB4F8),
+                                    uncheckedBorderColor = Color(0xFF4DB4F8),
+                                ),
+                                modifier = Modifier
+                                    .height(18.86.dp)
+                                    .width(39.43.dp)
+                                    .border(
+                                        width = 1.71.dp,
+                                        color = Color.Transparent,
+                                        shape = RoundedCornerShape(85.71.dp)
+                                    )
+                            )
+                            Icon(
+                                painter = painterResource(R.drawable.female_color_img),
+                                contentDescription = "Female",
+                                tint = if (gender) Color(0xFFFF499C) else Color.Black.copy(alpha = 0.3f),
+                                modifier = Modifier
+                                    .size(18.86.dp)
+                            )
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))

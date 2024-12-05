@@ -31,11 +31,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
@@ -57,10 +59,12 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -84,6 +88,7 @@ import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -107,7 +112,7 @@ fun DashBoardScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ProfileDrawerContent( navController = navController )
+            ProfileDrawerContent( modifier = Modifier, navController = navController,drawerState = drawerState, scope)
         }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -496,19 +501,44 @@ private fun StudentAssessment() {
                 .width(386.dp)
                 .align(Alignment.BottomCenter)
                 .padding(10.dp)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xFF185573),
+                            Color(0xFF14868D)
+                        )
+                    ),
+                    shape = RoundedCornerShape(13.dp)
+                )
         ) {
+            Canvas(
+                modifier = Modifier
+                    .size(172.dp)
+                    .offset(x = 140.dp, y = (-50).dp)
+
+            ) {
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.1f),
+                    radius = size.width / 2.0f,
+                    alpha = 0.4f
+                )
+            }
+            Canvas(
+                modifier = Modifier
+                    .size(172.dp)
+                    .offset(x = 225.dp, y = 40.dp)
+
+            ) {
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.2f),
+                    radius = size.width / 2.0f,
+                    alpha = 0.4f
+                )
+            }
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(13.dp))
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color(0xFF185573),
-                                Color(0xFF14868D)
-                            )
-                        )
-                    ),
+                    .clip(RoundedCornerShape(13.dp)),
                 color = Color.Transparent,
                 shape = RoundedCornerShape(13.dp),
             ) {
@@ -833,7 +863,12 @@ fun ProfileWithMenuIcon(
 
 
 @Composable
-fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostController){
+fun ProfileDrawerContent(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    drawerState: DrawerState,
+    scope: CoroutineScope
+){
     val iconsList = listOf(
         "Profile" to R.drawable.profile_icon,
         "Student Performance" to R.drawable.performance_graph,
@@ -842,6 +877,7 @@ fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostCo
         "Privacy Policy" to R.drawable.policy,
         "Logout" to R.drawable.log_out
     )
+    var showLogoutDialog by remember { mutableStateOf(false) }
     Box(
         modifier = modifier
             .fillMaxHeight()
@@ -854,7 +890,7 @@ fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostCo
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(start = 20.dp, top = 10.dp)
+                .padding(start = 20.dp, top = 20.dp)
         ){
             Icon(
                 painter = painterResource(R.drawable.close),
@@ -863,7 +899,9 @@ fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostCo
                 modifier = Modifier
                     .size(20.dp)
                     .clickable {
-
+                        scope.launch {
+                            drawerState.close()
+                        }
                     }
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -897,10 +935,11 @@ fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostCo
                         when(item.first){
                             "Profile" -> { navController.navigate(route = "profileScreen")}
                             "Student Performance" -> { }
-                            "Bookmarks" -> { }
+                            "Bookmarks" -> { navController.navigate(route = "bookmarksScreen")}
                             "FAQ'S" -> { navController.navigate(route = "faqScreen")}
                             "Privacy Policy" -> { }
-                            "Logout" -> { }
+                            "Logout" -> { showLogoutDialog = true }
+
                         }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -962,6 +1001,9 @@ fun ProfileDrawerContent(modifier: Modifier = Modifier, navController: NavHostCo
                     .fillMaxWidth()
                     .padding(start = 10.dp, top = 5.dp)
             )
+            if (showLogoutDialog){
+                LogoutDialogBox(onDismiss = { showLogoutDialog = false })
+            }
         }
         Image(
             painter = painterResource(R.drawable.elephant_color),
@@ -1050,6 +1092,106 @@ private fun ProfileCard() {
                             color = Color(0xFF5A5A5A)
                         )
                     )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LogoutDialogBox(onDismiss: () -> Unit) {
+    BasicAlertDialog(
+        onDismissRequest = onDismiss,
+        modifier = Modifier
+            .height(279.dp)
+            .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(15.dp)
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround
+        ){
+            Image(
+                painter = painterResource(R.drawable.logout_alert),
+                contentDescription = "logout",
+                modifier = Modifier
+                    .size(80.dp)
+            )
+            Text(
+                text = "Are you sure you want to log out?",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight(500),
+                    color = Color.Black.copy(alpha = 0.8f)
+                )
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ){
+                Button(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .height(54.dp)
+                        .fillMaxWidth(0.5f)
+                        .border(
+                            width = 1.dp,
+                            brush = brush,
+                            shape = RoundedCornerShape(4.dp)
+                        ),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = "Cancel",
+                        style = TextStyle(
+                            fontFamily = openFont,
+                            fontWeight = FontWeight(600),
+                            fontSize = 16.sp,
+                            lineHeight = 36.sp,
+                            brush = brush
+                        )
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .width(160.dp)
+                        .height(54.dp)
+                        .background(
+                            brush = brush,
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                ){
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(start = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Image(
+                            painter = painterResource(R.drawable.elephant_button),
+                            contentDescription = "elephant"
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "Yes",
+                            style = TextStyle(
+                                fontFamily = openFont,
+                                fontWeight = FontWeight(600),
+                                fontSize = 16.sp,
+                                lineHeight = 36.sp,
+                                color = Color.White
+                            ),
+                        )
+                    }
                 }
             }
         }

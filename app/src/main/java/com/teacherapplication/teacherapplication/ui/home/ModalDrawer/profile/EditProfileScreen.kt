@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.ModalDrawer.profile
+package com.teacherapplication.teacherapplication.ui.home.ModalDrawer.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -462,7 +462,8 @@ fun GenderField(
                             checkedThumbColor = Color.White,
                             uncheckedThumbColor = Color.White,
                             checkedTrackColor = Color(0xFFFF499C),
-                            uncheckedTrackColor = Color(0xFF4DB4F8)
+                            uncheckedTrackColor = Color(0xFF4DB4F8),
+                            uncheckedBorderColor = Color(0xFF4DB4F8),
                         ),
                         modifier = Modifier
                             .height(18.86.dp)

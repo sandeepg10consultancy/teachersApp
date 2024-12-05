@@ -88,7 +88,7 @@ fun LoginScreenTextField(
         value = text,
         onValueChange = onValueChange,
         textStyle = MaterialTheme.typography.bodySmall.copy(
-            fontWeight = FontWeight(600)
+            fontWeight = FontWeight(600),
         ),
         modifier = Modifier
             .fillMaxWidth()
@@ -99,7 +99,7 @@ fun LoginScreenTextField(
             }
             .border(
                 width = 2.dp,
-                color = Color(0xFF14868D),
+                brush = brush,
                 shape = RoundedCornerShape(5.dp)
             ),
         label = {

@@ -111,7 +111,8 @@ fun TopicListingScreen(navController: NavHostController, viewModel: DashboardVie
 
         }
         BottomAppBar(
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter),
+            containerColor = Color.White
         ){
             BottomNavigationBar(navController, viewModel)
         }

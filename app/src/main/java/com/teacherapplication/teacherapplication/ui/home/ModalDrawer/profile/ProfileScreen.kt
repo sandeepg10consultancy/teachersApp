@@ -1,4 +1,4 @@
-package com.teacherapplication.teacherapplication.ui.ModalDrawer.profile
+package com.teacherapplication.teacherapplication.ui.home.ModalDrawer.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

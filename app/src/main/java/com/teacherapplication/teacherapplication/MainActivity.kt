@@ -14,7 +14,8 @@ import androidx.navigation.navArgument
 import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.Diary.GroupDiscussionScreen
 import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
-import com.teacherapplication.teacherapplication.ui.ModalDrawer.FAQScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.BookmarksScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.FAQScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.AssignmentDetails
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterList
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.ChapterScreen
@@ -34,8 +35,9 @@ import com.teacherapplication.teacherapplication.ui.login.account.PersonDetails
 import com.teacherapplication.teacherapplication.ui.login.account.SubjectSelection
 import com.teacherapplication.teacherapplication.ui.login.otp.OTPScreen
 import com.teacherapplication.teacherapplication.ui.login.password.SetPassword
-import com.teacherapplication.teacherapplication.ui.ModalDrawer.profile.EditProfileScreen
-import com.teacherapplication.teacherapplication.ui.ModalDrawer.profile.ProfileScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.profile.EditProfileScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.profile.ProfileScreen
+import com.teacherapplication.teacherapplication.ui.home.NotificationsScreen
 import com.teacherapplication.teacherapplication.ui.theme.TeacherApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,6 +48,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
+                //BookmarksScreen(navController)
                 //DashBoardScreen(navController = navController,viewModel = viewModel)
                 MyApp()
                 //DailyDiaryScreen()
@@ -55,6 +58,7 @@ class MainActivity : ComponentActivity() {
                 //ProfileScreen(navController = navController, viewModel = viewModel)
                 //EditProfileScreen()
                 //FAQScreen()
+                //NotificationsScreen()
             }
         }
     }
@@ -104,6 +108,9 @@ fun MyApp(){
         }
         composable(route = "faqScreen"){
             FAQScreen(navController = navController)
+        }
+        composable(route = "bookmarksScreen"){
+            BookmarksScreen(navController = navController)
         }
         composable(route = "dairyScreen"){
             DailyDiaryScreen(navController = navController, viewModel = viewModel)
