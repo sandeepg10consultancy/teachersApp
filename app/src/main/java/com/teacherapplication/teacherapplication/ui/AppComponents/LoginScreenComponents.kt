@@ -67,9 +67,7 @@ fun BackArrow(onClick: () -> Unit = {}){
     {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "back",
-//            modifier = Modifier
-//                .padding(end = 3.dp)
+            contentDescription = "back"
         )
     }
 }
@@ -196,7 +194,7 @@ fun PasswordField(
                 }
                 .border(
                     width = 2.dp,
-                    color = Color(0xFF14868D),
+                    brush = brush,
                     shape = RoundedCornerShape(5.dp)
                 ),
             colors = OutlinedTextFieldDefaults.colors(

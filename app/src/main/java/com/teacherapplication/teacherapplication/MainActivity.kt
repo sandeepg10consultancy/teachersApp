@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.teacherapplication.teacherapplication.ui.Calendar.CalendarScreen
 import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.Diary.GroupDiscussionScreen
 import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
@@ -37,7 +38,8 @@ import com.teacherapplication.teacherapplication.ui.login.otp.OTPScreen
 import com.teacherapplication.teacherapplication.ui.login.password.SetPassword
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.profile.EditProfileScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.profile.ProfileScreen
-import com.teacherapplication.teacherapplication.ui.home.NotificationsScreen
+import com.teacherapplication.teacherapplication.ui.home.notifications.NotificationDetailsScreen
+import com.teacherapplication.teacherapplication.ui.home.notifications.NotificationsScreen
 import com.teacherapplication.teacherapplication.ui.theme.TeacherApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -48,17 +50,10 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
-                //BookmarksScreen(navController)
-                //DashBoardScreen(navController = navController,viewModel = viewModel)
+
                 MyApp()
-                //DailyDiaryScreen()
-                //NewGroupScreen()
-                //GroupDiscussionScreen()
-                //AnnouncementModelSheet()
-                //ProfileScreen(navController = navController, viewModel = viewModel)
-                //EditProfileScreen()
-                //FAQScreen()
-                //NotificationsScreen()
+                //CalendarScreen()
+
             }
         }
     }
@@ -100,6 +95,12 @@ fun MyApp(){
         composable(route = "dashboard"){
             DashBoardScreen(navController = navController, viewModel = viewModel)
         }
+        composable(route = "notificationsScreen"){
+            NotificationsScreen(navController = navController)
+        }
+        composable(route = "notificationDetails"){
+            NotificationDetailsScreen(navController = navController)
+        }
         composable(route = "profileScreen"){
             ProfileScreen(navController = navController, viewModel = viewModel)
         }
@@ -111,6 +112,9 @@ fun MyApp(){
         }
         composable(route = "bookmarksScreen"){
             BookmarksScreen(navController = navController)
+        }
+        composable(route = "calendarScreen"){
+            CalendarScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = "dairyScreen"){
             DailyDiaryScreen(navController = navController, viewModel = viewModel)

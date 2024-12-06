@@ -165,7 +165,7 @@ fun DashBoardScreen(
                             titleContentColor = Color.Gray
                         ),
                         actions = {
-                            IconButton(onClick = { /*TODO*/ }) {
+                            IconButton(onClick = { navController.navigate(route = "notificationsScreen") }) {
                                 Image(
                                     painter = painterResource(id = R.drawable.notification),
                                     contentDescription = "notification",
@@ -404,6 +404,7 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
 
     NavigationBar(
         containerColor = Color.White,
+        modifier = Modifier
     ) {
         navItems.forEach { (label, iconRes) ->
             val isSelected = (selectedItem == label)
@@ -455,12 +456,11 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
                         viewModel.setSelectedIcon(label)
                     val destination = when (label) {
                         "Home" -> "dashboard"
-                        "Calender" -> "newGroupScreen"
+                        "Calender" -> "calendarScreen"
                         "Diary" -> "dairyScreen"
                         else -> "dashboard"
                     }
                     navController.navigate(destination) {
-                        // Avoid multiple copies of the same destination in the back stack
                         launchSingleTop = true
                         restoreState = true
                     }
