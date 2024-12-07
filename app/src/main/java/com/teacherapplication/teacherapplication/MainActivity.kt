@@ -26,6 +26,8 @@ import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtConten
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.TopicListingScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadEbookScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadVideoScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentFilterScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentListScreen
 import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashBoardScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
@@ -51,8 +53,9 @@ class MainActivity : ComponentActivity() {
             val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
 
-                MyApp()
-                //CalendarScreen()
+                StudentListScreen()
+                //MyApp()
+                //CalendarScreen(navController, viewModel)
 
             }
         }
