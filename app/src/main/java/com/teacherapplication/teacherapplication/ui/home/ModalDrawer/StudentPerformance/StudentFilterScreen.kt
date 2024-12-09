@@ -28,10 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 
 @Composable
-fun StudentFilterScreen(){
+fun StudentFilterScreen(navController: NavHostController) {
     val scrollState = rememberScrollState()
     val classesList = mapOf(
         "Nursery" to listOf("Section - A", "Section - B", "Section - C", "Section - D", "Section - E"),
@@ -49,7 +50,7 @@ fun StudentFilterScreen(){
         Row(
             verticalAlignment = Alignment.CenterVertically
         ){
-            BackArrow(onClick = {  })
+            BackArrow(onClick = { navController.popBackStack() })
             Text(
                 text = "Student Performance",
                 style = MaterialTheme.typography.bodyLarge,
@@ -71,7 +72,8 @@ fun StudentFilterScreen(){
                 EachSectionBox(
                     classTitle = item.key,
                     sectionTitle = section,
-                    selectedSection = selectedSection
+                    selectedSection = selectedSection,
+                    navController = navController
                 )
             }
         }
@@ -83,7 +85,8 @@ fun StudentFilterScreen(){
 private fun EachSectionBox(
     classTitle: String,
     sectionTitle: String,
-    selectedSection: MutableState<String>
+    selectedSection: MutableState<String>,
+    navController: NavHostController
 ) {
     val sectionId = (classTitle + sectionTitle)
     val isSelected = sectionId == selectedSection.value
@@ -103,7 +106,7 @@ private fun EachSectionBox(
             )
             .clickable {
                 if (selectedSection.value == sectionId){
-
+                    navController.navigate(route = "studentListScreen")
                 }
                 selectedSection.value = sectionId
             },

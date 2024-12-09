@@ -28,6 +28,9 @@ import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtConten
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadVideoScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentFilterScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentListScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentOverallPerformance
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentSubmittedScreen
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentWiseAssessmentView
 import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashBoardScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
@@ -53,8 +56,11 @@ class MainActivity : ComponentActivity() {
             val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
 
-                StudentListScreen()
-                //MyApp()
+                //StudentWiseAssessmentView()
+                //StudentSubmittedScreen(navController)
+                //StudentOverallPerformance(navController)
+                //StudentListScreen(navController)
+                MyApp()
                 //CalendarScreen(navController, viewModel)
 
             }
@@ -115,6 +121,21 @@ fun MyApp(){
         }
         composable(route = "bookmarksScreen"){
             BookmarksScreen(navController = navController)
+        }
+        composable(route = "studentFilterScreen"){
+            StudentFilterScreen(navController = navController)
+        }
+        composable(route = "studentListScreen"){
+            StudentListScreen(navController = navController)
+        }
+        composable(route = "studentOverall"){
+            StudentOverallPerformance(navController = navController)
+        }
+        composable(route = "studentWiseAssessment"){
+            StudentWiseAssessmentView(navController = navController)
+        }
+        composable(route = "studentSubmittedScreen"){
+            StudentSubmittedScreen(navController = navController)
         }
         composable(route = "calendarScreen"){
             CalendarScreen(navController = navController, viewModel = viewModel)

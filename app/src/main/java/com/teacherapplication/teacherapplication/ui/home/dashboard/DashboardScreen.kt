@@ -934,7 +934,7 @@ fun ProfileDrawerContent(
                     onClick = {
                         when(item.first){
                             "Profile" -> { navController.navigate(route = "profileScreen")}
-                            "Student Performance" -> { }
+                            "Student Performance" -> { navController.navigate(route = "studentFilterScreen") }
                             "Bookmarks" -> { navController.navigate(route = "bookmarksScreen")}
                             "FAQ'S" -> { navController.navigate(route = "faqScreen")}
                             "Privacy Policy" -> { }

@@ -59,7 +59,10 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                BackArrow(onClick = { navController.popBackStack() })
+                BackArrow(onClick = {
+                    viewModel.setSelectedIcon("Home")
+                    navController.popBackStack()
+                })
                 Text(
                     text = "Calendar",
                     style = MaterialTheme.typography.titleMedium.copy(

@@ -42,6 +42,12 @@ val openFont = FontFamily(
     Font(R.font.open_sans_extra_bold, FontWeight.ExtraBold),
 )
 
+val nunitoFont = FontFamily(
+    Font(R.font.nunito_regular),
+    Font(R.font.nunito_medium, FontWeight.Normal),
+    Font(R.font.nunito_italic),
+)
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -96,6 +102,7 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 16.8.sp,
     ),
+
 
 
     /* Other default text styles to override

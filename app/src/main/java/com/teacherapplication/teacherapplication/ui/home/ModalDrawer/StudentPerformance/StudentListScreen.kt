@@ -41,9 +41,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
@@ -52,9 +52,9 @@ import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.SearchField
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
-@Preview(showBackground = true)
+
 @Composable
-fun StudentListScreen() {
+fun StudentListScreen(navController: NavHostController) {
     val scrollState = rememberScrollState()
     val searchedValue = remember { mutableStateOf("") }
     val subjectsList = mapOf(
@@ -84,7 +84,7 @@ fun StudentListScreen() {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BackArrow(onClick = { })
+            BackArrow(onClick = { navController.popBackStack() })
             Text(
                 text = "Student Performance",
                 style = MaterialTheme.typography.bodyLarge,
@@ -119,16 +119,15 @@ fun StudentListScreen() {
                 }
             }
         }
-        EachTopicCard(studentDetails)
+        EachTopicCard(studentDetails = studentDetails, navController = navController)
     }
 
 }
 
 @Composable
-fun EachTopicCard(studentDetails: List<Pair<String, List<Any>>>) {
+fun EachTopicCard(studentDetails: List<Pair<String, List<Any>>>, navController: NavHostController) {
     Box(
         modifier = Modifier
-            //.height(401.dp)
             .width(310.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(
@@ -163,7 +162,6 @@ fun EachTopicCard(studentDetails: List<Pair<String, List<Any>>>) {
             )
             Box(
                 modifier = Modifier
-                    //.height(295.dp)
                     .width(282.dp)
                     .clip(RoundedCornerShape(20.dp))
                     .background(
@@ -208,14 +206,15 @@ fun EachTopicCard(studentDetails: List<Pair<String, List<Any>>>) {
                         StudentDetails(
                             image = image,
                             name = student.first,
-                            rollNumber = rollNumber
+                            rollNumber = rollNumber,
+                            navController = navController
                         )
 
                     }
                 }
             }
         }
-        Spacer(modifier = Modifier.height(425.dp))
+
     }
 }
 
@@ -223,7 +222,8 @@ fun EachTopicCard(studentDetails: List<Pair<String, List<Any>>>) {
 private fun StudentDetails(
     image: Int,
     name: String,
-    rollNumber: String
+    rollNumber: String,
+    navController: NavHostController
 ) {
     Row(
         modifier = Modifier
@@ -251,7 +251,10 @@ private fun StudentDetails(
                     color = Color.White
                 ),
                 modifier = Modifier
-                    .width(79.dp),
+                    .width(79.dp)
+                    .clickable {
+                        navController.navigate(route = "studentOverall")
+                    },
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
