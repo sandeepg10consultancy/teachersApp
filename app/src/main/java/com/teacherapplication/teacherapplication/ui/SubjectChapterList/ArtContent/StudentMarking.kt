@@ -79,7 +79,7 @@ fun StudentMarking(
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BackArrow(onClick = { })
+                BackArrow(onClick = { navController.popBackStack() })
                 Image(
                     painter = painterResource(R.drawable.profile_img_2),
                     contentDescription = "profile",

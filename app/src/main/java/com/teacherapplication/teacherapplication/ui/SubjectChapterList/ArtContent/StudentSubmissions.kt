@@ -56,7 +56,7 @@ fun StudentSubmissions(
             .fillMaxSize()
             .padding(top = 40.dp)
     ){
-        StudentInfo()
+        StudentInfo(navController)
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "Student Work",
@@ -267,7 +267,7 @@ fun AttachmentTypeBox(
 
 
 @Composable
-private fun StudentInfo() {
+private fun StudentInfo(navController: NavHostController) {
     Box(
         modifier = Modifier
             .height(74.dp)
@@ -288,7 +288,9 @@ private fun StudentInfo() {
             Image(
                 painter = painterResource(R.drawable.arrow_left),
                 contentDescription = "back",
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier
+                    .size(20.dp)
+                    .clickable { navController.popBackStack() }
             )
             Image(
                 painter = painterResource(R.drawable.profile_img_2),

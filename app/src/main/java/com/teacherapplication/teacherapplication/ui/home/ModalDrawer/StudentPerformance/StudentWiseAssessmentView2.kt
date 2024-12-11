@@ -1,7 +1,5 @@
 package com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,52 +8,45 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.theme.nunitoFont
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 
 private val gradientColor = Brush.linearGradient(
     colors = listOf(Color(0xFF2093C3), Color(0xFF93ECFF))
 )
-
 @Composable
-fun StudentWiseAssessmentView(navController: NavHostController) {
+fun StudentWiseAssessmentSecond(){
     val scrollState = rememberScrollState()
-    val chaptersList = listOf(
-        "Chapter 1" to R.drawable.land,
-        "Chapter 2" to R.drawable.mountain,
-        "chapter 3" to R.drawable.chapter_sky,
-        "Chapter 4" to R.drawable.land,
-        "Chapter 5" to R.drawable.mountain,
+    val chaptersWithPercent = listOf(
+        "Chapter 1" to 0.7f,
+        "Chapter 2" to 0.6f,
+        "chapter 3" to 0.5f,
+        "Chapter 4" to 0.8f,
+        "Chapter 5" to 0.9f,
     )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +57,7 @@ fun StudentWiseAssessmentView(navController: NavHostController) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BackArrow(onClick = { navController.popBackStack() })
+            BackArrow(onClick = { })
             Text(
                 text = "Student Performance",
                 style = MaterialTheme.typography.bodyLarge,
@@ -76,46 +67,19 @@ fun StudentWiseAssessmentView(navController: NavHostController) {
                 textAlign = TextAlign.Center
             )
         }
-        StudentDetailsCard()
-        Box(
-            modifier = Modifier
-                .height(76.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(
-                    brush = gradientColor
-                )
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.subject_rocket),
-                contentDescription = "image",
-                tint = Color(0xFF93ECFF),
-                modifier = Modifier
-                    .height(132.dp)
-                    .width(76.dp)
-                    .fillMaxSize()
-                    .scale(1.7f)
-                    .offset(x = 52.dp, y= 0.dp)
-            )
-            Text(
-                text = "Science",
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontSize = 26.sp,
-                    lineHeight = 37.57.sp,
-                    color = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 20.dp),
-
-                )
-        }
-        chaptersList.forEachIndexed { index, pair ->
-            ChapterWiseDetails(
-                chapterNo = index+1,
-                chapterName = pair.first,
-                image = pair.second,
-                navController = navController
+        StudentPercentageCard()
+        SubjectWithPercentage(
+            title = "Science",
+            percentage = 40,
+            bgImage = R.drawable.subject_rocket,
+            bgImageColor = Color(0xFF93ECFF),
+            bgColor = listOf(Color(0xFF2093C3), Color(0xFF93ECFF))
+        )
+        chaptersWithPercent.forEachIndexed { index, pair ->
+            ChapterWithPercentage(
+                chapterNo = index + 1,
+                title = pair.first,
+                progress = pair.second
             )
         }
         Spacer(modifier = Modifier.height(50.dp))
@@ -123,11 +87,10 @@ fun StudentWiseAssessmentView(navController: NavHostController) {
 }
 
 @Composable
-fun ChapterWiseDetails(
+private fun ChapterWithPercentage(
     chapterNo: Int,
-    chapterName: String,
-    image: Int,
-    navController: NavHostController
+    title: String,
+    progress: Float
 ) {
     Card(
         modifier = Modifier
@@ -140,7 +103,7 @@ fun ChapterWiseDetails(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
         ),
-        onClick = { navController.navigate(route = "studentSubmittedScreen")}
+        onClick = { }
     ) {
         Row(
             modifier = Modifier
@@ -162,7 +125,7 @@ fun ChapterWiseDetails(
                     ),
                 )
                 Text(
-                    text = "0$chapterNo:\t\tAll About Me",
+                    text = "0$chapterNo:\t\t$title",
                     style = TextStyle(
                         fontFamily = nunitoFont,
                         fontSize = 20.sp,
@@ -171,14 +134,26 @@ fun ChapterWiseDetails(
                     ),
                 )
             }
-            Image(
-                painter = painterResource(image),
-                contentDescription = "land",
-                modifier = Modifier
-                    .height(67.dp)
-                    .width(79.dp)
-                    .clip(CircleShape)
-            )
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                GradientCircularProgressIndicator(
+                    progress = progress,
+                    modifier = Modifier.size(55.98.dp),
+                    strokeWidth = 3.17.dp,
+                    gradientColors = listOf(Color(0xFF2093C3), Color(0xFF93ECFF)),
+                    trackColor = Color(0xFFC3F1FF)
+                )
+                Text(
+                    text = "${(progress*100).roundToInt()}%",
+                    style = TextStyle(
+                        fontFamily = nunitoFont,
+                        fontWeight = FontWeight(700),
+                        fontSize = 18.sp,
+                        lineHeight = 27.sp
+                    )
+                )
+            }
         }
     }
 }

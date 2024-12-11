@@ -74,7 +74,7 @@ fun AssignmentDetails(
                 .padding(top = 40.dp)
                 .verticalScroll(scrollState)
         ) {
-            TopBox()
+            TopBox(navController)
             Column(
                 modifier = Modifier.padding(20.dp)
             ) {
@@ -864,7 +864,7 @@ fun PDFBox(){
 
 
 @Composable
-private fun TopBox() {
+private fun TopBox(navController: NavHostController) {
     Box(
         modifier = Modifier
             .height(74.dp)
@@ -885,7 +885,9 @@ private fun TopBox() {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "back",
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { navController.popBackStack() },
                 tint = Color.White
             )
             Text(

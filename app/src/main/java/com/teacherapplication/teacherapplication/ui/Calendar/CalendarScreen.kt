@@ -1,5 +1,7 @@
 package com.teacherapplication.teacherapplication.ui.Calendar
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,13 +19,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -40,12 +49,16 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewModel) {
     val scrollState = rememberScrollState()
     val daysList = listOf("M" to "08", "T" to "09", "W" to "10", "T" to "11", "F" to "12", "S" to "13", "S" to "14")
     val today = "10"
+    val isCalenderOpen = remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -72,42 +85,106 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                     ),
                 )
                 Icon(
-                    painter = painterResource(R.drawable.display_calendar),
+                    painter = painterResource(if (isCalenderOpen.value) R.drawable.close_calendar else R.drawable.display_calendar),
                     contentDescription = "calendar",
                     tint = Color(0xFF129193),
                     modifier = Modifier
                         .size(24.dp)
+                        .clickable {
+                            isCalenderOpen.value = !isCalenderOpen.value
+                        }
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "August, 2024",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    brush = brush
-                ),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                daysList.forEach { day ->
-                    DateAndDayCard(
-                        day = day.first,
-                        date = day.second,
-                        isToday = (day.second == today)
-                    )
-                }
-            }
+            if (isCalenderOpen.value){
+                Box(
+                    modifier = Modifier
+                        .height(55.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(7.96.dp))
+                        .background(
+                            brush = brush
+                        )
+                ){
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Icon(
+                            painter = painterResource(R.drawable.left_side),
+                            contentDescription = "left",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(16.47.dp)
+                                .clickable {
 
-            DashedLine(
-                modifier = Modifier
-                    .height(50.dp)
-                    .fillMaxWidth(),
-                color = Color(0xFF1D1751)
-            )
+                                }
+                        )
+                        Text(
+                            text = "August 2024",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight(700),
+                                color = Color.White
+                            )
+                        )
+                        Icon(
+                            painter = painterResource(R.drawable.right_side),
+                            contentDescription = "right",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(16.47.dp)
+                                .clickable {
+
+                                }
+                        )
+                    }
+                }
+                DashedLine(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .fillMaxWidth(),
+                    color = Color(0xFF1D1751)
+                )
+                Spacer(modifier = Modifier.height(250.dp))
+                DashedLine(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .fillMaxWidth(),
+                    color = Color(0xFF5A5A5A)
+                )
+            }else {
+                Text(
+                    text = "August, 2024",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        brush = brush
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    daysList.forEach { day ->
+                        DateAndDayCard(
+                            day = day.first,
+                            date = day.second,
+                            isToday = (day.second == today)
+                        )
+                    }
+                }
+
+                DashedLine(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .fillMaxWidth(),
+                    color = Color(0xFF1D1751)
+                )
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -134,6 +211,8 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
 
                 )
             }
+            StepperScreen()
+            Spacer(modifier = Modifier.height(100.dp))
         }
         BottomAppBar(
             modifier = Modifier
@@ -171,7 +250,7 @@ fun DashedLine(
 
 
 @Composable
-private fun DateAndDayCard(
+fun DateAndDayCard(
     day: String,
     date: String,
     isToday: Boolean

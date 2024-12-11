@@ -1,9 +1,11 @@
 package com.teacherapplication.teacherapplication
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -12,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.teacherapplication.teacherapplication.ui.Calendar.CalendarScreen
+import com.teacherapplication.teacherapplication.ui.Calendar.EditTimetableScreen
 import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.Diary.GroupDiscussionScreen
 import com.teacherapplication.teacherapplication.ui.Diary.NewGroupScreen
@@ -26,6 +29,7 @@ import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtConten
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.TopicListingScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadEbookScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadVideoScreen
+import com.teacherapplication.teacherapplication.ui.Calendar.StepperScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentFilterScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentListScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentOverallPerformance
@@ -56,11 +60,8 @@ class MainActivity : ComponentActivity() {
             val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
 
-                //StudentWiseAssessmentView()
-                //StudentSubmittedScreen(navController)
-                //StudentOverallPerformance(navController)
-                //StudentListScreen(navController)
-                MyApp()
+                EditTimetableScreen()
+                //MyApp()
                 //CalendarScreen(navController, viewModel)
 
             }
@@ -69,6 +70,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyApp(){
     val navController = rememberNavController()
