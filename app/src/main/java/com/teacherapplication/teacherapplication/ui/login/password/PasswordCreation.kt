@@ -119,7 +119,7 @@ fun SetPassword(modifier: Modifier = Modifier, navController: NavHostController)
                     modifier = Modifier
                 ) {
                     Text(
-                        text = "Re-Enter Password",
+                        text = "Enter Password",
                         style = MaterialTheme.typography.bodySmall,
                     )
                     Spacer(modifier = Modifier.width(2.dp))
