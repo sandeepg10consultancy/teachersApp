@@ -29,7 +29,6 @@ import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtConten
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.TopicListingScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadEbookScreen
 import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.UploadVideoScreen
-import com.teacherapplication.teacherapplication.ui.Calendar.StepperScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentFilterScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentListScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentOverallPerformance
@@ -60,8 +59,8 @@ class MainActivity : ComponentActivity() {
             val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
 
-                EditTimetableScreen()
-                //MyApp()
+                //EditTimetableScreen()
+                MyApp()
                 //CalendarScreen(navController, viewModel)
 
             }
@@ -141,6 +140,9 @@ fun MyApp(){
         }
         composable(route = "calendarScreen"){
             CalendarScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(route = "editTimetableScreen"){
+            EditTimetableScreen(navController = navController)
         }
         composable(route = "dairyScreen"){
             DailyDiaryScreen(navController = navController, viewModel = viewModel)

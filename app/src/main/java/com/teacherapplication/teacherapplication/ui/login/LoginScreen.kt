@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -27,12 +28,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,6 +47,7 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 import com.teacherapplication.teacherapplication.ui.AppComponents.PasswordField
+import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 
 
 //@Preview(showBackground = true)
@@ -77,110 +81,100 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(color = Color(0xFFFFFFFF))
     ){
-
         Column(
             modifier = Modifier
-                .padding(start = 10.dp, top = 40.dp, end = 10.dp)
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 BackArrow(onClick = {navController.popBackStack()})
-                Spacer(modifier = Modifier.width(110.dp))
                 Text(
                     text = "Log In",
                     style = MaterialTheme.typography.titleSmall.copy(
-                        brush = Brush.linearGradient(
-                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-                            start = Offset(0f, 0f),
-                            end = Offset(Float.POSITIVE_INFINITY, 0f)
-                        ),
+                        brush = brush,
                     ),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
-                        .padding(top = 10.dp)
+                        .fillMaxWidth(0.95f),
+                    textAlign = TextAlign.Center
                 )
             }
-            Column(
-                modifier = Modifier.padding(20.dp)
+            Spacer(modifier = Modifier.height(15.dp))
+            Row(
+                modifier = Modifier
             ) {
-                Row(
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "Phone Number",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "*",
-                        color = Color(0xFFEF6464),
-                    )
-                }
-                LoginScreenTextField(text = phoneNumber, labelText = "Please enter your phone Number") { phoneNumber = it}
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "Password",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "*",
-                        color = Color(0xFFEF6464),
-                    )
-                }
-
-                PasswordField(password = password, labelText = "Please enter your password"){password = it}
-
-                Text(text = "Forgot Password?",
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(600),
-                        lineHeight = 36.sp
-                    ),
-                    color = Color(0xFF14868D),
-                    modifier = Modifier
-                        .padding(top = 10.dp, bottom = 15.dp)
-                        .align(Alignment.End)
-                        .clickable { }
+                Text(
+                    text = "Phone Number",
+                    style = MaterialTheme.typography.bodySmall,
                 )
-                LoginScreenButton(text = "Login", gradientBrush = gradientBrush) {
-                    navController.navigate(route = "dashboard")
-                }
-                Row(
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "New to the app?",
-                        style = MaterialTheme.typography.bodySmall)
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(
-                        text = "Create account",
-                        textDecoration = TextDecoration.Underline,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight(600)
-                        ),
-                        color = Color(0xFF129193),
-                        modifier = Modifier.clickable {
-                            navController.navigate(route = "register")
-                        }
-                    )
-                }
-                LoginChecking(true)
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(
+                    text = "*",
+                    color = Color(0xFFEF6464),
+                )
             }
+            LoginScreenTextField(text = phoneNumber, labelText = "Please enter your phone Number") { phoneNumber = it}
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                modifier = Modifier
+            ) {
+                Text(
+                    text = "Password",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(
+                    text = "*",
+                    color = Color(0xFFEF6464),
+                )
+            }
+
+            PasswordField(password = password, labelText = "Please enter your password"){password = it}
+
+            Text(text = "Forgot Password?",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 14.sp,
+                    lineHeight = 36.sp
+                ),
+                color = Color(0xFF129193),
+                modifier = Modifier
+                    .padding(top = 10.dp, bottom = 15.dp)
+                    .align(Alignment.End)
+                    .clickable { }
+            )
+            LoginScreenButton(text = "Login", gradientBrush = gradientBrush) {
+                navController.navigate(route = "dashboard")
+            }
+            Row(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "New to the app?",
+                    style = MaterialTheme.typography.bodySmall)
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text = "Create account",
+                    textDecoration = TextDecoration.Underline,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight(600)
+                    ),
+                    color = Color(0xFF129193),
+                    modifier = Modifier.clickable {
+                        navController.navigate(route = "register")
+                    }
+                )
+            }
+            LoginChecking(true)
         }
         Image(
             painter = painterResource(id = R.drawable.elephant_color),
             contentDescription = "coloured elephant",
             modifier = Modifier
+                .height(276.95.dp)
+                .width(296.41.dp)
                 .align(Alignment.BottomStart)
 
         )
@@ -191,56 +185,59 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
 
 @Composable
 fun LoginChecking(check: Boolean) {
-    if (check){
+    if (!check){
         Box(modifier = Modifier
-            .padding(top = 10.dp)
+            .height(70.dp)
             .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
             .background(
                 color = Color(0xFF25A455),
                 shape = RoundedCornerShape(10.dp)
             )){
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp),
+                    .fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
 
             ){
                 Image(painter = painterResource(id = R.drawable.successful),
                     contentDescription = "success",
-                    modifier = Modifier.scale(1f)
+                    modifier = Modifier
+                        .size(24.dp)
                 )
-                Spacer(modifier = Modifier.width(5.dp))
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(text = "Login Successful",
-                    color = Color(0xFFFFFFFF),
+                    color = Color.White,
                     style = MaterialTheme.typography.labelSmall
                     )
             }
         }
     }else{
         Box(modifier = Modifier
-            .padding(top = 10.dp)
+            .height(60.dp)
             .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
             .background(
                 color = Color(0xFFEF6464),
                 shape = RoundedCornerShape(10.dp)
             )){
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp),
+                    .fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
 
             ){
                 Image(painter = painterResource(id = R.drawable.login_failed),
                     contentDescription = "failed",
-                    modifier = Modifier.scale(1f)
+                    modifier = Modifier
+                        .height(21.33.dp)
+                        .width(24.dp)
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(text = "Login Failed",
-                    color = Color(0xFFFFFFFF),
+                    color = Color.White,
                     style = MaterialTheme.typography.labelSmall
                 )
             }

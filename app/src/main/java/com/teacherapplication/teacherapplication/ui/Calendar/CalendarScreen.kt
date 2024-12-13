@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
+import com.teacherapplication.teacherapplication.ui.AppComponents.CustomCalendar
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
@@ -148,7 +149,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                         .fillMaxWidth(),
                     color = Color(0xFF1D1751)
                 )
-                Spacer(modifier = Modifier.height(250.dp))
+                CustomCalendar()
                 DashedLine(
                     modifier = Modifier
                         .height(50.dp)
@@ -206,7 +207,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier
                         .clickable {
-
+                            navController.navigate(route = "editTimetableScreen")
                         }
 
                 )

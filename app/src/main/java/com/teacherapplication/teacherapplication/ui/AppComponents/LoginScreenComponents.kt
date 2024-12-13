@@ -6,6 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -34,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -43,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
@@ -58,7 +62,9 @@ class StarVisualTransformation : VisualTransformation {
 */
 
 val brush = Brush.linearGradient(
-    colors = listOf(Color(0xFF185573), Color(0xFF14868D))
+    colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
 )
 
 @Composable
@@ -115,36 +121,38 @@ fun LoginScreenButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ){
-    Box(
-        modifier = modifier
-            .height(70.dp)
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .height(72.dp)
+            .fillMaxWidth()
             .background(
                 brush = gradientBrush,
                 shape = RoundedCornerShape(10.dp)
-            )
-    ) {
-        Button(
-            onClick = onClick,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
             ),
-            enabled = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-        ) {
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent
+        )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.elephant_button),
+                contentDescription = "elephant background",
+                modifier = Modifier
+                    .height(68.dp)
+                    .width(62.35.dp)
+                    .scale(1.2f)
+            )
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.fillMaxWidth(0.8f),
+                textAlign = TextAlign.Center
             )
         }
-        Image(
-            painter = painterResource(id = R.drawable.elephant_button),
-            contentDescription = "elephant background",
-            modifier = Modifier
-                .scale(1.3f)
-                .offset(x = 20.dp, y = 7.dp)
-        )
     }
 }
 

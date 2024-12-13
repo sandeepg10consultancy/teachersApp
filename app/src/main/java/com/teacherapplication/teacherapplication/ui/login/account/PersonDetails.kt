@@ -1,5 +1,6 @@
 package com.teacherapplication.teacherapplication.ui.login.account
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -187,8 +188,8 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                     )
                 }
                 OutlinedTextField(
-                    value = if (gender) genderValue else "Male",
-                    onValueChange = { genderValue = it },
+                    value = genderValue,
+                    onValueChange = { },
                     textStyle = MaterialTheme.typography.bodySmall.copy(
                         fontWeight = FontWeight(600),
                         color = Color.Black,
@@ -218,7 +219,10 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                             )
                             Switch(
                                 checked = gender,
-                                onCheckedChange = { gender = it },
+                                onCheckedChange = {
+                                    gender = it
+                                    genderValue = if (gender) "Female" else "Male"
+                                },
                                 colors = SwitchDefaults.colors(
                                     checkedThumbColor = Color.White,
                                     uncheckedThumbColor = Color.White,

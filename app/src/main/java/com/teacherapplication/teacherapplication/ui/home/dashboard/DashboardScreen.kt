@@ -124,7 +124,7 @@ fun DashBoardScreen(
                     .align(Alignment.TopEnd)
             )
             Scaffold(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                modifier = Modifier,
                 topBar = {
                     TopAppBar(
                         navigationIcon = {
@@ -160,6 +160,7 @@ fun DashBoardScreen(
                                 )
                             }
                         },
+                        modifier = Modifier.padding(horizontal = 10.dp),
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent,
                             titleContentColor = Color.Gray
@@ -180,13 +181,13 @@ fun DashBoardScreen(
                 content = {
                     Column(
                         modifier = Modifier.padding(it)
-                            .verticalScroll(verticalScroll)
+                            .verticalScroll(verticalScroll),
+                        verticalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             EachSubjectCard(
@@ -198,7 +199,7 @@ fun DashBoardScreen(
                                 color = Color(0xFFFDC194),
                                 onClick = {
                                     navController.navigate("artChapter/${R.drawable.art_img}/Art")
-                                }
+                                },
                             )
                             EachSubjectCard(
                                 text = viewModel.selectedSection.collectAsState().value,
@@ -214,9 +215,9 @@ fun DashBoardScreen(
 
                         }
                         Row(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             EachSubjectCard(
@@ -240,9 +241,9 @@ fun DashBoardScreen(
 
                         }
                         Row(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             EachSubjectCard(
@@ -257,9 +258,8 @@ fun DashBoardScreen(
                             MoreCard()
                         }
 
-                        StudentAssessment()
+                        StudentAssessment(modifier = Modifier.align(Alignment.CenterHorizontally))
 
-                        Spacer(modifier = Modifier.height(20.dp))
                         Column(
                             modifier = Modifier.padding(start = 10.dp)
                         ) {
@@ -489,9 +489,9 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
 
 
 @Composable
-private fun StudentAssessment() {
+private fun StudentAssessment(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(386.dp)
             .height(170.7.dp)
     ) {
@@ -677,10 +677,11 @@ private fun EachSubjectCard(
     yOffset: Dp = 0.dp,
     image: Int,
     color: Color,
-    onClick: () -> Unit = { }
+    onClick: () -> Unit = { },
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(125.dp)
             .width(181.dp)
     ) {

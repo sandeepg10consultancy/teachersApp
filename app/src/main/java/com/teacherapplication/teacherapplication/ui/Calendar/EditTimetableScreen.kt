@@ -50,24 +50,38 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
+import com.teacherapplication.teacherapplication.ui.AppComponents.CustomCalendar
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
+import com.teacherapplication.teacherapplication.ui.AppComponents.splitTime
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTimetableScreen(){
+fun EditTimetableScreen(navController: NavHostController) {
+    val startTime = remember { mutableStateOf("10:00 AM") }
+    val (sHour, sMinute, sPeriod) = splitTime(startTime.value)
+    val endTime = remember { mutableStateOf("10:30 AM") }
+    val (eHour, eMinute, ePeriod) = splitTime(endTime.value)
+    val schoolEndTime = "6:00 PM"
+    val (schoolHour, schoolMinute, schoolPeriod) = splitTime(schoolEndTime)
     val scrollState = rememberScrollState()
-    val daysList = listOf("M" to "08", "T" to "09", "W" to "10", "T" to "11", "F" to "12", "S" to "13", "S" to "14")
+    val dayDateList = listOf("M" to "08", "T" to "09", "W" to "10", "T" to "11", "F" to "12", "S" to "13", "S" to "14")
+    val daysList = listOf("Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun")
     val today = "10"
     val isCalenderOpen = remember { mutableStateOf(false) }
     val editClicked = remember { mutableStateOf(false) }
     val addNewClassClicked = remember { mutableStateOf(false) }
     val deleteClassDialog = remember { mutableStateOf(false) }
     val completedChapterDialog = remember { mutableStateOf(false) }
+    val beyondHoursDialog = remember { mutableStateOf(false) }
+    val successDialog = remember { mutableStateOf(false) }
     val subjectName = remember { mutableStateOf("Science") }
     val chapterName = remember { mutableStateOf("Chapter -3   What is Living And Non Living...") }
     val topicName = remember { mutableStateOf("What is Living And Non Living Things........") }
@@ -95,6 +109,7 @@ fun EditTimetableScreen(){
     val subjectDropDown = remember { mutableStateOf(false) }
     val chapterDropDown = remember { mutableStateOf(false) }
     val topicDropDown = remember { mutableStateOf(false) }
+
     Box(modifier = Modifier
         .fillMaxSize()
     )
@@ -110,7 +125,7 @@ fun EditTimetableScreen(){
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                BackArrow(onClick = { })
+                BackArrow(onClick = { navController.popBackStack() })
                 Text(
                     text = "Edit Timetable",
                     style = MaterialTheme.typography.titleMedium.copy(
@@ -179,14 +194,14 @@ fun EditTimetableScreen(){
                 }
                 DashedLine(
                     modifier = Modifier
-                        .height(40.dp)
+                        .height(30.dp)
                         .fillMaxWidth(),
                     color = Color(0xFF1D1751)
                 )
-                Spacer(modifier = Modifier.height(250.dp))
+                CustomCalendar()
                 DashedLine(
                     modifier = Modifier
-                        .height(50.dp)
+                        .height(40.dp)
                         .fillMaxWidth(),
                     color = Color(0xFF5A5A5A)
                 )
@@ -204,7 +219,7 @@ fun EditTimetableScreen(){
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    daysList.forEach { day ->
+                    dayDateList.forEach { day ->
                         DateAndDayCard(
                             day = day.first,
                             date = day.second,
@@ -267,7 +282,10 @@ fun EditTimetableScreen(){
                 topicDropDown,
                 topicItems,
                 editClicked,
-                completedChapterDialog
+                completedChapterDialog,
+                beyondHoursDialog = beyondHoursDialog,
+                successDialog = successDialog
+
             )
         }else if (addNewClassClicked.value){
             EditTimetableClicked(
@@ -283,7 +301,10 @@ fun EditTimetableScreen(){
                 topicDropDown,
                 topicItems,
                 addNewClassClicked,
-                completedChapterDialog
+                completedChapterDialog,
+                beyondHoursDialog,
+                successDialog,
+
             )
         }
         if (deleteClassDialog.value) {
@@ -327,7 +348,7 @@ fun EditTimetableScreen(){
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ){
                                 EditCancelButton(deleteClassDialog)
-                                EditAddBox(text = "Delete")
+                                EditAddBox(text = "Delete", beyondHoursDialog = beyondHoursDialog, successDialog = successDialog)
                             }
                         }
                     }
@@ -354,8 +375,25 @@ private fun EditTimetableClicked(
     topicDropDown: MutableState<Boolean>,
     topicItems: List<Pair<String, String>>,
     editClicked: MutableState<Boolean>,
-    completedChapterDialog: MutableState<Boolean>
+    completedChapterDialog: MutableState<Boolean>,
+    beyondHoursDialog: MutableState<Boolean>,
+    successDialog: MutableState<Boolean>,
 ) {
+    val startTime = remember { mutableStateOf("10:00 AM") }
+    val (sHour, sMinute, sPeriod) = try {
+        splitTime(startTime.value)
+    } catch (e: Exception) {
+        Triple(0, 0, "AM")
+    }
+    val endTime = remember { mutableStateOf("10:30 AM") }
+    val (eHour, eMinute, ePeriod) = try {
+        splitTime(startTime.value)
+    } catch (e: Exception) {
+        Triple(0, 0, "AM") // Fallback in case of error
+    }
+    val schoolEndTime = "6:00 PM"
+    val (schoolHour, schoolMinute, schoolPeriod) = splitTime(schoolEndTime)
+
     ModalBottomSheet(
         sheetState = rememberModalBottomSheetState(),
         onDismissRequest = {
@@ -364,7 +402,6 @@ private fun EditTimetableClicked(
         dragHandle = { BottomSheetDefaults.ExpandedShape},
         containerColor = Color.White
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -417,7 +454,7 @@ private fun EditTimetableClicked(
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Black
                     )
-                    EditTimeBox(time = "10:00 AM")
+                    EditTimeBox(time = startTime)
                 }
                 Column(
                     verticalArrangement = Arrangement.spacedBy(3.dp)
@@ -427,7 +464,7 @@ private fun EditTimetableClicked(
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Black
                     )
-                    EditTimeBox(time = "10:30 AM")
+                    EditTimeBox(time = endTime)
                 }
             }
             Spacer(modifier = Modifier.height(50.dp))
@@ -436,49 +473,154 @@ private fun EditTimetableClicked(
             ) {
                 EditCancelButton(editClicked)
 
-                EditAddBox(buttonText)
+                EditAddBox(
+                    text = buttonText,
+                    eHour = eHour,
+                    schoolHour = schoolHour,
+                    beyondHoursDialog = beyondHoursDialog,
+                    successDialog = successDialog
+                )
 
             }
             if (completedChapterDialog.value) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = Color.Black.copy(alpha = 0.5f))
-                ) {
-                    Popup(
-                        alignment = Alignment.Center,
-                        properties = PopupProperties(focusable = true)
+                Dialog(onDismissRequest = { completedChapterDialog.value = false }) {
+                    Box(
+                        modifier = Modifier
+                            .height(284.dp)
+                            .width(387.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(color = Color.White)
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .height(284.dp)
-                                .width(387.dp)
-                                .clip(RoundedCornerShape(15.dp))
-                                .background(color = Color.White)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(15.dp)
                         ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
+                            Image(
+                                painter = painterResource(R.drawable.alert_pop_up),
+                                contentDescription = "alert",
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .padding(top = 10.dp)
+                            )
+                            Text(
+                                text = "You've selected a completed chapter. Do you want to schedule class on this chapter again?",
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                textAlign = TextAlign.Center
+                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
-                                Image(
-                                    painter = painterResource(R.drawable.alert_pop_up),
-                                    contentDescription = "alert",
-                                    modifier = Modifier.size(100.dp)
+                                EditCancelButton(
+                                    completedChapterDialog,
+                                    modifier = Modifier.fillMaxWidth(0.5f)
                                 )
-                                Text(
-                                    text = "You've selected a completed chapter. \n" +
-                                            "Do you want to schedule class on this chapter again?",
-                                    style = MaterialTheme.typography.bodySmall,
+                                EditAddBox(
+                                    text = "Yes",
+                                    beyondHoursDialog = beyondHoursDialog,
                                     modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
+                                    successDialog = successDialog,
                                 )
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    EditCancelButton(completedChapterDialog)
-                                    EditAddBox(text = "Yes")
-                                }
                             }
+                        }
+                    }
+                }
+            }
+            else if (beyondHoursDialog.value) {
+                Dialog(onDismissRequest = { beyondHoursDialog.value = false }) {
+                    Box(
+                        modifier = Modifier
+                            .height(284.dp)
+                            .width(387.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(color = Color.White)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(15.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(R.drawable.alert_pop_up),
+                                contentDescription = "alert",
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .padding(top = 10.dp)
+                            )
+                            Text(
+                                text = "The selected class time is beyond regular school hours. Do you want to proceed?",
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                textAlign = TextAlign.Center
+                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                EditCancelButton(
+                                    beyondHoursDialog,
+                                    modifier = Modifier.fillMaxWidth(0.5f)
+                                )
+                                EditAddBox(
+                                    text = "Yes, Proceed",
+                                    beyondHoursDialog = beyondHoursDialog,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    successDialog = successDialog,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            else if (successDialog.value){
+                Dialog(
+                    onDismissRequest = { successDialog.value = false}
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .height(395.dp)
+                            .width(386.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(color = Color.White),
+                    ){
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ){
+                            Image(
+                                painter = painterResource(R.drawable.success_pop_up),
+                                contentDescription = "success",
+                                modifier = Modifier
+                                    .size(100.dp)
+                            )
+                            Spacer(modifier = Modifier.height(50.dp))
+                            Text(
+                                text = "Great!",
+                                style = MaterialTheme.typography.labelLarge.copy(
+                                    fontSize = 25.sp,
+                                    lineHeight = 31.5.sp,
+                                    brush = brush
+                                )
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text(
+                                text = "Your class has been successfully added to the timetable!",
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    fontWeight = FontWeight(500),
+                                    color = Color.Black.copy(alpha = 0.6f)
+                                ),
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
                         }
                     }
                 }
@@ -488,22 +630,32 @@ private fun EditTimetableClicked(
 }
 
 @Composable
-private fun EditAddBox(text: String) {
+private fun EditAddBox(
+    text: String,
+    eHour: Int = 0,
+    schoolHour: Int = 0,
+    beyondHoursDialog: MutableState<Boolean>,
+    successDialog: MutableState<Boolean>,
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(54.dp)
             .width(180.dp)
             .clip(RoundedCornerShape(5.dp))
             .background(
                 brush = brush,
             )
+            .clickable {
+                if (eHour > schoolHour) beyondHoursDialog.value = true
+                else successDialog.value = true
+            }
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Image(
                 painter = painterResource(R.drawable.elephant_button),
@@ -521,17 +673,20 @@ private fun EditAddBox(text: String) {
                     lineHeight = 12.sp,
                     letterSpacing = 0.15.sp,
                     color = Color.White,
-                )
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
             )
         }
     }
 }
 
 @Composable
-private fun EditCancelButton(editClicked: MutableState<Boolean>) {
+private fun EditCancelButton(editClicked: MutableState<Boolean>, modifier: Modifier = Modifier) {
     TextButton(
         onClick = { editClicked.value = false },
-        modifier = Modifier
+        modifier = modifier
             .height(54.dp)
             .width(180.dp)
             .clip(RoundedCornerShape(5.dp))
@@ -556,7 +711,38 @@ private fun EditCancelButton(editClicked: MutableState<Boolean>) {
 }
 
 @Composable
-private fun EditTimeBox(time: String) {
+private fun EditTimeBox(time: MutableState<String>) {
+    OutlinedTextField(
+        value = time.value,
+        onValueChange = { newValue ->
+            if (newValue.isNotBlank()) {
+                time.value = newValue
+            }
+        },
+        modifier = Modifier
+            .height(52.dp)
+            .width(180.dp)
+            .clip(RoundedCornerShape(6.dp))
+            .border(
+                width = 2.dp,
+                brush = brush,
+                shape = RoundedCornerShape(6.dp)
+            ),
+        textStyle = MaterialTheme.typography.bodySmall.copy(
+            fontWeight = FontWeight(500),
+            color = Color(0xFF707070)
+        ),
+        trailingIcon = {
+            Image(
+                painter = painterResource(R.drawable.edit_clock),
+                contentDescription = "clock",
+                modifier = Modifier
+                    .size(24.dp)
+            )
+        }
+    )
+
+    /*
     Box(
         modifier = Modifier
             .height(52.dp)
@@ -576,7 +762,7 @@ private fun EditTimeBox(time: String) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = time,
+                text = time.value,
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontWeight = FontWeight(500)
                 ),
@@ -590,6 +776,8 @@ private fun EditTimeBox(time: String) {
             )
         }
     }
+
+     */
 }
 
 @Composable
