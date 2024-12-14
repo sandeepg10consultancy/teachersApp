@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.PasswordField
 
@@ -70,26 +71,18 @@ fun SetPassword(modifier: Modifier = Modifier, navController: NavHostController)
     }
 
     Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color(0xFFFFFFFF)))
+        .fillMaxSize())
     {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 10.dp, top = 40.dp, end = 10.dp))
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp))
         {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
-                    )
-                }
-                Spacer(modifier = Modifier.width(40.dp))
+                BackArrow(onClick = { navController.popBackStack() })
                 Text(
                     text = "Set Your Password",
                     style = MaterialTheme.typography.titleSmall.copy(
@@ -100,65 +93,64 @@ fun SetPassword(modifier: Modifier = Modifier, navController: NavHostController)
                         ),
                     ),
                     fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
-                        .padding(top = 10.dp)
+                        .fillMaxWidth(0.95f)
+                        .padding(top = 1.dp),
+                    textAlign = TextAlign.Center
                 )
             }
             Text(text = "Your password needs to be at least 6\n characters.",
                 style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 60.dp),
                 color = Color(0xFF333333)
             )
-            Column(
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
                 modifier = Modifier
-                    .padding(20.dp),
-            ){
-                Row(
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "Enter Password",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "*",
-                        color = Color(0xFFEF6464),
-                    )
-                }
-                PasswordField(password = password, labelText = "Enter your password"){
-                    password = it
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "Re-Enter Password",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "*",
-                        color = Color(0xFFEF6464),
-                    )
-                }
-                PasswordField(password = rePassword, labelText = "Re-Enter your password"){
-                    rePassword = it
-                }
-                Spacer(modifier = Modifier.height(50.dp))
+            ) {
+                Text(
+                    text = "Enter Password",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(
+                    text = "*",
+                    color = Color(0xFFEF6464),
+                )
+            }
+            PasswordField(password = password, labelText = "Enter your password"){
+                password = it
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                modifier = Modifier
+            ) {
+                Text(
+                    text = "Re-Enter Password",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(
+                    text = "*",
+                    color = Color(0xFFEF6464),
+                )
+            }
+            PasswordField(password = rePassword, labelText = "Re-Enter your password"){
+                rePassword = it
+            }
+            Spacer(modifier = Modifier.height(50.dp))
 
-                LoginScreenButton(text = "Save & Next", gradientBrush = gradientBrush){
-                    navController.navigate(route = "personDetails")
-                }
+            LoginScreenButton(text = "Save & Next", gradientBrush = gradientBrush){
+                navController.navigate(route = "personDetails")
             }
         }
         Image(
             painter = painterResource(id = R.drawable.elephant_color),
             contentDescription = "coloured elephant",
             modifier = Modifier
+                .height(276.95.dp)
+                .width(296.41.dp)
                 .align(Alignment.BottomStart)
 
         )

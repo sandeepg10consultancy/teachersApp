@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -60,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 
 
@@ -86,25 +88,18 @@ fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
         )
     }
     Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color(0xFFFFFFFF)))
+        .fillMaxSize() )
     {
         Column(
             modifier = Modifier
-                .padding(start = 10.dp, top = 40.dp, end = 10.dp))
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp))
         {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
-                    )
-                }
-                Spacer(modifier = Modifier.width(60.dp))
+                BackArrow(onClick = { navController.popBackStack() })
+
                 Text(
                     text = "OTP Verification",
                     style = MaterialTheme.typography.titleSmall.copy(
@@ -117,13 +112,14 @@ fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
-                        .padding(top = 10.dp)
+                        .fillMaxWidth(0.95f)
+                        .padding(top = 1.dp),
+                    textAlign = TextAlign.Center
                 )
             }
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ){
@@ -137,11 +133,13 @@ fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
                     ),
                 )
 
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(40.dp))
                 otpValues = OTPVerify(otpValues)
-
+                Spacer(modifier = Modifier.height(30.dp))
                 Row(
-                    modifier = Modifier.padding(20.dp)
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
                 ){
                     Text(text = "Don’t receive the code ?",
                         color = Color(0xFF333333),
@@ -157,7 +155,7 @@ fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
                         color = Color(0xFF129193)
                     )
                 }
-                Spacer(modifier = Modifier.height(70.dp))
+                Spacer(modifier = Modifier.height(80.dp))
                 LoginScreenButton(text = "Verify", gradientBrush = gradientBrush)
                 {
                     navController.navigate(route = "password")
@@ -169,6 +167,8 @@ fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
             painter = painterResource(id = R.drawable.elephant_color),
             contentDescription = "coloured elephant",
             modifier = Modifier
+                .height(276.95.dp)
+                .width(296.41.dp)
                 .align(Alignment.BottomStart)
 
         )
@@ -185,12 +185,15 @@ fun OTPVerify(otpValues: List<MutableState<String>>): List<MutableState<String>>
     }
 
     Row(
-        horizontalArrangement = Arrangement.spacedBy(25.dp)
+        modifier = Modifier
+            .height(60.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         otpValues.forEachIndexed { index, otpDigit ->
             var isFocused by remember { mutableStateOf(false) }
 
-            OutlinedTextField(
+            TextField(
                 value = otpDigit.value,
                 onValueChange = { newValue ->
                     if (newValue.length <= 1 && newValue.all { it.isDigit() }) {
@@ -211,21 +214,18 @@ fun OTPVerify(otpValues: List<MutableState<String>>): List<MutableState<String>>
                     .onFocusChanged { focusState ->
                         isFocused = focusState.isFocused
                     }
-                    .border(
-                        width = 1.dp,
-                        color = if (isFocused) Color(0xFF129193) else Color(0xFFE4E4E4),
-                        shape = CircleShape
-                    )
                     .background( if (otpValues[index].value.isNotEmpty() || isFocused) Color(0xFF129193) else Color(0xFFE4E4E4)),
                 textStyle = MaterialTheme.typography.titleSmall.copy(
                     fontWeight = FontWeight(800),
                     textAlign = TextAlign.Center,
-                    color = Color(0xFFFFFFFF),
+                    color = Color.White,
                 ),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 colors = OutlinedTextFieldDefaults.colors(
-                    cursorColor = Color.White
+                    cursorColor = Color.White,
+                    unfocusedBorderColor = Color(0xFFE4E4E4),
+                    focusedBorderColor = Color(0xFF129193)
                 )
             )
         }

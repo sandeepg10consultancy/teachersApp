@@ -17,8 +17,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -64,6 +66,7 @@ var sectionName = "5 Sections"
 @Composable
 fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostController){
 
+    val scrollState = rememberScrollState()
     var classesMap = mapOf("Nursery" to R.drawable.nursery_img,
                             "Junior KG" to R.drawable.junior_kg_img,
                             "Senior KG" to R.drawable.senior_kg_img
@@ -87,12 +90,13 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(color = Color(0xFFFFFFFF)))
+        )
     {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 15.dp, top = 40.dp, end = 15.dp)
+                .verticalScroll(scrollState)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -143,7 +147,7 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
         }
         Box(
             modifier = Modifier.fillMaxSize()
-                .padding(20.dp),
+                .padding(horizontal = 15.dp, vertical = 50.dp),
             contentAlignment = Alignment.BottomCenter
         ){
             LoginScreenButton(text = "Save & Select Subjects", gradientBrush = gradientBrush) {
@@ -152,10 +156,13 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
         }
 
         Image(
-            painter = painterResource(id = R.drawable.elephant_light),
+            painter = painterResource(id = R.drawable.elephant_color),
             contentDescription = "coloured elephant",
             modifier = Modifier
-                .align(Alignment.BottomStart)
+                .height(276.95.dp)
+                .width(296.41.dp)
+                .align(Alignment.BottomStart),
+            alpha = 0.3f
 
         )
     }

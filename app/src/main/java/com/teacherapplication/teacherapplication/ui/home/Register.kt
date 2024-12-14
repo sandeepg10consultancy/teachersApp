@@ -35,12 +35,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,8 +50,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
+import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 
 
 //@Preview(showBackground = true)
@@ -81,48 +85,46 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(color = Color(0xFFFFFFFF))
     ){
         Column(
             modifier = Modifier
-                .padding(start = 10.dp, top = 40.dp, end = 10.dp)
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
+            Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BackArrow(onClick = { navController.popBackStack() })
+                    Text(
+                        text = "Create Account",
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            brush = Brush.linearGradient(
+                                colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+                                start = Offset(0f, 0f),
+                                end = Offset(Float.POSITIVE_INFINITY, 0f)
+                            ),
+                        ),
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .fillMaxWidth(0.95f)
+                            .padding(top = 1.dp),
+                        textAlign = TextAlign.Center
                     )
                 }
-                Spacer(modifier = Modifier.width(70.dp))
                 Text(
-                    text = "Create Account",
-                    style = MaterialTheme.typography.titleSmall.copy(
-                        brush = Brush.linearGradient(
-                            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-                            start = Offset(0f, 0f),
-                            end = Offset(Float.POSITIVE_INFINITY, 0f)
-                        ),
-                    ),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold,
+                    text = "Create a account by filling in info below.",
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier
-                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
+                    color = Color(0xFF333333),
+                    textAlign = TextAlign.Center
                 )
             }
-            Text(text = "Create a account by filling in info below.",
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .padding(start = 67.dp),
-                color = Color(0xFF333333)
-            )
-            Column(
-                modifier = Modifier.padding(20.dp)
-            ) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Column {
                 Row(
                     modifier = Modifier
                 ) {
@@ -137,13 +139,15 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
                         modifier = Modifier
                     )
                 }
-
-                LoginScreenTextField(text = schoolCode, labelText = "Enter School Code") { schoolCode = it }
-
-                if (schoolCode.isEmpty()){
-                    SchoolName()
-                }
-                Spacer(modifier = Modifier.height(20.dp))
+                LoginScreenTextField(
+                    text = schoolCode,
+                    labelText = "Enter School Code"
+                ) { schoolCode = it }
+            }
+            if (schoolCode.isEmpty()){
+                SchoolName()
+            }
+            Column {
                 Row(
                     modifier = Modifier
                 ) {
@@ -161,37 +165,39 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
                     )
                 }
 
-                LoginScreenTextField(text = phoneNumber, labelText = "Enter your phone number") { phoneNumber = it }
-
-                Spacer(modifier = Modifier.height(70.dp))
-
-                LoginScreenButton( text = "Get OTP", gradientBrush = gradientBrush)
-                {
-                    navController.navigate(route = "otpVerify")
-                }
-                Row(
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "Already have an account?",
-                        style = MaterialTheme.typography.bodySmall)
-                    Spacer(modifier = Modifier.width(3.dp))
-                    Text(
-                        text = "Log in",
-                        textDecoration = TextDecoration.Underline,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight(600)
-                        ),
-                        color = Color(0xFF129193)
-                    )
-                }
+                LoginScreenTextField(
+                    text = phoneNumber,
+                    labelText = "Enter your phone number"
+                ) { phoneNumber = it }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            LoginScreenButton( text = "Get OTP", gradientBrush = gradientBrush)
+            {
+                navController.navigate(route = "otpVerify")
+            }
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "Already have an account?",
+                    style = MaterialTheme.typography.bodySmall)
+                Spacer(modifier = Modifier.width(3.dp))
+                Text(
+                    text = "Log in",
+                    textDecoration = TextDecoration.Underline,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight(600)
+                    ),
+                    color = Color(0xFF129193)
+                )
             }
         }
         Image(
             painter = painterResource(id = R.drawable.elephant_color),
             contentDescription = "coloured elephant",
             modifier = Modifier
+                .height(276.95.dp)
+                .width(296.41.dp)
                 .align(Alignment.BottomStart)
 
         )
@@ -200,27 +206,33 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
 }
 
 @Composable
-fun SchoolName(name: String = ""){
-    Spacer(modifier = Modifier.height(20.dp))
-    Text(
-        text = "School Name",
-        style = MaterialTheme.typography.bodySmall,
-    )
-    OutlinedTextField(
-        value = name,
-        onValueChange = {},
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .padding(top = 2.dp)
-            .border(
-                width = 2.dp,
-                color = Color(0xFF14868D),
-                shape = RoundedCornerShape(5.dp)
-            ),
-        colors = OutlinedTextFieldDefaults.colors(
-            unfocusedBorderColor = Color.Transparent,
-            focusedBorderColor = Color.Transparent
+fun SchoolName(name: String = "1313 - Exela pvt.school"){
+    Column {
+        Text(
+            text = "School Name",
+            style = MaterialTheme.typography.bodySmall,
         )
-    )
+        Spacer(modifier = Modifier.height(3.dp))
+        OutlinedTextField(
+            value = name,
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .clip(RoundedCornerShape(6.dp))
+                .border(
+                    width = 2.dp,
+                    brush = brush,
+                    shape = RoundedCornerShape(6.dp)
+                )
+                .background(
+                    color = Color(0xFFF4FFFF)
+                ),
+            readOnly = true,
+            textStyle = MaterialTheme.typography.bodySmall.copy(
+                fontWeight = FontWeight(600),
+                color = Color(0xFF1D1751)
+            )
+        )
+    }
 }

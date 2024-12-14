@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -85,7 +86,21 @@ fun DailyDiaryScreen(
                 )
             }
             SearchGroupBox(searchedGroup)
-            EachGroupCard(navController)
+            EachGroupCard(
+                section = "Nursery A",
+                members = "15",
+                navController = navController
+            )
+            EachGroupCard(
+                section = "Nursery B",
+                members = "20",
+                navController = navController
+            )
+            EachGroupCard(
+                section = "Junior.KG A",
+                members = "25",
+                navController = navController
+            )
         }
         BottomAppBar(
             modifier = Modifier
@@ -98,7 +113,11 @@ fun DailyDiaryScreen(
 }
 
 @Composable
-private fun EachGroupCard(navController: NavHostController) {
+private fun EachGroupCard(
+    section: String,
+    members: String,
+    navController: NavHostController
+) {
     Card(
         modifier = Modifier
             .height(93.dp)
@@ -131,11 +150,11 @@ private fun EachGroupCard(navController: NavHostController) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Nursery A",
+                    text = section,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    text = "15 Members",
+                    text = "$members Members",
                     style = TextStyle(
                         fontFamily = jostFont,
                         fontWeight = FontWeight(400),

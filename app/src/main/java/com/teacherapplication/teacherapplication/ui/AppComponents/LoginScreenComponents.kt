@@ -5,8 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -121,38 +123,36 @@ fun LoginScreenButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ){
-    Button(
-        onClick = onClick,
+    Box(
         modifier = Modifier
             .height(72.dp)
             .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
             .background(
                 brush = gradientBrush,
                 shape = RoundedCornerShape(10.dp)
-            ),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
-        )
+            )
+            .clickable {
+                onClick()
+            },
     ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Image(
-                painter = painterResource(id = R.drawable.elephant_button),
-                contentDescription = "elephant background",
-                modifier = Modifier
-                    .height(68.dp)
-                    .width(62.35.dp)
-                    .scale(1.2f)
-            )
-            Text(
-                text = text,
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.fillMaxWidth(0.8f),
-                textAlign = TextAlign.Center
-            )
-        }
+        Image(
+            painter = painterResource(id = R.drawable.elephant_button),
+            contentDescription = "elephant background",
+            modifier = Modifier
+                .height(68.dp)
+                .width(62.35.dp)
+                .offset(x = 25.dp, y = 2.dp)
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            color = Color.White,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -215,7 +215,7 @@ fun TopProgressBar(progress: Float = 0.4f) {
                 .fillMaxWidth()
                 .height(10.dp)
         ) {
-            // background track with rounded corners
+            // background track
             drawRect(
                 color = Color( 0xFFD9D9D9),
                 size = Size(size.width, size.height),

@@ -3,6 +3,7 @@ package com.teacherapplication.teacherapplication.ui.Calendar
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,7 @@ import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.CustomCalendar
+import com.teacherapplication.teacherapplication.ui.AppComponents.CustomCalendar2
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
@@ -60,6 +62,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
     val daysList = listOf("M" to "08", "T" to "09", "W" to "10", "T" to "11", "F" to "12", "S" to "13", "S" to "14")
     val today = "10"
     val isCalenderOpen = remember { mutableStateOf(false) }
+    val selectedDate = remember { mutableStateOf(today.toInt()) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -149,7 +152,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                         .fillMaxWidth(),
                     color = Color(0xFF1D1751)
                 )
-                CustomCalendar()
+                CustomCalendar(selectedDate)
                 DashedLine(
                     modifier = Modifier
                         .height(50.dp)
@@ -212,7 +215,29 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
 
                 )
             }
-            StepperScreen()
+            if (selectedDate.value == 13){
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 50.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Image(
+                        painter = painterResource(R.drawable.no_schedule),
+                        contentDescription = "no schedule",
+                        modifier = Modifier
+                            .size(160.dp)
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = "\"No classes scheduled.\"",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xFF1D1751)
+                    )
+                }
+            }else {
+                StepperScreen()
+            }
             Spacer(modifier = Modifier.height(100.dp))
         }
         BottomAppBar(

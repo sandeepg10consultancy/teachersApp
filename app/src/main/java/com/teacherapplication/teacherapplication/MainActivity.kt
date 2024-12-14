@@ -59,9 +59,10 @@ class MainActivity : ComponentActivity() {
             val viewModel: DashboardViewModel = viewModel()
             TeacherApplicationTheme {
 
-                //EditTimetableScreen()
+                //EditTimetableScreen(navController)
                 MyApp()
                 //CalendarScreen(navController, viewModel)
+                //GroupDiscussionScreen(navController = navController)
 
             }
         }

@@ -1,6 +1,7 @@
 package com.teacherapplication.teacherapplication.ui.AppComponents
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -77,7 +81,8 @@ fun CustomCalendar2(daysInMonth: Int = 31) {
 
 
 @Composable
-fun CustomCalendar() {
+fun CustomCalendar(selectedDate: MutableState<Int>) {
+
     Column(
         modifier = Modifier.fillMaxWidth().padding(0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -105,12 +110,15 @@ fun CustomCalendar() {
                 for (day in 1..7) {
                     val num = week * 7 + day
                     if (num>31) {
-                        for (i in 1..4){
+                        for (i in 1..(8-day)){
                             Box(
                                 modifier = Modifier
                                     .size(32.dp)
                                     .clip(CircleShape)
-                                    .background(Color.Transparent),
+                                    .background(Color.Transparent)
+                                    .clickable {
+
+                                    },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -132,7 +140,10 @@ fun CustomCalendar() {
                             modifier = Modifier
                                 .size(32.dp)
                                 .clip(CircleShape)
-                                .background(Color.Transparent),
+                                .background(if (selectedDate.value == num) Color(0xFF129193) else Color.Transparent)
+                                .clickable {
+                                    selectedDate.value = num
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -142,7 +153,7 @@ fun CustomCalendar() {
                                     fontWeight = FontWeight(600),
                                     fontSize = 17.2.sp,
                                     lineHeight = 23.43.sp,
-                                    color = Color(0xFF636161)
+                                    color = if (selectedDate.value == num) Color.White else Color(0xFF636161)
                                 ),
                             )
                         }

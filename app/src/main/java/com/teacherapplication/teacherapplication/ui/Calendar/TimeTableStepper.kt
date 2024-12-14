@@ -106,6 +106,34 @@ val timeTableList = listOf(
 
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun StepperScreen() {
+    val currentTime = remember { mutableStateOf("") }
+    val timetable = listOf(
+        "09:00 AM" to timeTableList[0],
+        "10:30 AM" to timeTableList[1],
+        "11:00 AM" to timeTableList[2],
+        "11:30 AM" to timeTableList[3],
+        "12:00 PM" to timeTableList[4]
+    )
+
+    //CurrentTimeDisplay(currentTime)
+    currentTime.value = "10:45"
+
+    Column() {
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Stepper(
+            steps = timetable,
+            currentTime = currentTime.value,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+
+
+    }
+}
 
 @Composable
 fun Stepper(
@@ -128,7 +156,7 @@ fun Stepper(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(0.dp),
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Top
             ) {
                 Text(
@@ -163,24 +191,13 @@ fun Stepper(
                     if (index < steps.size - 1) {
                         if (hours <= currentHours) {
                             Box(
-                                contentAlignment = Alignment.Center
-                            ){
-                                Box(
-                                    modifier = Modifier
-                                        .width(3.dp)
-                                        .height(120.dp)
-                                        .background(
-                                            brush = brush
-                                        )
-                                )
-//                                SmallCircle(
-//                                    dim = 10.dp,
-//                                    containerColor = Color(0xFF129193),
-//                                    borderColor = Color.Transparent,
-//                                    modifier = Modifier
-//                                        .offset(y = 50.dp)
-//                                )
-                            }
+                                modifier = Modifier
+                                    .width(3.dp)
+                                    .height(105.dp)
+                                    .background(
+                                        brush = brush
+                                    )
+                            )
                         }
                         else{
                             VerticalDashedLine(
@@ -189,7 +206,7 @@ fun Stepper(
                                 dashSpacing = 6.dp,
                                 modifier = Modifier
                                     .width(4.dp)
-                                    .height(120.dp)
+                                    .height(105.dp)
                                     .padding(end = 0.dp)
                             )
                         }
@@ -199,6 +216,100 @@ fun Stepper(
                 Spacer(modifier = Modifier.width(8.dp))
                 SubjectBox(step.second)
             }
+            if (index == 0) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 79.4.dp),
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (hours <= currentHours) {
+                                Box(
+                                    modifier = Modifier
+                                        .width(3.dp)
+                                        .height(50.dp)
+                                        .background(
+                                            brush = brush
+                                        )
+                                )
+                            }else{
+                                VerticalDashedLine(
+                                    color = Color(0xFF129193),
+                                    dashLength = 6.dp,
+                                    dashSpacing = 6.dp,
+                                    modifier = Modifier
+                                        .width(4.dp)
+                                        .height(50.dp)
+                                )
+                            }
+                            SmallCircle(
+                                dim = 10.dp,
+                                containerColor = Color(0xFF129193),
+                                borderColor = Color.Transparent
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .width(15.dp)
+                                .background(
+                                    color = Color(0xFF129193)
+                                )
+                        )
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(
+                                    color = Color(0xFFE6F4FF)
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "1 Hour Break",
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    fontWeight = FontWeight(600),
+                                    color = Color(0xFF1D1751)
+                                )
+                            )
+                        }
+                    }
+                    if (hours <= currentHours) {
+                        Box(
+                            modifier = Modifier
+                                .offset(x = 3.3.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .width(3.dp)
+                                    .height(20.dp)
+                                    .background(
+                                        brush = brush
+                                    )
+
+                            )
+                        }
+                    }else{
+                        VerticalDashedLine(
+                            color = Color(0xFF129193),
+                            dashLength = 6.dp,
+                            dashSpacing = 6.dp,
+                            modifier = Modifier
+                                .width(4.dp)
+                                .height(20.dp)
+                                .offset(x = 3.2.dp)
+                        )
+                    }
+                }
+            }
+
 
         }
     }
@@ -230,35 +341,6 @@ fun VerticalDashedLine(
     }
 }
 
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun StepperScreen() {
-    val currentTime = remember { mutableStateOf("") }
-    val timetable = listOf(
-        "09:00 AM" to timeTableList[0],
-        "10:30 AM" to timeTableList[1],
-        "11:00 AM" to timeTableList[2],
-        "11:30 AM" to timeTableList[3],
-        "12:00 PM" to timeTableList[4]
-    )
-
-    //CurrentTimeDisplay(currentTime)
-    currentTime.value = "16:45"
-
-    Column() {
-
-        Spacer(modifier = Modifier.height(16.dp))
-        Stepper(
-            steps = timetable,
-            currentTime = currentTime.value,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-
-
-    }
-}
 
 @Composable
 fun SubjectBox(timeTable: TimeTable, modifier: Modifier = Modifier) {

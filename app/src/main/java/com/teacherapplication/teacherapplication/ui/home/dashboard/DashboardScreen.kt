@@ -120,7 +120,8 @@ fun DashBoardScreen(
                 painter = painterResource(id = R.drawable.elephant_slide),
                 contentDescription = "elephant",
                 modifier = Modifier
-                    .size(320.dp)
+                    .height(326.25.dp)
+                    .width(317.86.dp)
                     .align(Alignment.TopEnd)
             )
             Scaffold(
@@ -141,8 +142,7 @@ fun DashBoardScreen(
                         title = {
                             Column(
                                 modifier = Modifier
-                                    .padding(start = 8.dp, top = 2.dp)
-                                //.align(Alignment.Center)
+                                    .padding(top = 2.dp)
                             ) {
                                 Text(
                                     text = "Good Morning,",
@@ -163,17 +163,34 @@ fun DashBoardScreen(
                         modifier = Modifier.padding(horizontal = 10.dp),
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent,
-                            titleContentColor = Color.Gray
                         ),
                         actions = {
-                            IconButton(onClick = { navController.navigate(route = "notificationsScreen") }) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.notification),
-                                    contentDescription = "notification",
-                                    modifier = Modifier.size(33.dp)
-                                )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            ){
+                                Box(
+                                    modifier = Modifier
+                                        .size(35.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .border(
+                                            width = 1.dp,
+                                            color = Color(0xFF129193),
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .clickable {
+                                            navController.navigate(route = "notificationsScreen")
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.notification),
+                                        contentDescription = "notification",
+                                        modifier = Modifier.size(26.dp)
+                                    )
+                                }
+                                DropdownFilter(isFilterClicked, viewModel)
                             }
-                            DropdownFilter(isFilterClicked, viewModel)
                         }
                     )
                 },
@@ -796,7 +813,7 @@ private fun DropdownFilter(
             Text(
                 text = viewModel.selectedSection.collectAsState().value,
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color(0xFFFFFFFF)
+                    color = Color.White
                 ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -804,7 +821,7 @@ private fun DropdownFilter(
             )
             Icon(painter = painterResource(R.drawable.expand) ,
                 contentDescription = "filter",
-                tint = Color(0xFFFFFFFF),
+                tint = Color.White,
                 modifier = Modifier
                     .size(24.dp)
             )
@@ -832,31 +849,30 @@ fun ProfileWithMenuIcon(
             painter = painterResource(id = R.drawable.profile_img),
             contentDescription = "Profile Image",
             modifier = Modifier
-                .size(50.dp)
+                .size(45.dp)
                 .clip(CircleShape)
+                .align(Alignment.TopStart)
         )
         // Menu Icon
-        Surface(
+        Box(
             modifier = Modifier
                 .size(20.dp)
-                .offset(x = 5.dp, y = 7.dp),
-            shape = CircleShape,
-        ){
-            Box(
-                modifier = Modifier.background(brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFF129193), Color(0xFF062C2D)),
-                ))
-            ){
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Menu Icon",
-                    tint = Color(0xFFFFFFFF),
-                    modifier = Modifier
-                        .padding(3.dp)
-                        .size(15.dp)
+                .clip(CircleShape)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(Color(0xFF129193), Color(0xFF062C2D))
+                    )
                 )
-
-            }
+                .align(Alignment.BottomEnd),
+            contentAlignment = Alignment.Center
+        ){
+            Icon(
+                imageVector = Icons.Filled.Menu,
+                contentDescription = "Menu Icon",
+                tint = Color(0xFFFFFFFF),
+                modifier = Modifier
+                    .size(15.dp)
+            )
 
         }
     }

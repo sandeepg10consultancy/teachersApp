@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -28,6 +30,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -53,6 +56,7 @@ import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+import com.teacherapplication.teacherapplication.ui.theme.robotoFont
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,9 +122,89 @@ fun GroupDiscussionScreen(modifier: Modifier = Modifier, navController: NavHostC
 private fun TextingBox(modifier: Modifier = Modifier, messageField: MutableState<String>) {
     Row(
         modifier = modifier
-            .padding(start = 10.dp, end = 10.dp, bottom = 30.dp),
+            .padding(start = 10.dp, end = 10.dp, bottom = 40.dp),
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
+        OutlinedTextField(
+            value = messageField.value,
+            onValueChange = { messageField.value = it },
+            modifier = Modifier
+                .height(50.dp)
+                //.width(336.98.dp)
+                .fillMaxWidth(0.84f)
+                .clip(RoundedCornerShape(25.dp))
+                .border(
+                    width = 2.dp,
+                    brush = brush,
+                    shape = RoundedCornerShape(25.dp)
+                ),
+            placeholder = {
+                Text(
+                    text = "Type here",
+                    style = TextStyle(
+                        fontFamily = robotoFont,
+                        fontWeight = FontWeight(400),
+                        fontSize = 16.sp,
+                        lineHeight = 21.46.sp
+                    ),
+                    color = Color(0xFF575757).copy(alpha = 0.3f),
+                    modifier = Modifier.fillMaxSize()
+                )
+            },
+            leadingIcon = {
+                Row(
+                    modifier = Modifier.width(60.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ){
+                    Image(
+                        painter = painterResource(R.drawable.emoji),
+                        contentDescription = "emoji",
+                        modifier = Modifier
+                            .size(25.76.dp)
+                            .clickable { }
+                    )
+
+                    VerticalDivider(
+                        thickness = 1.07.dp,
+                        color = Color(0xFF9F9F9F),
+                        modifier = Modifier.padding(vertical = 5.dp)
+                    )
+                }
+            },
+            trailingIcon = {
+                Row(
+                    modifier = Modifier
+                        .width(90.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ){
+                    Image(
+                        painter = painterResource(R.drawable.add_link),
+                        contentDescription = "emoji",
+                        modifier = Modifier
+                            .size(25.76.dp)
+                            .clickable { }
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.camera),
+                        contentDescription = "emoji",
+                        modifier = Modifier
+                            .size(25.76.dp)
+                            .clickable { }
+                    )
+                }
+            },
+            textStyle = TextStyle(
+                fontFamily = jostFont,
+                fontWeight = FontWeight(400),
+                fontSize = 16.sp,
+                lineHeight = 23.12.sp,
+                color = Color.Black
+            )
+        )
+
+        /*
         Box(
             modifier = Modifier
                 .height(42.93.dp)
@@ -200,21 +284,23 @@ private fun TextingBox(modifier: Modifier = Modifier, messageField: MutableState
                 )
             }
         }
+
+         */
         Box(
             modifier = Modifier
-                .size(42.93.dp)
+                .size(46.93.dp)
                 .border(
                     width = 1.07.dp,
                     brush = brush,
                     shape = CircleShape
                 )
-                .padding(7.dp),
+                .padding(8.dp),
         ) {
             Image(
                 painter = painterResource(R.drawable.post),
                 contentDescription = "post",
                 modifier = Modifier
-                    .size(25.76.dp)
+                    .size(27.76.dp)
             )
         }
     }

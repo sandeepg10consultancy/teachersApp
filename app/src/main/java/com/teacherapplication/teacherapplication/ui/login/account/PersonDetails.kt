@@ -44,11 +44,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
@@ -92,24 +94,17 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(color = Color(0xFFFFFFFF))
     ){
         Column(
             modifier = Modifier
-                .padding(start = 10.dp, top = 40.dp, end = 10.dp)
+                .fillMaxSize()
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
-                    )
-                }
-                Spacer(modifier = Modifier.width(80.dp))
+                BackArrow(onClick = { navController.popBackStack() })
                 Text(
                     text = "Enter Details",
                     style = MaterialTheme.typography.titleSmall.copy(
@@ -120,170 +115,168 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                         ),
                     ),
                     fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
-                        .padding(top = 10.dp)
+                        .fillMaxWidth(0.95f)
+                        .padding(top = 1.dp),
+                    textAlign = TextAlign.Center
                 )
             }
             Text(text = "Create a account by filling in info below.",
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .padding(start = 67.dp),
-                color = Color(0xFF333333)
+                color = Color(0xFF333333),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
             )
-            Column(
-                modifier = Modifier.padding(20.dp)
+            Spacer(modifier = Modifier.height(30.dp))
+            Row(
+                modifier = Modifier
             ) {
-                Row(
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "First Name",
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight(600)
-                        ),
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "*",
-                        color = Color(0xFFEF6464),
-                    )
-                }
-                LoginScreenTextField(text = firstName, labelText = "Enter your first name") {
-                    firstName = it
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "Last Name",
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight(600)
-                        ),
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "*",
-                        color = Color(0xFFEF6464),
-                    )
-                }
-                LoginScreenTextField(text = lastName, labelText = "Enter your last name") {
-                    lastName = it
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier
-                ) {
-                    Text(
-                        text = "Gender",
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight(600)
-                        ),
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "*",
-                        color = Color(0xFFEF6464),
-                    )
-                }
-                OutlinedTextField(
-                    value = genderValue,
-                    onValueChange = { },
-                    textStyle = MaterialTheme.typography.bodySmall.copy(
-                        fontWeight = FontWeight(600),
-                        color = Color.Black,
-                    ),
-                    modifier = Modifier
-                        .height(52.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(6.dp))
-                        .border(
-                            width = 2.dp,
-                            brush = brush,
-                            shape = RoundedCornerShape(6.dp)
-                        ),
-                    readOnly = true,
-                    trailingIcon = {
-                        Row(
-                            modifier = Modifier.padding(end = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(20.dp)
-                        ){
-                            Icon(
-                                painter = painterResource(R.drawable.male_color_img),
-                                contentDescription = "Male",
-                                tint = if (gender) Color.Black.copy(alpha = 0.3f) else Color(0xFF4DB4F8),
-                                modifier = Modifier
-                                    .size(18.86.dp)
-                            )
-                            Switch(
-                                checked = gender,
-                                onCheckedChange = {
-                                    gender = it
-                                    genderValue = if (gender) "Female" else "Male"
-                                },
-                                colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
-                                    uncheckedThumbColor = Color.White,
-                                    checkedTrackColor = Color(0xFFFF499C),
-                                    uncheckedTrackColor = Color(0xFF4DB4F8),
-                                    uncheckedBorderColor = Color(0xFF4DB4F8),
-                                ),
-                                modifier = Modifier
-                                    .height(18.86.dp)
-                                    .width(39.43.dp)
-                                    .border(
-                                        width = 1.71.dp,
-                                        color = Color.Transparent,
-                                        shape = RoundedCornerShape(85.71.dp)
-                                    )
-                            )
-                            Icon(
-                                painter = painterResource(R.drawable.female_color_img),
-                                contentDescription = "Female",
-                                tint = if (gender) Color(0xFFFF499C) else Color.Black.copy(alpha = 0.3f),
-                                modifier = Modifier
-                                    .size(18.86.dp)
-                            )
-                        }
-                    }
-                )
-                Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "School Name",
+                    text = "First Name",
                     style = MaterialTheme.typography.bodySmall.copy(
                         fontWeight = FontWeight(600)
                     ),
                 )
-                Spacer(modifier = Modifier.height(2.dp))
-                OutlinedTextField(
-                    value = "1313-Exela pvt.school",
-                    onValueChange = {  },
-                    modifier = Modifier
-                        .height(52.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(6.dp))
-                        .background(
-                            color = Color(0xFF129193).copy(alpha = 0.05f)
-                        )
-                        .border(
-                            width = 2.dp,
-                            brush = brush,
-                            shape = RoundedCornerShape(5.dp)
-                        ),
-                    readOnly = true,
-                    textStyle = MaterialTheme.typography.bodySmall.copy(
-                        fontWeight = FontWeight(700),
-                        color = Color(0xFF1D1751)
-                    ),
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(
+                    text = "*",
+                    color = Color(0xFFEF6464),
                 )
             }
-
+            LoginScreenTextField(text = firstName, labelText = "Enter your first name") {
+                firstName = it
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                modifier = Modifier
+            ) {
+                Text(
+                    text = "Last Name",
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight(600)
+                    ),
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(
+                    text = "*",
+                    color = Color(0xFFEF6464),
+                )
+            }
+            LoginScreenTextField(text = lastName, labelText = "Enter your last name") {
+                lastName = it
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                modifier = Modifier
+            ) {
+                Text(
+                    text = "Gender",
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight(600)
+                    ),
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(
+                    text = "*",
+                    color = Color(0xFFEF6464),
+                )
+            }
+            OutlinedTextField(
+                value = genderValue,
+                onValueChange = { },
+                textStyle = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight(600),
+                    color = Color.Black,
+                ),
+                modifier = Modifier
+                    .height(52.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(6.dp))
+                    .border(
+                        width = 2.dp,
+                        brush = brush,
+                        shape = RoundedCornerShape(6.dp)
+                    ),
+                readOnly = true,
+                trailingIcon = {
+                    Row(
+                        modifier = Modifier.padding(end = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                    ){
+                        Icon(
+                            painter = painterResource(R.drawable.male_color_img),
+                            contentDescription = "Male",
+                            tint = if (gender) Color.Black.copy(alpha = 0.3f) else Color(0xFF4DB4F8),
+                            modifier = Modifier
+                                .size(18.86.dp)
+                        )
+                        Switch(
+                            checked = gender,
+                            onCheckedChange = {
+                                gender = it
+                                genderValue = if (gender) "Female" else "Male"
+                            },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = Color.White,
+                                uncheckedThumbColor = Color.White,
+                                checkedTrackColor = Color(0xFFFF499C),
+                                uncheckedTrackColor = Color(0xFF4DB4F8),
+                                uncheckedBorderColor = Color(0xFF4DB4F8),
+                            ),
+                            modifier = Modifier
+                                .height(18.86.dp)
+                                .width(39.43.dp)
+                                .border(
+                                    width = 1.71.dp,
+                                    color = Color.Transparent,
+                                    shape = RoundedCornerShape(85.71.dp)
+                                )
+                        )
+                        Icon(
+                            painter = painterResource(R.drawable.female_color_img),
+                            contentDescription = "Female",
+                            tint = if (gender) Color(0xFFFF499C) else Color.Black.copy(alpha = 0.3f),
+                            modifier = Modifier
+                                .size(18.86.dp)
+                        )
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "School Name",
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight(600)
+                ),
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            OutlinedTextField(
+                value = "1313-Exela pvt.school",
+                onValueChange = {  },
+                modifier = Modifier
+                    .height(52.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(
+                        color = Color(0xFF129193).copy(alpha = 0.05f)
+                    )
+                    .border(
+                        width = 2.dp,
+                        brush = brush,
+                        shape = RoundedCornerShape(5.dp)
+                    ),
+                readOnly = true,
+                textStyle = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF1D1751)
+                ),
+            )
         }
         Box(
-            modifier = Modifier.fillMaxSize()
-                .padding(20.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 15.dp, vertical = 50.dp),
             contentAlignment = Alignment.BottomCenter
         ){
             LoginScreenButton(text = "Save & Select Classes", gradientBrush = gradientBrush) {
@@ -295,6 +288,8 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
             painter = painterResource(id = R.drawable.elephant_light),
             contentDescription = "coloured elephant",
             modifier = Modifier
+                .height(276.95.dp)
+                .width(296.41.dp)
                 .align(Alignment.BottomStart)
 
         )

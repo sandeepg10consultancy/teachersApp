@@ -75,6 +75,7 @@ fun EditTimetableScreen(navController: NavHostController) {
     val dayDateList = listOf("M" to "08", "T" to "09", "W" to "10", "T" to "11", "F" to "12", "S" to "13", "S" to "14")
     val daysList = listOf("Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun")
     val today = "10"
+    val selectedDate = remember { mutableStateOf(today.toInt()) }
     val isCalenderOpen = remember { mutableStateOf(false) }
     val editClicked = remember { mutableStateOf(false) }
     val addNewClassClicked = remember { mutableStateOf(false) }
@@ -198,7 +199,7 @@ fun EditTimetableScreen(navController: NavHostController) {
                         .fillMaxWidth(),
                     color = Color(0xFF1D1751)
                 )
-                CustomCalendar()
+                CustomCalendar(selectedDate)
                 DashedLine(
                     modifier = Modifier
                         .height(40.dp)
@@ -854,7 +855,10 @@ private fun EditTimeTableSelection(
                         DropdownMenuItem(
                             onClick = {
                                 if (item.second == "Completed") completedChapterDialog.value = true
-                                subjectName.value = item.first
+                                else {
+                                    subjectName.value = item.first
+                                    showDropDown.value = false
+                                }
                             },
                             text = {
                                 Column {

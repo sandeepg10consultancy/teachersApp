@@ -48,6 +48,11 @@ val nunitoFont = FontFamily(
     Font(R.font.nunito_italic),
 )
 
+val robotoFont = FontFamily(
+    Font(R.font.roboto_regular),
+    Font(R.font.roboto_italic)
+)
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(
