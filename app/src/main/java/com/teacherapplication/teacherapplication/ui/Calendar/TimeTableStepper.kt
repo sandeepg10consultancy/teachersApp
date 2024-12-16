@@ -1,10 +1,12 @@
 package com.teacherapplication.teacherapplication.ui.Calendar
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -135,18 +138,28 @@ fun StepperScreen() {
     }
 }
 
+val timetable2 = listOf(
+    "09:00 AM" to timeTableList[0],
+    "10:30 AM" to timeTableList[1],
+    "11:00 AM" to timeTableList[2],
+    "11:30 AM" to timeTableList[3],
+    "12:00 PM" to timeTableList[4]
+)
+
+@Preview(showBackground = true)
 @Composable
 fun Stepper(
-    steps: List<Pair<String, TimeTable>>,
+    steps: List<Pair<String, TimeTable>> = timetable2,
     modifier: Modifier = Modifier,
-    currentTime: String,
+    currentTime: String = "10:45",
 ) {
-    val currentParts = currentTime.split(":"," ")
+    val currentParts = currentTime.split(":")
     val currentHours = currentParts[0].trim().toIntOrNull() ?: 0
     //val currentMin = currentParts[1].trim().toIntOrNull() ?: 0
 
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+    ) {
         steps.forEachIndexed { index, step ->
             val time = step.first
             val parts = time.split(":"," ")
@@ -220,7 +233,7 @@ fun Stepper(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 79.4.dp),
+                        .padding(start = 79.2.dp),
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Row(
@@ -284,7 +297,7 @@ fun Stepper(
                     if (hours <= currentHours) {
                         Box(
                             modifier = Modifier
-                                .offset(x = 3.3.dp)
+                                .offset(x = 3.4.dp)
                         ) {
                             Box(
                                 modifier = Modifier
@@ -293,7 +306,6 @@ fun Stepper(
                                     .background(
                                         brush = brush
                                     )
-
                             )
                         }
                     }else{

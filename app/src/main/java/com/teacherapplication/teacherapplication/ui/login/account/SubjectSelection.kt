@@ -220,9 +220,6 @@ private fun DialogBox(onClick:() -> Unit = {}) {
 
 @Composable
 fun SubjectCard(name: String, allSubject: Boolean, selectedSubject: MutableState<String>) {
-    var cardClick by remember {
-        mutableStateOf(false)
-    }
     Card(
         modifier = Modifier
             .height(60.dp)
@@ -233,7 +230,7 @@ fun SubjectCard(name: String, allSubject: Boolean, selectedSubject: MutableState
         ),
         shape = RoundedCornerShape(8.dp),
         onClick = {
-            cardClick = !cardClick
+
             selectedSubject.value = name
         }
     ) {
