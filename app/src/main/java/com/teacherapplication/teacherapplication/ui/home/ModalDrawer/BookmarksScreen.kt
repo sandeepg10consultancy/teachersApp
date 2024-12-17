@@ -45,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -310,10 +311,11 @@ fun EachBookmarkCard(
     subject: String,
     chapterNo: String,
     chapterTitle: String,
-    progress: Float = 0.5f
+    progress: Float = 0.5f,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .height(112.dp)
             .width(387.dp),
         shape = RoundedCornerShape(12.dp),
@@ -395,7 +397,9 @@ fun EachBookmarkCard(
                     lineHeight = 14.4.sp,
                     color = Color.Black
                 ),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),

@@ -1,5 +1,6 @@
 package com.teacherapplication.teacherapplication.ui.home.dashboard
 
+import android.widget.Space
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -78,6 +80,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
@@ -86,6 +89,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
+import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.EachBookmarkCard
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
 import kotlinx.coroutines.CoroutineScope
@@ -278,7 +282,7 @@ fun DashBoardScreen(
                         StudentAssessment(modifier = Modifier.align(Alignment.CenterHorizontally))
 
                         Column(
-                            modifier = Modifier.padding(start = 10.dp)
+                            modifier = Modifier.padding(start = 20.dp)
                         ) {
                             Text(
                                 text = "Recently Viewed",
@@ -309,6 +313,35 @@ fun DashBoardScreen(
                                     )
                             )
                         }
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState())
+                                .padding(horizontal = 15.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp)
+                        ){
+                            EachBookmarkCard(
+                                section = "Nursery - A",
+                                subject = "Mathematics",
+                                chapterNo = "1",
+                                chapterTitle = "Additions",
+                                progress = 0.5f,
+                                modifier = Modifier
+                                    .width(300.dp)
+                            )
+                            EachBookmarkCard(
+                                section = "Nursery - B",
+                                subject = "Science",
+                                chapterNo = "1",
+                                chapterTitle = "Living And Non-Living Things hello",
+                                progress = 0.8f,
+                                modifier = Modifier
+                                    .width(300.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(40.dp))
                         if (isFilterClicked.value) {
                             SectionBottomSheet(isFilterClicked, classesList, viewModel)
                         }
@@ -907,7 +940,7 @@ fun ProfileDrawerContent(
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(start = 20.dp, top = 20.dp)
+                .padding(start = 20.dp, top = 20.dp),
         ){
             Icon(
                 painter = painterResource(R.drawable.close),
@@ -921,7 +954,7 @@ fun ProfileDrawerContent(
                         }
                     }
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             ProfileCard()
             Spacer(modifier = Modifier.height(10.dp))
             iconsList.forEach { item ->
@@ -965,7 +998,28 @@ fun ProfileDrawerContent(
                     )
                 )
             }
-            Spacer(modifier = Modifier.height(310.dp))
+
+            if (showLogoutDialog){
+                LogoutDialogBox(onDismiss = { showLogoutDialog = false })
+            }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 70.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ){
+            Image(
+                painter = painterResource(R.drawable.elephant_color),
+                contentDescription = "elephant",
+                modifier = Modifier
+                    .height(327.02.dp)
+                    .width(350.dp)
+                    .offset(x = (-20).dp,y = 0.dp)
+                    .alpha(0.6f)
+            )
             Button(
                 onClick = { },
                 modifier = Modifier
@@ -1016,22 +1070,9 @@ fun ProfileDrawerContent(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, top = 5.dp)
+                    .padding(start = 30.dp, top = 5.dp)
             )
-            if (showLogoutDialog){
-                LogoutDialogBox(onDismiss = { showLogoutDialog = false })
-            }
         }
-        Image(
-            painter = painterResource(R.drawable.elephant_color),
-            contentDescription = "elephant",
-            modifier = Modifier
-                .offset(x = (-25).dp,y = 150.dp)
-                .height(327.02.dp)
-                .width(350.dp)
-                .scale(1.1f)
-                .alpha(0.6f)
-        )
     }
 }
 

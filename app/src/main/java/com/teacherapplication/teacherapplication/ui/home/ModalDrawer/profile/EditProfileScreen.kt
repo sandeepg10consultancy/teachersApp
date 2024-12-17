@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -315,6 +316,8 @@ private fun SelectSubjectsSection(
     isAllSubjectSelected: MutableState<Boolean>
 ) {
     val selectedSubject = remember { mutableStateOf("") }
+    val selectedSubjectsList = remember { mutableStateListOf<String>() }
+
     Column {
         Text(
             text = "Select Subjects",
@@ -336,7 +339,8 @@ private fun SelectSubjectsSection(
                     SubjectCard(
                         name = item,
                         allSubject = isAllSubjectSelected.value,
-                        selectedSubject = selectedSubject
+                        selectedSubject = selectedSubject,
+                        selectedSubjectsList = selectedSubjectsList
                     )
                 }
                 if (rowItems.size < 2) {

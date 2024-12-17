@@ -1,5 +1,6 @@
 package com.teacherapplication.teacherapplication.ui.login.account
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -28,9 +29,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -57,7 +60,7 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
 
     val subjectsList = listOf("Mathematics", "Science","Reading", "Writing","Social Studies", "Drawing","Mathematics","Science","Reading","Writing")
     val selectedSubject = remember { mutableStateOf("") }
-
+    val selectedSubjectsList = remember { mutableStateListOf<String>() }
     var allSubject by remember {
         mutableStateOf(false)
     }
@@ -123,7 +126,7 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
                 verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 items(subjectsList){ item ->
-                    SubjectCard(item,allSubject, selectedSubject)
+                    SubjectCard(item,allSubject, selectedSubject, selectedSubjectsList)
 
                 }
 
@@ -219,19 +222,30 @@ private fun DialogBox(onClick:() -> Unit = {}) {
 }
 
 @Composable
-fun SubjectCard(name: String, allSubject: Boolean, selectedSubject: MutableState<String>) {
+fun SubjectCard(
+    name: String,
+    allSubject: Boolean,
+    selectedSubject: MutableState<String>,
+    selectedSubjectsList: SnapshotStateList<String>
+) {
+    var subjectClick by remember {
+        mutableStateOf(false)
+    }
     Card(
         modifier = Modifier
             .height(60.dp)
             .width(180.dp),
         border = BorderStroke(width = 2.dp, color = Color(0xFFF18A90)),
         colors = CardDefaults.cardColors(
-            containerColor = if (allSubject || selectedSubject.value == name) Color(0xFFF18A90) else Color(0xFFFFFFFF)
+            containerColor = if (allSubject || (subjectClick && name in selectedSubjectsList)) Color(0xFFF18A90) else Color(0xFFFFFFFF)
         ),
         shape = RoundedCornerShape(8.dp),
         onClick = {
-
+            subjectClick = !subjectClick
             selectedSubject.value = name
+            if (subjectClick && (name !in selectedSubjectsList)) selectedSubjectsList.add(selectedSubject.value)
+            else if (!subjectClick) selectedSubjectsList.remove(selectedSubject.value)
+            Log.d("subject","${selectedSubjectsList.toList()}")
         }
     ) {
         Text(
@@ -244,7 +258,7 @@ fun SubjectCard(name: String, allSubject: Boolean, selectedSubject: MutableState
                 lineHeight = 20.8.sp
             ),
             textAlign = TextAlign.Center,
-            color = if (allSubject || selectedSubject.value == name) Color(0xFFFFFFFF) else Color(0xFFF18A90),
+            color = if (allSubject || (subjectClick && name in selectedSubjectsList) ) Color(0xFFFFFFFF) else Color(0xFFF18A90),
         )
     }
 }
