@@ -134,7 +134,9 @@ fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
                 )
 
                 Spacer(modifier = Modifier.height(40.dp))
+
                 otpValues = OTPVerify(otpValues)
+
                 Spacer(modifier = Modifier.height(30.dp))
                 Row(
                     modifier = Modifier

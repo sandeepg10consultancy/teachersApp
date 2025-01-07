@@ -116,7 +116,15 @@ fun DashBoardScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ProfileDrawerContent( modifier = Modifier, navController = navController,drawerState = drawerState, scope)
+            ProfileDrawerContent(
+                modifier = Modifier,
+                navController = navController,
+                onClose = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                }
+            )
         }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -916,8 +924,7 @@ fun ProfileWithMenuIcon(
 fun ProfileDrawerContent(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    drawerState: DrawerState,
-    scope: CoroutineScope
+    onClose: () -> Unit
 ){
     val iconsList = listOf(
         "Profile" to R.drawable.profile_icon,
@@ -949,9 +956,7 @@ fun ProfileDrawerContent(
                 modifier = Modifier
                     .size(20.dp)
                     .clickable {
-                        scope.launch {
-                            drawerState.close()
-                        }
+                        onClose()
                     }
             )
             Spacer(modifier = Modifier.height(10.dp))

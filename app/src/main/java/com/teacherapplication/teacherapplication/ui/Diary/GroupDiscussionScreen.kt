@@ -85,7 +85,10 @@ fun GroupDiscussionScreen(modifier: Modifier = Modifier, navController: NavHostC
                 .padding(top = 40.dp)
                 .verticalScroll(scrollState)
         ){
-            TopSectionCard(isModelSheet,navController)
+            TopSectionCard(
+                onClick = {isModelSheet.value = true},
+                navController
+            )
             Spacer(modifier = Modifier.height(20.dp))
             LazyRow(){
                 items(itemsList){ item ->
@@ -200,7 +203,7 @@ fun GroupDiscussionScreen(modifier: Modifier = Modifier, navController: NavHostC
                 containerColor = Color.White,
                 modifier = Modifier.fillMaxSize()
             ) {
-                AnnouncementModelSheet(isModelSheet)
+                AnnouncementModelSheet(onClick = { isModelSheet.value = false })
             }
         }
     }
@@ -384,7 +387,7 @@ fun MessageInputField(
 
 
 @Composable
-private fun TopSectionCard(isModelSheet: MutableState<Boolean>, navController: NavHostController
+private fun TopSectionCard(onClick: () -> Unit = {}, navController: NavHostController
 ) {
     Card(
         modifier = Modifier
@@ -444,7 +447,7 @@ private fun TopSectionCard(isModelSheet: MutableState<Boolean>, navController: N
                 contentDescription = "more",
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { isModelSheet.value = true }
+                    .clickable { onClick() }
             )
 
         }

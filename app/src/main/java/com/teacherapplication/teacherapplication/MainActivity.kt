@@ -34,7 +34,7 @@ import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerf
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentOverallPerformance
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentSubmittedScreen
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.StudentPerformance.StudentWiseAssessmentView
-import com.teacherapplication.teacherapplication.ui.home.RegisterScreen
+import com.teacherapplication.teacherapplication.ui.login.RegisterScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashBoardScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.login.LoginAndRegister
@@ -51,6 +51,7 @@ import com.teacherapplication.teacherapplication.ui.home.notifications.Notificat
 import com.teacherapplication.teacherapplication.ui.theme.TeacherApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

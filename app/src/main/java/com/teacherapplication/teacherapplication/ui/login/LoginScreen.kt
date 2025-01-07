@@ -54,7 +54,7 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
 ) {
-
+    val phoneNumbersList = listOf("")
     var phoneNumber by remember {
         mutableStateOf("")
     }
@@ -108,6 +108,7 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
                 Text(
                     text = "Phone Number",
                     style = MaterialTheme.typography.bodySmall,
+                    //color = if (phoneNumber !in phoneNumbersList) Color(0xFFEF6464) else Color.Black
                 )
                 Spacer(modifier = Modifier.width(2.dp))
                 Text(

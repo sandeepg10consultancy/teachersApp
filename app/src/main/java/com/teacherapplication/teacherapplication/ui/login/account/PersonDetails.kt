@@ -66,9 +66,12 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
     var lastName by remember {
         mutableStateOf("")
     }
-    var genderValue by remember {
-        mutableStateOf("Male")
+    var genderChecked by remember {
+        mutableStateOf(false)
     }
+
+    val genderValue = if (genderChecked) "Female" else "Male"
+
 
     val gradientBrush = if (firstName.isNotEmpty() && lastName.isNotEmpty()){
         Brush.linearGradient(
@@ -85,9 +88,6 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
             start = Offset.Infinite.copy(x = 1f),
             end = Offset.Zero
         )
-    }
-    var gender by remember {
-        mutableStateOf(false)
     }
 
     var showLabel by remember { mutableStateOf(true) }
@@ -207,15 +207,14 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                         Icon(
                             painter = painterResource(R.drawable.male_color_img),
                             contentDescription = "Male",
-                            tint = if (gender) Color.Black.copy(alpha = 0.3f) else Color(0xFF4DB4F8),
+                            tint = if (genderChecked) Color.Black.copy(alpha = 0.3f) else Color(0xFF4DB4F8),
                             modifier = Modifier
                                 .size(18.86.dp)
                         )
                         Switch(
-                            checked = gender,
+                            checked = genderChecked,
                             onCheckedChange = {
-                                gender = it
-                                genderValue = if (gender) "Female" else "Male"
+                                genderChecked = !genderChecked
                             },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = Color.White,
@@ -236,7 +235,7 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                         Icon(
                             painter = painterResource(R.drawable.female_color_img),
                             contentDescription = "Female",
-                            tint = if (gender) Color(0xFFFF499C) else Color.Black.copy(alpha = 0.3f),
+                            tint = if (genderChecked) Color(0xFFFF499C) else Color.Black.copy(alpha = 0.3f),
                             modifier = Modifier
                                 .size(18.86.dp)
                         )
