@@ -2,8 +2,6 @@ package com.teacherapplication.teacherapplication.ui.login.account
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,17 +21,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,8 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -56,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
@@ -74,10 +68,10 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
                             "Senior KG" to R.drawable.senior_kg_img
     )
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        )
-    {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -124,7 +118,10 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
             SchoolCard()
             Spacer(modifier = Modifier.height(40.dp))
             classesMap.forEach{ (key, value) ->
-                ClassCard(name = key, image = value)
+                ClassCard(
+                    name = key,
+                    image = value,
+                )
                 Spacer(modifier = Modifier.height(20.dp))
             }
 
@@ -136,7 +133,10 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
                 .padding(horizontal = 15.dp, vertical = 50.dp),
             contentAlignment = Alignment.BottomCenter
         ){
-            LoginScreenButton(text = "Save & Select Subjects", enabled = true) {
+            LoginScreenButton(
+                text = "Save & Select Subjects",
+                enabled = true
+            ){
                 navController.navigate(route = "subject")
             }
         }
@@ -156,10 +156,12 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ClassCard(name: String, image:Int){
-    var sectionSwitch by remember {
-        mutableStateOf(false)
-    }
+fun ClassCard(
+    name: String,
+    image: Int,
+    )
+{
+    val sectionSwitch = remember { mutableStateOf(false) }
     val sections = listOf("Section - A", "Section - B", "Section - C", "Section - D", "Section - E")
     Card(
         modifier = Modifier
@@ -202,8 +204,8 @@ fun ClassCard(name: String, image:Int){
                 }
             }
             Switch(
-                checked = sectionSwitch,
-                onCheckedChange = { sectionSwitch = !sectionSwitch},
+                checked = sectionSwitch.value,
+                onCheckedChange = { sectionSwitch.value = !sectionSwitch.value},
                 modifier = Modifier
                     .height(26.dp)
                     .width(43.dp),
@@ -217,7 +219,7 @@ fun ClassCard(name: String, image:Int){
             )
         }
     }
-    if (sectionSwitch) {
+    if (sectionSwitch.value) {
         Spacer(modifier = Modifier.height(20.dp))
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -318,5 +320,11 @@ fun SchoolCard() {
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun ClassSelectionScreenPreview(){
+    val navController = rememberNavController()
+    ClassSelection(navController = navController)
+}
 
 

@@ -37,9 +37,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
@@ -47,7 +49,6 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTex
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 
 
-//@Preview(showBackground = true)
 @Composable
 fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostController){
 
@@ -121,9 +122,10 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
                     labelText = "Enter School Code"
                 ) { schoolCode = it }
             }
-            if (schoolCode.isEmpty()){
-                SchoolName()
-            }
+//            if (schoolCode.isNotEmpty()){
+//                SchoolName()
+//            }
+            SchoolName()
             Column {
                 Row(
                     modifier = Modifier
@@ -215,4 +217,11 @@ fun SchoolName(name: String = "1313 - Exela pvt.school"){
             )
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RegisterScreenPreview(){
+    val navController = rememberNavController()
+    RegisterScreen(navController = navController)
 }

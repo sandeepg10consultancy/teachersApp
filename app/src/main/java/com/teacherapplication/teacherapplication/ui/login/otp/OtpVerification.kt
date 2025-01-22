@@ -60,13 +60,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
+import com.teacherapplication.teacherapplication.ui.login.LoginScreen
 
 
-
-//@Preview
 @Composable
 fun OTPScreen( modifier: Modifier = Modifier, navController: NavController)
 {
@@ -217,4 +217,11 @@ fun OTPVerify(otpValues: List<MutableState<String>>): List<MutableState<String>>
         }
     }
     return otpValues
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OTPVerificationPreview(){
+    val navController = rememberNavController()
+    OTPScreen(navController = navController)
 }

@@ -95,7 +95,7 @@ fun NewGroupScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             classesMap.forEach{ (key, value) ->
-                ClassCard(name = key, image = value)
+                ClassCard(name = key, image = value,)
                 Spacer(modifier = Modifier.height(20.dp))
             }
         }

@@ -42,10 +42,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
@@ -93,9 +95,10 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
                 )
             }
             Text(text = "Please select the subjects that you teach",
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 40.dp),
                 style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Center,
                 color = Color(0xFF333333)
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -112,7 +115,6 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
                     SubjectCard(item,allSubject, selectedSubject, selectedSubjectsList)
 
                 }
-
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -247,4 +249,11 @@ fun SubjectCard(
             color = if (isSelected) Color(0xFFFFFFFF) else Color(0xFFF18A90),
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SubjectSelectionScreenPreview(){
+    val navController = rememberNavController()
+    SubjectSelection(navController = navController)
 }

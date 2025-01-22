@@ -51,11 +51,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 import com.teacherapplication.teacherapplication.ui.AppComponents.brush
+import com.teacherapplication.teacherapplication.ui.login.password.SetPassword
 
 
 //@Preview(showBackground = true)
@@ -278,5 +280,11 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
 
 }
 
+@Preview(showBackground = true)
+@Composable
+fun PersonDetailsScreenPreview(){
+    val navController = rememberNavController()
+    PersonDetails(navController = navController)
+}
 
 

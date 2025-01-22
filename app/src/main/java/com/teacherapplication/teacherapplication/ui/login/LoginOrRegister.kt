@@ -33,22 +33,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 
 
-//@Preview
 @Composable
-fun LoginAndRegister(modifier: Modifier = Modifier,navController: NavController
+fun LoginAndRegister(
+    modifier: Modifier = Modifier,
+    navController: NavController
 ){
-
-    Box(modifier = Modifier.fillMaxSize()
-        .background(
-            brush = Brush.linearGradient(
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.linearGradient(
                 colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
                 start = Offset(0f, 0f),
                 end = Offset(Float.POSITIVE_INFINITY, 0f)
             )
-        )){
+        )
+    ){
         Image(painter = painterResource(id = R.drawable.elephant_bg),
             contentDescription = "elephant bg",
             modifier = Modifier
@@ -83,7 +87,6 @@ fun LoginAndRegister(modifier: Modifier = Modifier,navController: NavController
                 )
             }
         }
-
         Column(
             modifier = Modifier
                 .padding(15.dp)
@@ -155,7 +158,12 @@ fun LoginAndRegister(modifier: Modifier = Modifier,navController: NavController
                 )
             }
         }
-        }
+    }
+}
 
-
+@Preview
+@Composable
+fun LoginAndRegisterPreview(){
+    val navController = rememberNavController()
+    LoginAndRegister(navController = navController)
 }

@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
@@ -52,7 +53,9 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 
 //@Preview(showBackground = true)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
 ) {
     val phoneNumbersList = listOf("")
     var phoneNumber by remember {
@@ -60,23 +63,6 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
     }
     var password by remember {
         mutableStateOf("")
-    }
-
-    val gradientBrush = if (phoneNumber.length >= 10){
-        Brush.linearGradient(
-            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-            start = Offset(0f, 0f),
-            end = Offset(Float.POSITIVE_INFINITY, 0f)
-        )
-    }else{
-        Brush.linearGradient(
-            colors = listOf(
-                Color(0x66129193).copy(alpha = 0.4f),
-                Color(0x66185472).copy(alpha = 0.4f)
-            ),
-            start = Offset.Infinite.copy(x = 1f),
-            end = Offset.Zero
-        )
     }
 
     Box(modifier = Modifier
@@ -246,4 +232,10 @@ fun LoginChecking(check: Boolean) {
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview(){
+    val navController = rememberNavController()
+    LoginScreen(navController = navController)
+}
 

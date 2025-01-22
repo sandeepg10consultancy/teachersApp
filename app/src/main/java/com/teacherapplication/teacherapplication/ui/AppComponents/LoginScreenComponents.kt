@@ -130,13 +130,11 @@ fun LoginScreenButton(
             end = Offset(Float.POSITIVE_INFINITY, 0f)
         )
     }else{
-        Brush.linearGradient(
+        Brush.horizontalGradient(
             colors = listOf(
+                Color(0x66185472).copy(alpha = 0.4f),
                 Color(0x66129193).copy(alpha = 0.4f),
-                Color(0x66185472).copy(alpha = 0.4f)
             ),
-            start = Offset.Infinite.copy(x = 1f),
-            end = Offset.Zero
         )
     }
 
@@ -167,7 +165,7 @@ fun LoginScreenButton(
             color = Color.White,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp),
+                .padding(top = 25.dp),
             textAlign = TextAlign.Center
         )
     }
