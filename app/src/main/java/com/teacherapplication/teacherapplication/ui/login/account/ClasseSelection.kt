@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -67,26 +69,10 @@ var sectionName = "5 Sections"
 fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostController){
 
     val scrollState = rememberScrollState()
-    var classesMap = mapOf("Nursery" to R.drawable.nursery_img,
+    val classesMap = mapOf("Nursery" to R.drawable.nursery_img,
                             "Junior KG" to R.drawable.junior_kg_img,
                             "Senior KG" to R.drawable.senior_kg_img
     )
-    val gradientBrush = if (true){
-        Brush.linearGradient(
-            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-            start = Offset(0f, 0f),
-            end = Offset(Float.POSITIVE_INFINITY, 0f)
-        )
-    }else{
-        Brush.linearGradient(
-            colors = listOf(
-                Color(0x66129193).copy(alpha = 0.4f),
-                Color(0x66185472).copy(alpha = 0.4f)
-            ),
-            start = Offset.Infinite.copy(x = 1f),
-            end = Offset.Zero
-        )
-    }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -150,7 +136,7 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
                 .padding(horizontal = 15.dp, vertical = 50.dp),
             contentAlignment = Alignment.BottomCenter
         ){
-            LoginScreenButton(text = "Save & Select Subjects", gradientBrush = gradientBrush) {
+            LoginScreenButton(text = "Save & Select Subjects", enabled = true) {
                 navController.navigate(route = "subject")
             }
         }
@@ -168,11 +154,13 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ClassCard(name: String, image:Int){
     var sectionSwitch by remember {
         mutableStateOf(false)
     }
+    val sections = listOf("Section - A", "Section - B", "Section - C", "Section - D", "Section - E")
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -231,21 +219,12 @@ fun ClassCard(name: String, image:Int){
     }
     if (sectionSwitch) {
         Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ){
-            for (i in 'A'..'C'){
-                SectionCard(sec = i.toString())
-            }
-        }
-        Spacer(modifier = Modifier.height(15.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(25.dp)
-        ){
-            for (i in 'D'..'E'){
-                SectionCard(sec = i.toString())
+            sections.forEach { section ->
+                SectionCard(sec = section)
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -274,11 +253,11 @@ fun SectionCard(sec: String) {
         shape = RoundedCornerShape(8.dp),
         onClick = {
             sectionClick = !sectionClick
-            sectionName = "Section - $sec"
+            sectionName = sec
         },
     ) {
         Text(
-            text = "Section - $sec",
+            text = sec,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 20.dp),

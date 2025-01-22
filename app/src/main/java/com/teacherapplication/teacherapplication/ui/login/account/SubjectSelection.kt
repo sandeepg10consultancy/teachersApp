@@ -58,36 +58,19 @@ import kotlinx.coroutines.delay
 fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostController
 ){
 
-    val subjectsList = listOf("Mathematics", "Science","Reading", "Writing","Social Studies", "Drawing","Mathematics","Science","Reading","Writing")
+    val subjectsList = listOf("Mathematics", "Science", "Reading", "Writing", "Social Studies", "Drawing", "Physics", "Chemistry", "English", "Sports")
     val selectedSubject = remember { mutableStateOf("") }
     val selectedSubjectsList = remember { mutableStateListOf<String>() }
     var allSubject by remember {
         mutableStateOf(false)
     }
 
-    val gradientBrush = if (allSubject || selectedSubject.value.isNotEmpty()){
-        Brush.linearGradient(
-            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-            start = Offset(0f, 0f),
-            end = Offset(Float.POSITIVE_INFINITY, 0f)
-        )
-    }else{
-        Brush.linearGradient(
-            colors = listOf(
-                Color(0x66129193).copy(alpha = 0.4f),
-                Color(0x66185472).copy(alpha = 0.4f)
-            ),
-            start = Offset.Infinite.copy(x = 1f),
-            end = Offset.Zero
-        )
-    }
-
     var showDialog by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-    )
-    {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -151,7 +134,10 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
                 .padding(horizontal = 15.dp, vertical = 50.dp),
             contentAlignment = Alignment.BottomCenter
         ){
-            LoginScreenButton(text = "Save & Proceed", gradientBrush = gradientBrush) {
+            LoginScreenButton(
+                text = "Save & Proceed",
+                enabled = allSubject || selectedSubject.value.isNotEmpty()
+            ) {
                 showDialog = true
             }
         }
@@ -228,24 +214,24 @@ fun SubjectCard(
     selectedSubject: MutableState<String>,
     selectedSubjectsList: SnapshotStateList<String>
 ) {
-    var subjectClick by remember {
-        mutableStateOf(false)
-    }
+    val isSelected = allSubject || name in selectedSubjectsList
     Card(
         modifier = Modifier
             .height(60.dp)
             .width(180.dp),
         border = BorderStroke(width = 2.dp, color = Color(0xFFF18A90)),
         colors = CardDefaults.cardColors(
-            containerColor = if (allSubject || (subjectClick && name in selectedSubjectsList)) Color(0xFFF18A90) else Color(0xFFFFFFFF)
+            containerColor = if (isSelected) Color(0xFFF18A90) else Color(0xFFFFFFFF)
         ),
         shape = RoundedCornerShape(8.dp),
         onClick = {
-            subjectClick = !subjectClick
             selectedSubject.value = name
-            if (subjectClick && (name !in selectedSubjectsList)) selectedSubjectsList.add(selectedSubject.value)
-            else if (!subjectClick) selectedSubjectsList.remove(selectedSubject.value)
-            Log.d("subject","${selectedSubjectsList.toList()}")
+            if (name in selectedSubjectsList) {
+                selectedSubjectsList.remove(name)
+            }
+            else {
+                selectedSubjectsList.add(name)
+            }
         }
     ) {
         Text(
@@ -258,7 +244,7 @@ fun SubjectCard(
                 lineHeight = 20.8.sp
             ),
             textAlign = TextAlign.Center,
-            color = if (allSubject || (subjectClick && name in selectedSubjectsList) ) Color(0xFFFFFFFF) else Color(0xFFF18A90),
+            color = if (isSelected) Color(0xFFFFFFFF) else Color(0xFFF18A90),
         )
     }
 }

@@ -4,6 +4,7 @@ package com.teacherapplication.teacherapplication.ui.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -54,29 +57,15 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
     var phoneNumber by remember {
         mutableStateOf("")
     }
-    val gradientBrush = if (phoneNumber.length >= 10){
-        Brush.linearGradient(
-            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-            start = Offset(0f, 0f),
-            end = Offset(Float.POSITIVE_INFINITY, 0f)
-        )
-    }else{
-        Brush.linearGradient(
-            colors = listOf(
-                Color(0x66129193).copy(alpha = 0.4f),
-                Color(0x66185472).copy(alpha = 0.4f)
-            ),
-            start = Offset.Infinite.copy(x = 1f),
-            end = Offset.Zero
-        )
-    }
+    val scrollState = rememberScrollState()
 
     Box(modifier = Modifier
         .fillMaxSize()
     ){
         Column(
             modifier = Modifier
-                .padding(start = 15.dp, top = 40.dp, end = 15.dp),
+                .padding(start = 15.dp, top = 40.dp, end = 15.dp)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Column {
@@ -159,7 +148,7 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
                 ) { phoneNumber = it }
             }
             Spacer(modifier = Modifier.height(10.dp))
-            LoginScreenButton( text = "Get OTP", gradientBrush = gradientBrush)
+            LoginScreenButton( text = "Get OTP", enabled = phoneNumber.length >= 10)
             {
                 navController.navigate(route = "otpVerify")
             }
@@ -176,7 +165,10 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
                     style = MaterialTheme.typography.bodySmall.copy(
                         fontWeight = FontWeight(600)
                     ),
-                    color = Color(0xFF129193)
+                    color = Color(0xFF129193),
+                    modifier = Modifier.clickable {
+
+                    }
                 )
             }
         }

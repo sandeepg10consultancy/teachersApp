@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -224,11 +226,13 @@ fun EditProfileScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ClassSectionSelectionCard(name: String, image:Int){
     var sectionSwitch by remember { mutableStateOf(false) }
     val subjectsList = listOf("Mathematics", "Science","Reading", "Writing","Social Studies", "Drawing","Mathematics","Science","Reading","Writing")
     val isAllSubjectSelected = remember { mutableStateOf(false) }
+    val sections = listOf("Section - A", "Section - B", "Section - C", "Section - D", "Section - E")
 
     Card(
         modifier = Modifier
@@ -287,26 +291,17 @@ fun ClassSectionSelectionCard(name: String, image:Int){
         }
     }
     if (sectionSwitch) {
-            Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                for (i in 'A'..'C') {
-                    SectionCard(sec = i.toString())
-                }
+        Spacer(modifier = Modifier.height(20.dp))
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ){
+            sections.forEach { section ->
+                SectionCard(sec = section)
             }
-            Spacer(modifier = Modifier.height(15.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(25.dp)
-            ) {
-                for (i in 'D'..'E') {
-                    SectionCard(sec = i.toString())
-                }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            SelectSubjectsSection(subjectsList, isAllSubjectSelected)
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        SelectSubjectsSection(subjectsList, isAllSubjectSelected)
     }
 }
 

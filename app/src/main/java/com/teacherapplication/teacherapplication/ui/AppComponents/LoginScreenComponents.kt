@@ -119,10 +119,27 @@ fun LoginScreenTextField(
 @Composable
 fun LoginScreenButton(
     text: String,
-    gradientBrush: Brush,
+    enabled: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ){
+    val gradientBrush = if (enabled){
+        Brush.linearGradient(
+            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
+            start = Offset(0f, 0f),
+            end = Offset(Float.POSITIVE_INFINITY, 0f)
+        )
+    }else{
+        Brush.linearGradient(
+            colors = listOf(
+                Color(0x66129193).copy(alpha = 0.4f),
+                Color(0x66185472).copy(alpha = 0.4f)
+            ),
+            start = Offset.Infinite.copy(x = 1f),
+            end = Offset.Zero
+        )
+    }
+
     Box(
         modifier = Modifier
             .height(72.dp)
@@ -133,7 +150,7 @@ fun LoginScreenButton(
                 shape = RoundedCornerShape(10.dp)
             )
             .clickable {
-                onClick()
+                if (enabled) onClick()
             },
     ) {
         Image(

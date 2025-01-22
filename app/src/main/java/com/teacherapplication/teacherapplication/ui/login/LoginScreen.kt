@@ -145,7 +145,7 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavHostController
                     .align(Alignment.End)
                     .clickable { }
             )
-            LoginScreenButton(text = "Login", gradientBrush = gradientBrush) {
+            LoginScreenButton(text = "Login", enabled = phoneNumber.length >= 10) {
                 navController.navigate(route = "dashboard")
             }
             Row(

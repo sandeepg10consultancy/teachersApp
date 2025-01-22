@@ -56,14 +56,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-            val viewModel: DashboardViewModel = viewModel()
+
             TeacherApplicationTheme {
 
-                //EditTimetableScreen(navController)
                 MyApp()
-                //CalendarScreen(navController, viewModel)
-                //GroupDiscussionScreen(navController = navController)
 
             }
         }

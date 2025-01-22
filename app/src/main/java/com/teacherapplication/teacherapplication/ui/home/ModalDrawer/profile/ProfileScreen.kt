@@ -265,12 +265,12 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(10.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ){
             Box(
                 modifier = Modifier
                     .height(60.dp)
-                    .width(180.dp)
+                    .fillMaxWidth(0.5f)
                     .background(
                         color = Color(0xFFF18A90),
                         shape = RoundedCornerShape(8.dp)

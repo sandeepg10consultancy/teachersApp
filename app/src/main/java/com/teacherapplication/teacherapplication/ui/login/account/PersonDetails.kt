@@ -18,7 +18,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -60,35 +62,12 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 @Composable
 fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostController){
 
-    var firstName by remember {
-        mutableStateOf("")
-    }
-    var lastName by remember {
-        mutableStateOf("")
-    }
-    var genderChecked by remember {
-        mutableStateOf(false)
-    }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+    var genderChecked by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     val genderValue = if (genderChecked) "Female" else "Male"
-
-
-    val gradientBrush = if (firstName.isNotEmpty() && lastName.isNotEmpty()){
-        Brush.linearGradient(
-            colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-            start = Offset(0f, 0f),
-            end = Offset(Float.POSITIVE_INFINITY, 0f)
-        )
-    }else{
-        Brush.linearGradient(
-            colors = listOf(
-                Color(0x66129193).copy(alpha = 0.4f),
-                Color(0x66185472).copy(alpha = 0.4f)
-            ),
-            start = Offset.Infinite.copy(x = 1f),
-            end = Offset.Zero
-        )
-    }
 
     var showLabel by remember { mutableStateOf(true) }
 
@@ -99,6 +78,7 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 15.dp, top = 40.dp, end = 15.dp)
+                .verticalScroll(scrollState)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -278,7 +258,7 @@ fun PersonDetails(modifier: Modifier = Modifier, navController: NavHostControlle
                 .padding(horizontal = 15.dp, vertical = 50.dp),
             contentAlignment = Alignment.BottomCenter
         ){
-            LoginScreenButton(text = "Save & Select Classes", gradientBrush = gradientBrush) {
+            LoginScreenButton(text = "Save & Select Classes", enabled = firstName.isNotEmpty() && lastName.isNotEmpty()) {
                 navController.navigate(route = "class")
             }
         }
