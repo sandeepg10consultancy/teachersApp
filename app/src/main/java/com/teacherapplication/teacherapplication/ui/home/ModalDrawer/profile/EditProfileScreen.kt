@@ -47,18 +47,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.ProfileTextFieldBox
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.login.account.SectionCard
 import com.teacherapplication.teacherapplication.ui.login.account.SubjectCard
 import com.teacherapplication.teacherapplication.ui.login.account.sectionName
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
 @Composable
@@ -113,7 +115,7 @@ fun EditProfileScreen(
                     .height(40.dp)
                     .width(120.dp)
                     .background(
-                        brush = brush,
+                        brush = exelaGradient,
                         shape = RoundedCornerShape(4.dp)
                     )
                     .clickable {
@@ -149,7 +151,7 @@ fun EditProfileScreen(
         Text(
             text = "Chandani Poosarla",
             style = MaterialTheme.typography.titleMedium.copy(
-                brush = brush,
+                brush = exelaGradient,
                 fontSize = 20.sp,
                 lineHeight = 28.9.sp,
             ),
@@ -387,7 +389,7 @@ private fun SchoolNameField(schoolName: MutableState<String>) {
                 .height(52.dp)
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(6.dp)
                 ),
             colors = OutlinedTextFieldDefaults.colors(
@@ -420,7 +422,7 @@ fun GenderField(
                 .fillMaxWidth()
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(6.dp)
                 )
         ) {
@@ -490,3 +492,11 @@ fun GenderField(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun EditProfileScreenPreview(){
+    val navController = rememberNavController()
+    EditProfileScreen(
+        navController = navController,
+    )
+}

@@ -97,7 +97,6 @@ fun ChapterScreenButton(onClick:() -> Unit = {}){
 
 
 
-//@Preview(showBackground = true)
 @Composable
 fun GetNCFContent(//navController: NavHostController
 ) {
@@ -148,7 +147,6 @@ fun GetNCFContent(//navController: NavHostController
     Spacer(modifier = Modifier.height(190.dp))
 }
 
-//@Preview(showBackground = true)
 @Composable
 fun GetObjectiveContent(//navController: NavHostController
 ) {
@@ -190,7 +188,6 @@ fun GetObjectiveContent(//navController: NavHostController
     Spacer(modifier = Modifier.height(50.dp))
 }
 
-//@Preview(showBackground = true)
 @Composable
 fun GetLearningOutcomeContent(//navController: NavHostController
 ) {

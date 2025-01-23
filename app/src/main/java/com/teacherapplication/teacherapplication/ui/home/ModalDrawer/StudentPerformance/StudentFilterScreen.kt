@@ -26,10 +26,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
+import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 
 @Composable
 fun StudentFilterScreen(navController: NavHostController) {
@@ -134,4 +139,13 @@ private fun EachSectionBox(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StudentFilterScreenPreview(){
+    val navController = rememberNavController()
+    StudentFilterScreen(
+        navController = navController,
+    )
 }

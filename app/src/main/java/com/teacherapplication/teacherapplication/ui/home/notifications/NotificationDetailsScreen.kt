@@ -22,10 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
+import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
+import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
@@ -201,4 +206,13 @@ fun BulletPointText(text: String) {
             modifier = Modifier.weight(1f) // Ensures text wraps correctly
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NotificationDetailsScreenPreview(){
+    val navController = rememberNavController()
+    NotificationDetailsScreen(
+        navController = navController,
+    )
 }

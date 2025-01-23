@@ -1,6 +1,5 @@
 package com.teacherapplication.teacherapplication.ui.home.dashboard
 
-import android.widget.Space
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -39,7 +37,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
@@ -80,23 +77,23 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.EachBookmarkCard
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
-import kotlinx.coroutines.CoroutineScope
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
-//@Preview(showBackground = true)
 @Composable
 fun DashBoardScreen(
     modifier: Modifier = Modifier,
@@ -504,7 +501,7 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
                                     .height(6.dp)
                                     .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                                     .background(
-                                        brush = brush
+                                        brush = exelaGradient
                                     )
                             )
                         }
@@ -940,7 +937,7 @@ fun ProfileDrawerContent(
             .fillMaxHeight()
             .width(301.dp)
             .background(
-                brush = brush
+                brush = exelaGradient
             ),
         contentAlignment = Alignment.Center
     ){
@@ -1206,7 +1203,7 @@ fun LogoutDialogBox(onDismiss: () -> Unit) {
                         .fillMaxWidth(0.5f)
                         .border(
                             width = 1.dp,
-                            brush = brush,
+                            brush = exelaGradient,
                             shape = RoundedCornerShape(4.dp)
                         ),
                     colors = ButtonDefaults.buttonColors(
@@ -1220,7 +1217,7 @@ fun LogoutDialogBox(onDismiss: () -> Unit) {
                             fontWeight = FontWeight(600),
                             fontSize = 16.sp,
                             lineHeight = 36.sp,
-                            brush = brush
+                            brush = exelaGradient
                         )
                     )
                 }
@@ -1229,7 +1226,7 @@ fun LogoutDialogBox(onDismiss: () -> Unit) {
                         .width(160.dp)
                         .height(54.dp)
                         .background(
-                            brush = brush,
+                            brush = exelaGradient,
                             shape = RoundedCornerShape(4.dp)
                         )
                 ){
@@ -1262,3 +1259,13 @@ fun LogoutDialogBox(onDismiss: () -> Unit) {
 }
 
 
+@Preview(showBackground = true)
+@Composable
+fun DashboardScreenPreview(){
+    val navController = rememberNavController()
+    val viewModel: DashboardViewModel = viewModel()
+    DashBoardScreen(
+        navController = navController,
+        viewModel = viewModel
+    )
+}

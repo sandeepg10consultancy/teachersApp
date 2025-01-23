@@ -20,14 +20,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,18 +38,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.CustomCalendar
-import com.teacherapplication.teacherapplication.ui.AppComponents.CustomCalendar2
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -107,7 +103,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(7.96.dp))
                         .background(
-                            brush = brush
+                            brush = exelaGradient
                         )
                 ){
                     Row(
@@ -163,7 +159,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                 Text(
                     text = "August, 2024",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        brush = brush
+                        brush = exelaGradient
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
@@ -204,7 +200,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
                 Text(
                     text = "Edit Timetable",
                     style = MaterialTheme.typography.titleMedium.copy(
-                        brush = brush,
+                        brush = exelaGradient,
                         fontWeight = FontWeight(500)
                     ),
                     textDecoration = TextDecoration.Underline,
@@ -281,7 +277,7 @@ fun DateAndDayCard(
     date: String,
     isToday: Boolean
 ) {
-    val gradientColor = if (isToday) brush else Brush.linearGradient(
+    val gradientColor = if (isToday) exelaGradient else Brush.linearGradient(
         colors = listOf(Color(0xFFF6F6F6),Color(0xFFF6F6F6))
     )
 
@@ -319,4 +315,16 @@ fun DateAndDayCard(
             )
         }
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview(showBackground = true)
+@Composable
+fun CalendarScreenPreview(){
+    val navController = rememberNavController()
+    val viewModel: DashboardViewModel = viewModel()
+    CalendarScreen(
+        navController = navController,
+        viewModel = viewModel
+    )
 }

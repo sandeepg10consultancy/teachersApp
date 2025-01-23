@@ -58,8 +58,13 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             TeacherApplicationTheme {
-
-                MyApp()
+                val navController = rememberNavController()
+                val viewModel: DashboardViewModel = viewModel()
+                DashBoardScreen(
+                    navController = navController,
+                    viewModel = viewModel
+                )
+                //MyApp()
 
             }
         }
@@ -110,7 +115,7 @@ fun MyApp(){
             NotificationDetailsScreen(navController = navController)
         }
         composable(route = "profileScreen"){
-            ProfileScreen(navController = navController, viewModel = viewModel)
+            ProfileScreen(navController = navController)
         }
         composable(route = "editProfileScreen"){
             EditProfileScreen(navController = navController)
@@ -189,33 +194,3 @@ fun MyApp(){
         }
     }
 }
-
-
-
-/*
-        BottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            sheetContent = {
-                Text(
-                    text = "Bottom Bar"
-                )
-                Spacer(modifier = Modifier.height(500.dp))
-            },
-            sheetPeekHeight = 0.dp,
-            sheetDragHandle = { BottomSheetDefaults.DragHandle() }
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Button(onClick = {
-                    scope.launch {
-                        scaffoldState.bottomSheetState.expand()
-                    }
-                }) {
-                    Text(text = "Open sheet")
-                }
-            }
-        }
-
- */

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,15 +32,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 @Composable
 fun DailyDiaryScreen(
@@ -78,7 +80,7 @@ fun DailyDiaryScreen(
                     text = "Create",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight(500),
-                        brush = brush
+                        brush = exelaGradient
                     ),
                     modifier = Modifier.clickable {
                         navController.navigate(route = "newGroupScreen")
@@ -203,7 +205,7 @@ private fun SearchGroupBox(searchedGroup: MutableState<String>) {
                     Text(
                         text = "Search your Group here",
                         style = MaterialTheme.typography.labelMedium.copy(
-                            brush = brush,
+                            brush = exelaGradient,
                             lineHeight = 11.12.sp
                         )
                     )
@@ -219,4 +221,15 @@ private fun SearchGroupBox(searchedGroup: MutableState<String>) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DailyDiaryScreenPreview(){
+    val navController = rememberNavController()
+    val viewModel: DashboardViewModel = viewModel()
+    DailyDiaryScreen(
+        navController = navController,
+        viewModel = viewModel
+    )
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
 @Composable
@@ -46,11 +47,7 @@ fun LoginAndRegister(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                brush = Brush.linearGradient(
-                colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-                start = Offset(0f, 0f),
-                end = Offset(Float.POSITIVE_INFINITY, 0f)
-            )
+                brush = exelaGradient
         )
     ){
         Image(painter = painterResource(id = R.drawable.elephant_bg),
@@ -115,9 +112,7 @@ fun LoginAndRegister(
                     Text(
                         text = "Log In",
                         style = MaterialTheme.typography.bodySmall.copy(
-                            brush = Brush.linearGradient(
-                                colors = listOf(Color(0xFF185573), Color(0xFF14868D))
-                            ),
+                            brush = exelaGradient,
                             lineHeight = 36.sp,
                             fontWeight = FontWeight(600)
                         )

@@ -41,16 +41,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.home.ModalDrawer.SearchFieldFunction
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
-
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
 @Composable
@@ -385,7 +386,7 @@ private fun SelectedSectionCard() {
                             fontWeight = FontWeight(500),
                             fontSize = 18.sp,
                             lineHeight = 14.4.sp,
-                            brush = brush
+                            brush = exelaGradient
                         )
                     )
                     SmallCircle(
@@ -400,7 +401,7 @@ private fun SelectedSectionCard() {
                             fontWeight = FontWeight(500),
                             fontSize = 18.sp,
                             lineHeight = 14.4.sp,
-                            brush = brush
+                            brush = exelaGradient
                         )
                     )
                 }
@@ -428,4 +429,13 @@ private fun SelectedSectionCard() {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StudentListScreenPreview(){
+    val navController = rememberNavController()
+    StudentListScreen(
+        navController = navController,
+    )
 }

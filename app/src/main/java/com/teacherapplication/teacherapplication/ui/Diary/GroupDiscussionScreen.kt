@@ -9,14 +9,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -28,18 +26,15 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -58,16 +53,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.robotoFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
-//@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupDiscussionScreen(modifier: Modifier = Modifier, navController: NavHostController
+fun GroupDiscussionScreen(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
 ){
     val itemsList = listOf("All", "Homework", "Bring to school", "Special Request", "Notice", "Holiday Alert")
     var selectedItem by remember { mutableStateOf(itemsList[0]) }
@@ -292,7 +289,7 @@ fun MessageInputField(
                 .clip(RoundedCornerShape(25.dp))
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(25.dp)
                 ),
             placeholder = {
@@ -369,7 +366,7 @@ fun MessageInputField(
                 .size(46.93.dp)
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = CircleShape
                 )
                 .padding(8.dp)
@@ -452,4 +449,13 @@ private fun TopSectionCard(onClick: () -> Unit = {}, navController: NavHostContr
 
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GroupDiscussionScreenPreview(){
+    val navController = rememberNavController()
+    GroupDiscussionScreen(
+        navController = navController,
+    )
 }

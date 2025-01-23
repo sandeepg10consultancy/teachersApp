@@ -28,7 +28,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,8 +52,8 @@ import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
 var sectionName = "5 Sections"
@@ -90,7 +89,7 @@ fun ClassSelection(modifier: Modifier = Modifier, navController: NavHostControll
                             fontFamily = jostFont,
                             fontWeight = FontWeight(600),
                             fontSize = 20.sp,
-                            brush = brush,
+                            brush = exelaGradient,
                         )){
                             append("Classes I Teach")
                         }

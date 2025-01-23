@@ -47,19 +47,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.CustomCalendar
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.AppComponents.splitTime
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -154,7 +157,7 @@ fun EditTimetableScreen(navController: NavHostController) {
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(7.96.dp))
                         .background(
-                            brush = brush
+                            brush = exelaGradient
                         )
                 ) {
                     Row(
@@ -210,7 +213,7 @@ fun EditTimetableScreen(navController: NavHostController) {
                 Text(
                     text = "August, 2024",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        brush = brush
+                        brush = exelaGradient
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
@@ -251,7 +254,7 @@ fun EditTimetableScreen(navController: NavHostController) {
                 Text(
                     text = "Add New Class",
                     style = MaterialTheme.typography.titleMedium.copy(
-                        brush = brush,
+                        brush = exelaGradient,
                         fontWeight = FontWeight(500)
                     ),
                     textDecoration = TextDecoration.Underline,
@@ -390,7 +393,7 @@ private fun EditTimetableClicked(
     val (eHour, eMinute, ePeriod) = try {
         splitTime(startTime.value)
     } catch (e: Exception) {
-        Triple(0, 0, "AM") // Fallback in case of error
+        Triple(0, 0, "AM")
     }
     val schoolEndTime = "6:00 PM"
     val (schoolHour, schoolMinute, schoolPeriod) = splitTime(schoolEndTime)
@@ -609,7 +612,7 @@ private fun EditTimetableClicked(
                                 style = MaterialTheme.typography.labelLarge.copy(
                                     fontSize = 25.sp,
                                     lineHeight = 31.5.sp,
-                                    brush = brush
+                                    brush = exelaGradient
                                 )
                             )
                             Spacer(modifier = Modifier.height(10.dp))
@@ -645,7 +648,7 @@ private fun EditAddBox(
             .width(180.dp)
             .clip(RoundedCornerShape(5.dp))
             .background(
-                brush = brush,
+                brush = exelaGradient,
             )
             .clickable {
                 if (eHour > schoolHour) beyondHoursDialog.value = true
@@ -693,7 +696,7 @@ private fun EditCancelButton(editClicked: MutableState<Boolean>, modifier: Modif
             .clip(RoundedCornerShape(5.dp))
             .border(
                 width = 1.dp,
-                brush = brush,
+                brush = exelaGradient,
                 shape = RoundedCornerShape(5.dp)
             )
     ) {
@@ -705,7 +708,7 @@ private fun EditCancelButton(editClicked: MutableState<Boolean>, modifier: Modif
                 fontSize = 16.sp,
                 lineHeight = 12.sp,
                 letterSpacing = 0.15.sp,
-                brush = brush
+                brush = exelaGradient
             )
         )
     }
@@ -726,7 +729,7 @@ private fun EditTimeBox(time: MutableState<String>) {
             .clip(RoundedCornerShape(6.dp))
             .border(
                 width = 2.dp,
-                brush = brush,
+                brush = exelaGradient,
                 shape = RoundedCornerShape(6.dp)
             ),
         textStyle = MaterialTheme.typography.bodySmall.copy(
@@ -807,7 +810,7 @@ private fun EditTimeTableSelection(
                 .clip(RoundedCornerShape(6.dp))
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(6.dp)
                 ),
             textStyle = MaterialTheme.typography.bodySmall.copy(
@@ -910,7 +913,7 @@ private fun EditTimeTableSelection(
                             .height(33.dp)
                             .offset(x = (-1).dp, y = (scrollProgress * 300.dp))
                             .clip(RoundedCornerShape(10.dp))
-                            .background(brush = brush)
+                            .background(brush = exelaGradient)
                     )
                 }
             }
@@ -978,4 +981,13 @@ private fun EditTimetableCard(
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun EditTimetableScreenPreview(){
+    val navController = rememberNavController()
+    EditTimetableScreen(
+        navController = navController,
+    )
 }

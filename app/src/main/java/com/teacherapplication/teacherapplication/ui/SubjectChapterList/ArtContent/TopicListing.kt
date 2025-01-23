@@ -49,12 +49,16 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
+import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.italicJost
@@ -62,7 +66,6 @@ import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 
 
-//@Preview(showBackground = true)
 @Composable
 fun TopicListingScreen(navController: NavHostController, viewModel: DashboardViewModel) {
     val verticalScroll = rememberScrollState()
@@ -432,4 +435,15 @@ fun TopSurface() {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TopicListingScreenPreview(){
+    val navController = rememberNavController()
+    val viewModel: DashboardViewModel = viewModel()
+    TopicListingScreen(
+        navController = navController,
+        viewModel = viewModel
+    )
 }

@@ -48,12 +48,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
+import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
@@ -484,4 +488,15 @@ fun DropDownBar(dropDownStatus: Boolean, onDropDownStatusChange: (Boolean) -> Un
             },
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ContentViewScreenPreview(){
+    val navController = rememberNavController()
+    val viewModel: DashboardViewModel = viewModel()
+    ContentViewScreen(
+        navController = navController,
+        viewModel = viewModel
+    )
 }

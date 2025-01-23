@@ -46,17 +46,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.login.account.ClassCard
 import com.teacherapplication.teacherapplication.ui.theme.italicJost
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 @Composable
 fun BookmarksScreen(navController: NavHostController) {
@@ -248,7 +250,7 @@ fun FilterBottomSheet(isFilterClicked: MutableState<Boolean>) {
                             .width(190.dp)
                             .border(
                                 width = 1.dp,
-                                brush = brush,
+                                brush = exelaGradient,
                                 shape = RoundedCornerShape(4.dp)
                             ),
                         colors = ButtonDefaults.buttonColors(
@@ -262,7 +264,7 @@ fun FilterBottomSheet(isFilterClicked: MutableState<Boolean>) {
                                 fontWeight = FontWeight(600),
                                 fontSize = 16.sp,
                                 lineHeight = 36.sp,
-                                brush = brush
+                                brush = exelaGradient
                             )
                         )
                     }
@@ -271,7 +273,7 @@ fun FilterBottomSheet(isFilterClicked: MutableState<Boolean>) {
                             .width(190.dp)
                             .height(54.dp)
                             .background(
-                                brush = brush,
+                                brush = exelaGradient,
                                 shape = RoundedCornerShape(4.dp)
                             )
                     ){
@@ -454,4 +456,13 @@ private fun BookmarkProgressBar(progress: Float = 0.5f) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BookmarksScreenPreview(){
+    val navController = rememberNavController()
+    BookmarksScreen(
+        navController = navController,
+    )
 }

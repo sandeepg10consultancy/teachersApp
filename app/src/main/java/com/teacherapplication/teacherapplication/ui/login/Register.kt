@@ -46,7 +46,7 @@ import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
 @Composable
@@ -204,7 +204,7 @@ fun SchoolName(name: String = "1313 - Exela pvt.school"){
                 .clip(RoundedCornerShape(6.dp))
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(6.dp)
                 )
                 .background(

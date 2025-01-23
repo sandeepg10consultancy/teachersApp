@@ -45,10 +45,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.TopProgressBar
+import com.teacherapplication.teacherapplication.ui.Diary.DailyDiaryScreen
 import com.teacherapplication.teacherapplication.ui.home.dashboard.BottomNavigationBar
 import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.italicSansFont
@@ -293,7 +296,10 @@ fun TopCard() {
 @Preview(showBackground = true)
 @Composable
 fun ChapterScreenPreview(){
-    //ChapterScreen(navController = navController)
+    val navController = rememberNavController()
+    val viewModel: DashboardViewModel = viewModel()
+    ChapterScreen(
+        navController = navController,
+        viewModel = viewModel
+    )
 }
-
-

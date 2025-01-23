@@ -41,24 +41,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
-import com.teacherapplication.teacherapplication.ui.SubjectChapterList.ArtContent.DashedVideoBox
-import com.teacherapplication.teacherapplication.ui.home.dashboard.DashboardViewModel
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: DashboardViewModel
 ){
 
     val scrollState = rememberScrollState()
@@ -97,7 +95,7 @@ fun ProfileScreen(
                     .size(50.dp)
                     .clip(CircleShape)
                     .background(
-                        brush = brush,
+                        brush = exelaGradient,
                         shape = CircleShape
                     )
                     .clickable {
@@ -121,7 +119,7 @@ fun ProfileScreen(
         Text(
             text = "Chandani Poosarla",
             style = MaterialTheme.typography.titleMedium.copy(
-                brush = brush,
+                brush = exelaGradient,
                 fontSize = 20.sp,
                 lineHeight = 28.9.sp,
             ),
@@ -329,7 +327,7 @@ fun ProfileEditing(modifier: Modifier = Modifier) {
                 .size(34.dp)
                 .clip(CircleShape)
                 .background(
-                    brush = brush,
+                    brush = exelaGradient,
                 )
                 .border(
                     width = 3.dp,
@@ -398,7 +396,7 @@ fun ProfileEditing(modifier: Modifier = Modifier) {
                                 .width(165.dp)
                                 .border(
                                     width = 1.dp,
-                                    brush = brush,
+                                    brush = exelaGradient,
                                     shape = RoundedCornerShape(5.dp)
                                 ),
                             colors = ButtonDefaults.buttonColors(
@@ -413,7 +411,7 @@ fun ProfileEditing(modifier: Modifier = Modifier) {
                                     fontSize = 18.sp,
                                     lineHeight = 12.sp,
                                     letterSpacing = 0.15.sp,
-                                    brush = brush
+                                    brush = exelaGradient
                                 )
                             )
                         }
@@ -423,11 +421,11 @@ fun ProfileEditing(modifier: Modifier = Modifier) {
                                 .width(165.dp)
                                 .border(
                                     width = 1.dp,
-                                    brush = brush,
+                                    brush = exelaGradient,
                                     shape = RoundedCornerShape(5.dp)
                                 )
                                 .background(
-                                    brush = brush,
+                                    brush = exelaGradient,
                                     shape = RoundedCornerShape(5.dp)
                                 )
                                 .clickable {
@@ -550,4 +548,13 @@ private fun PhotoDashedBox(modifier: Modifier = Modifier) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview(){
+    val navController = rememberNavController()
+    ProfileScreen(
+        navController = navController,
+    )
 }

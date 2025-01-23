@@ -15,6 +15,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 @Composable
 fun ProfileTextFieldBox(
@@ -40,7 +41,7 @@ fun ProfileTextFieldBox(
                 .height(52.dp)
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(6.dp)
                 ),
             colors = OutlinedTextFieldDefaults.colors(

@@ -1,12 +1,10 @@
 package com.teacherapplication.teacherapplication.ui.Calendar
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.SmallCircle
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -197,7 +195,7 @@ fun Stepper(
                                 .size(12.dp)
                                 .clip(CircleShape)
                                 .background(
-                                    brush = brush
+                                    brush = exelaGradient
                                 )
                         )
                     }
@@ -208,7 +206,7 @@ fun Stepper(
                                     .width(3.dp)
                                     .height(105.dp)
                                     .background(
-                                        brush = brush
+                                        brush = exelaGradient
                                     )
                             )
                         }
@@ -248,7 +246,7 @@ fun Stepper(
                                         .width(3.dp)
                                         .height(50.dp)
                                         .background(
-                                            brush = brush
+                                            brush = exelaGradient
                                         )
                                 )
                             }else{
@@ -304,7 +302,7 @@ fun Stepper(
                                     .width(3.dp)
                                     .height(20.dp)
                                     .background(
-                                        brush = brush
+                                        brush = exelaGradient
                                     )
                             )
                         }

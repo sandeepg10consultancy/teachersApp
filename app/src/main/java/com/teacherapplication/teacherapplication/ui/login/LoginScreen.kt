@@ -15,10 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,9 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,7 +33,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
@@ -48,7 +40,7 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenTextField
 import com.teacherapplication.teacherapplication.ui.AppComponents.PasswordField
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
 //@Preview(showBackground = true)
@@ -80,7 +72,7 @@ fun LoginScreen(
                 Text(
                     text = "Log In",
                     style = MaterialTheme.typography.titleSmall.copy(
-                        brush = brush,
+                        brush = exelaGradient,
                     ),
                     modifier = Modifier
                         .fillMaxWidth(0.95f),

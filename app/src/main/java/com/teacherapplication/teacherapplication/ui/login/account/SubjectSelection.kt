@@ -1,6 +1,5 @@
 package com.teacherapplication.teacherapplication.ui.login.account
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -36,8 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,7 +48,7 @@ import androidx.navigation.compose.rememberNavController
 import com.teacherapplication.teacherapplication.R
 import com.teacherapplication.teacherapplication.ui.AppComponents.BackArrow
 import com.teacherapplication.teacherapplication.ui.AppComponents.LoginScreenButton
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 import kotlinx.coroutines.delay
 
 
@@ -87,7 +84,7 @@ fun SubjectSelection(modifier: Modifier = Modifier,navController: NavHostControl
                 Text(
                     text = "Subjects I Teach",
                     style = MaterialTheme.typography.titleSmall.copy(
-                        brush = brush,
+                        brush = exelaGradient,
                         fontWeight = FontWeight(600),
                         fontSize = 20.sp,
                         lineHeight = 28.9.sp

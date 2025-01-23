@@ -19,9 +19,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -56,10 +53,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teacherapplication.teacherapplication.R
-import com.teacherapplication.teacherapplication.ui.AppComponents.brush
 import com.teacherapplication.teacherapplication.ui.theme.italicJost
 import com.teacherapplication.teacherapplication.ui.theme.jostFont
 import com.teacherapplication.teacherapplication.ui.theme.openFont
+import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 @Composable
 fun AnnouncementModelSheet(modifier: Modifier = Modifier, onClick: () -> Unit = {}){
@@ -147,7 +144,7 @@ fun AnnouncementModelSheet(modifier: Modifier = Modifier, onClick: () -> Unit = 
                     .width(180.dp)
                     .border(
                         width = 1.dp,
-                        brush = brush,
+                        brush = exelaGradient,
                         shape = RoundedCornerShape(5.dp)
                     )
                     .clickable {
@@ -163,7 +160,7 @@ fun AnnouncementModelSheet(modifier: Modifier = Modifier, onClick: () -> Unit = 
                         fontSize = 16.sp,
                         lineHeight = 12.sp,
                         letterSpacing = 0.15.sp,
-                        brush = brush
+                        brush = exelaGradient
                     )
                 )
             }
@@ -172,7 +169,7 @@ fun AnnouncementModelSheet(modifier: Modifier = Modifier, onClick: () -> Unit = 
                     .height(53.dp)
                     .width(180.dp)
                     .background(
-                        brush = brush,
+                        brush = exelaGradient,
                         shape = RoundedCornerShape(5.dp)
                     )
                     .clickable {
@@ -238,7 +235,7 @@ private fun SelectDateBox(
                 .height(56.dp)
                 .border(
                     width = 1.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(4.dp)
                 )
         ) {
@@ -327,7 +324,7 @@ private fun UploadDocumentBox() {
                         pathEffect = PathEffect.dashPathEffect(floatArrayOf(dashWidth, dashGap), 0f)
                     }
                     drawRoundRect(
-                        brush = brush,
+                        brush = exelaGradient,
                         size = size,
                         style = Stroke(width = borderWidth, pathEffect = paint.pathEffect),
                         cornerRadius = CornerRadius(20.dp.toPx())
@@ -530,7 +527,7 @@ private fun DescriptionField(descriptionField: MutableState<String>) {
                 .width(390.dp)
                 .border(
                     width = 2.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(6.dp)
                 )
         ) {
@@ -594,7 +591,7 @@ private fun TypeOfDropDown(
                 .height(56.dp)
                 .border(
                     width = 1.dp,
-                    brush = brush,
+                    brush = exelaGradient,
                     shape = RoundedCornerShape(4.dp)
                 )
         ) {
