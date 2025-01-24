@@ -58,13 +58,8 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             TeacherApplicationTheme {
-                val navController = rememberNavController()
-                val viewModel: DashboardViewModel = viewModel()
-                DashBoardScreen(
-                    navController = navController,
-                    viewModel = viewModel
-                )
-                //MyApp()
+
+                MyApp()
 
             }
         }

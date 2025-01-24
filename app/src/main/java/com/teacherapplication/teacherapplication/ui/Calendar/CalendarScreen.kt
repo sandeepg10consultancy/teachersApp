@@ -74,7 +74,7 @@ fun CalendarScreen(navController: NavHostController, viewModel: DashboardViewMod
             ) {
                 BackArrow(onClick = {
                     viewModel.setSelectedIcon("Home")
-                    navController.popBackStack()
+                    navController.navigate(route = "dashboard")
                 })
                 Text(
                     text = "Calendar",

@@ -66,7 +66,7 @@ fun DailyDiaryScreen(
             ){
                 BackArrow(onClick = {
                     viewModel.setSelectedIcon("Home")
-                    navController.popBackStack()
+                    navController.navigate(route = "dashboard")
                 })
                 Text(
                     text = "Daily Diary",

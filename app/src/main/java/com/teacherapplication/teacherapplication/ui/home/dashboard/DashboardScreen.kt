@@ -531,13 +531,6 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
                 )
             )
         }
-//        if(selectedItem == "Home"){
-//            navController.navigate(route = "dashboard")
-//        }else if (selectedItem == "Calender"){
-//            navController.navigate(route = "dashboard")
-//        }else{
-//            navController.navigate(route = "dairyScreen")
-//        }
     }
 
 }
@@ -742,7 +735,7 @@ private fun EachSubjectCard(
     ) {
         Card(
             modifier = Modifier
-                .height(117.dp)
+                .height(116.dp)
                 .width(181.dp)
                 .align(Alignment.BottomCenter)
                 .clip(RoundedCornerShape(13.dp))
@@ -831,11 +824,7 @@ private fun DropdownFilter(
             .height(35.dp)
             .width(112.dp)
             .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFF185573), Color(0xFF14868D)),
-                    start = Offset(0f, 0f),
-                    end = Offset(Float.POSITIVE_INFINITY, 0f)
-                ),
+                brush = exelaGradient,
                 shape = RoundedCornerShape(8.dp)
             )
             .clickable {

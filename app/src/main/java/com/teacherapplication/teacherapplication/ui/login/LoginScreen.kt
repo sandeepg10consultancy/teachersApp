@@ -43,7 +43,6 @@ import com.teacherapplication.teacherapplication.ui.AppComponents.PasswordField
 import com.teacherapplication.teacherapplication.ui.utills.exelaGradient
 
 
-//@Preview(showBackground = true)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,

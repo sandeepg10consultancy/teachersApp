@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -131,11 +132,13 @@ fun EachTopicCard(studentDetails: List<Pair<String, List<Any>>>, navController: 
         modifier = Modifier
             .width(310.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(
-                color = Color.Gray,
-                shape = RoundedCornerShape(20.dp)
-            )
     ){
+        Image(
+            painter = painterResource(R.drawable.perform_land),
+            contentDescription = "land",
+            modifier = Modifier.matchParentSize(),
+            contentScale = ContentScale.Crop
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
